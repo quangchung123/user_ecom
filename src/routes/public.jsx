@@ -1,9 +1,9 @@
-import Login from "../features/auth/Login";
 import {ROUTER_INIT} from "../config/constant";
+import Home from "../features/user/Home";
 
 export const publicRoutes = [
     {
-        path: ROUTER_INIT.LOGIN,
-        element: <Login />
+        path: ROUTER_INIT.USER,
+        element: <Home />
     }
 ]

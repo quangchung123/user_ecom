@@ -4,7 +4,8 @@ export const LOCAL_STORAGE_KEY = {
 
 export const ROUTER_INIT = {
     LOGIN: "/login",
-    ADMIN: "/admin"
+    ADMIN: "/admin",
+    USER: "/home"
 }
 export const ROUTER_ADMIN = {
     DASHBOARD: "",
