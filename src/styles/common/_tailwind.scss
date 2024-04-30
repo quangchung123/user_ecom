@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//li {
+//  @apply mr-5;
+//}
+
+table {
+  @apply w-full border-collapse border;
+  thead {
+    @apply bg-primary text-white;
+    th {
+      @apply py-2 px-4 text-left border;
+    }
+  }
+  tbody {
+    tr {
+     @apply odd:bg-[#f2f2f2];
+    }
+  }
+  td, th {
+    @apply border p-2;
+  }
+}

@@ -1,0 +1,9 @@
+.formItem {
+  @apply flex flex-col mb-3;
+  label {
+    @apply mb-1;
+  }
+  input, select, textarea {
+    @apply w-full border rounded p-1.5 border-gray-700 resize-none;
+  }
+}

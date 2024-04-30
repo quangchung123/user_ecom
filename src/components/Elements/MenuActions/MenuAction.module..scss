@@ -1,0 +1,6 @@
+.menus{
+  @apply text-center;
+  button{
+    @apply px-5 hover:bg-primary rounded-md;
+  }
+}

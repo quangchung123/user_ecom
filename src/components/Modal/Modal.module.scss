@@ -1,0 +1,24 @@
+@use "../../styles/common/index" as *;
+@layer components {
+  .buttonModify {
+    @apply py-2 px-6 text-white rounded;
+  }
+}
+.layoutModal {
+  @apply fixed inset-0 bg-black opacity-50;
+}
+.containerModal {
+  @apply fixed inset-0 flex items-center justify-center;
+}
+.modal {
+  @apply bg-white rounded-lg max-w-md p-8 w-1/2;
+  .groupBtn {
+    @apply flex justify-between box-border px-2.5;
+    .modalBtnCreate {
+      @apply buttonModify bg-primary;
+    }
+    .modalBtnDelete {
+      @apply buttonModify bg-red-600;
+    }
+  }
+}

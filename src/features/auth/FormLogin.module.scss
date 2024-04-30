@@ -1,0 +1,28 @@
+.container {
+  @apply flex justify-center items-center h-screen;
+  form {
+    @apply bg-white shadow-md rounded w-96 px-10 pt-8 pb-8 mb-4;
+    div {
+      @apply mb-4;
+      label {
+        @apply block text-gray-700 text-xs font-bold mb-2 uppercase;
+      }
+      input {
+        @apply shadow appearance-none border rounded w-full py-2.5 px-3 text-gray-700 leading-tight;
+      }
+    }
+    .formItem {
+      @apply flex items-center justify-center uppercase font-bold mt-2.5;
+      p {
+        @apply text-2xl;
+      }
+      button {
+        @apply bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+      }
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  }
+}
