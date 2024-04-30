@@ -1,0 +1,12 @@
+.popup {
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 375px;
+    height: 100% !important;
+    z-index: 5 !important;
+    border: 1px black;
+    background-color: white;
+    box-shadow: -5px 0 33px -19px #212121;
+    overflow: auto !important;
+}

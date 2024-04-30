@@ -1,0 +1,11 @@
+.container-info {
+  div {
+    @apply text-left;
+    label {
+      @apply font-bold text-base pr-1;
+    }
+    span {
+      @apply text-base;
+    }
+  }
+}

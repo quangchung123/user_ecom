@@ -1,0 +1,9 @@
+.title {
+    @apply  sm:text-xl text-sm;
+}
+.title-base {
+    @apply font-light;
+}
+.title-header {
+    @apply font-bold;
+}
