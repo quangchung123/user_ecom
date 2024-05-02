@@ -8,12 +8,12 @@ const MenuAction = ({data, value}) => {
 		return (
 				<div className={styles.menus}>
 						<Menu
-								menuButton={ <MenuButton><i className="bi bi-three-dots"></i></MenuButton> }
+								menuButton={ <MenuButton>Sắp xếp</MenuButton> }
 								arrow={true}
 								className={"hover:bg-primary"}
 						>
 								{data.map(({title, handleRowAction}) => (
-										<MenuItem onClick={()=> handleRowAction(value._id)}>
+										<MenuItem onClick={()=> handleRowAction()}>
 												{title}
 										</MenuItem>
 								))}

@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'customCol': '259px minmax(0, 1fr)',
-        'hiddenCol': '65px minmax(0, 1fr)'
+        'hiddenCol': '65px minmax(0, 1fr)',
+        'productCol': '259px 259px 259px 259px'
       },
       colors:{
         'primary': '#4fa607',

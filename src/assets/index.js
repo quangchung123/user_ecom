@@ -4,3 +4,4 @@ export { default as editIcon} from './icon/table/create_24px.svg';
 export { default as logoIcon} from './icon/logo/favicon.png';
 export { default as nextIcon} from './icon/pagination/next.svg';
 export { default as previousIcon} from './icon/pagination/previous.svg';
+export { default as logoUser} from './icon/logo/logoUser.png';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {logoIcon} from "../assets/index"
+import {logoIcon} from "../assets/index";
 import MyButton from "../components/Elements/Button/MyButton";
 import {useDispatch} from "react-redux";
 import {setTheme} from "../store/action/changeThemeSlice";

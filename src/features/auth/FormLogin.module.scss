@@ -14,7 +14,7 @@
     .formItem {
       @apply flex items-center justify-center uppercase font-bold mt-2.5;
       p {
-        @apply text-2xl;
+        @apply text-xl;
       }
       button {
         @apply bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;

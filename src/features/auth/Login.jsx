@@ -6,14 +6,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { schemaLogin } from "../../config/validate";
 import { useGetListUserQuery } from "../../services/user";
 import { useNavigate } from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {setUser} from "../../store/action/userAccountSlice";
-import {ROUTER_INIT} from "../../config/constant";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/action/userAccountSlice";
+import { ROUTER_INIT } from "../../config/constant";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
-const Login = ({children}) => {
+const Login = ({ children }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState(false);
+    const [isGoogleLogin, setIsGoogleLogin] = useState(true);
     const {
         handleSubmit,
         control,
@@ -22,55 +25,75 @@ const Login = ({children}) => {
         resolver: zodResolver(schemaLogin)
     });
     const { data } = useGetListUserQuery();
-    const onSubmit = (payload) => {
-        const dataPayload = {
-            ...payload,
-            title: 'Admin'
+    const handleRegister = () => {
+        navigate(ROUTER_INIT.REGISTER);
+    }
+    const handleSubmitLogin = (payload) => {
+        let isExists = false;
+        if (isGoogleLogin) {
+            isExists = data.some((item) => item.email === payload.email);
+        } else {
+            isExists = data.some((item) => item.email === payload.email && item.password === payload.password);
         }
-        const isExists = data.find((item) => item.username === dataPayload.username && item.password === dataPayload.password && item.title === dataPayload.title);
         if (isExists) {
-            dispatch(setUser({user: payload}))
-            navigate(ROUTER_INIT.ADMIN);
+            dispatch(setUser({ user: payload }));
+            navigate(ROUTER_INIT.USER);
         } else {
             setLoginError(true);
         }
     };
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        const decoded = await jwtDecode(credentialResponse?.credential);
+        const payload = {
+            name: decoded.name,
+            email: decoded.email,
+        }
+        setIsGoogleLogin(true);
+        await handleSubmitLogin(payload)
+    }
 
     return (
-        <div className={styles.container}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.formItem}>
-                    <p>Login</p>
-                </div>
-                <div>
-                    <label>Tên đăng nhập</label>
-                    <InputField
-                        type="text"
-                        placeholder="Tên đăng nhập"
-                        name="username"
-                        control={control}
-                        errors={errors}
-                        inputType={"text"}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Mật khẩu</label>
-                    <InputField
-                        type="password"
-                        placeholder="Mật khẩu"
-                        name="password"
-                        control={control}
-                        errors={errors}
-                        inputType={"text"}
-                    />
-                </div>
-                {loginError && <p className={styles.error}>Tên đăng nhập hoặc mật khẩu không đúng</p>}
-                <div className={styles.formItem}>
-                    <button type="submit">Đăng nhập</button>
-                </div>
-            </form>
-            {children}
-        </div>
+      <div className={styles.container}>
+          <form onSubmit={handleSubmit(handleSubmitLogin)}>
+              <div className={styles.formItem}>
+                  <p>Login</p>
+              </div>
+              <div>
+                  <label>Tên đăng nhập</label>
+                  <InputField
+                    type="text"
+                    placeholder="Tên đăng nhập"
+                    name="username"
+                    control={control}
+                    errors={errors}
+                    inputType={"text"}
+                  />
+              </div>
+              <div>
+                  <label htmlFor="password">Mật khẩu</label>
+                  <InputField
+                    type="password"
+                    placeholder="Mật khẩu"
+                    name="password"
+                    control={control}
+                    errors={errors}
+                    inputType={"text"}
+                  />
+              </div>
+              <p className={styles.formItem} onClick={handleRegister}>Create Account?</p>
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+              />
+              {loginError && <p className={styles.error}>Tên đăng nhập hoặc mật khẩu không đúng</p>}
+              <div className={styles.formItem}>
+                  <button type="submit">Đăng nhập</button>
+              </div>
+          </form>
+          {children}
+      </div>
     );
 };
 
