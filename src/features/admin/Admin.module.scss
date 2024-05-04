@@ -4,6 +4,9 @@
     @apply flex justify-between;
     .headerTitle {
       @apply text-3xl font-semibold;
+      &::after { /* sửa từ :after thành ::after */
+        @apply h-3 bg-red-600; /* không cần dấu chấm phẩy ở cuối */
+      }
     }
     .headerBtn {
       @apply bg-primary py-1.5 px-2.5 rounded text-white;

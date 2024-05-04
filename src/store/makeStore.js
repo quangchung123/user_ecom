@@ -7,6 +7,8 @@ import {productApi} from "../services/product";
 import {categoriesApi} from "../services/categories";
 import changeThemeSlice from "./action/changeThemeSlice"
 import resetStateSlice from "./action/resetStateSlice";
+import {commentApi} from "../services/comment";
+import filterRatingSlice from "./action/filterRatingSlice";
 
 const persistConfig = {
     key: 'root',
@@ -20,12 +22,14 @@ export const store = configureStore({
         userAccount: persistedUserAccountReducer,
         themeMode: changeThemeSlice.reducer,
         resetState: resetStateSlice.reducer,
+        filterRating: filterRatingSlice.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
-        [categoriesApi.reducerPath]: categoriesApi.reducer
+        [categoriesApi.reducerPath]: categoriesApi.reducer,
+        [commentApi.reducerPath]: commentApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userApi.middleware, productApi.middleware, categoriesApi.middleware)
+        getDefaultMiddleware().concat(userApi.middleware, productApi.middleware, categoriesApi.middleware, commentApi.middleware)
 });
 
 export const persistor  = persistStore(store)

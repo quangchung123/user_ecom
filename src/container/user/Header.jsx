@@ -8,7 +8,6 @@ import {useSelector} from "react-redux";
 const Header = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.userAccount.user.name);
-	console.log(user)
 	const handleLogin = () => {
 		navigate(ROUTER_INIT.LOGIN);
 	}

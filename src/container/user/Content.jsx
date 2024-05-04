@@ -8,7 +8,7 @@ const Content = ({children}) => {
 			<div>
 				<Header />
 			</div>
-			<div>
+			<div className="">
 				{children}
 			</div>
 			<div>
