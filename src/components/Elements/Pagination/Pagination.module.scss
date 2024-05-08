@@ -1,5 +1,5 @@
 .elementPagination {
-  @apply inline-block h-8 mt-10 border border-gray-300 rounded-sm;
+  @apply inline-block h-8 mt-6 border border-gray-300 rounded-sm;
   .buttonPagination,
   .selectedPage,
   .unSelectedPage {
@@ -9,12 +9,12 @@
     @apply bg-transparent;
   }
   .selectedPage {
-    @apply text-white bg-blue-500;
+    @apply text-white bg-primary;
   }
   .unSelectedPage {
-    @apply bg-transparent border-gray-300 text-blue-600;
+    @apply bg-transparent border-gray-300 text-gray-500;
   }
   .buttonLast {
-    @apply text-blue-500 opacity-100;
+    @apply text-gray-500;
   }
 }

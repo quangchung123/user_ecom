@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {userApi} from "../services/user";
 import userAccountSlice from "./action/userAccountSlice";
 import {persistReducer, persistStore} from 'redux-persist';
@@ -9,27 +9,42 @@ import changeThemeSlice from "./action/changeThemeSlice"
 import resetStateSlice from "./action/resetStateSlice";
 import {commentApi} from "../services/comment";
 import filterRatingSlice from "./action/filterRatingSlice";
+import {cartApi} from "../services/cart";
+import cartSlice from "./action/cartSlice";
+import dataCitySelectedSlice from "./action/dataCitySelectedSlice";
+import orderApi from "../services/order";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user'],
+    whitelist: ['userAccount', 'cart', 'citySelected'],
 };
-const persistedUserAccountReducer = persistReducer(persistConfig, userAccountSlice.reducer);
+const rootReducer = combineReducers({
+    userAccount: userAccountSlice.reducer,
+    themeMode: changeThemeSlice.reducer,
+    resetState: resetStateSlice.reducer,
+    filterRating: filterRatingSlice.reducer,
+    cart: cartSlice.reducer,
+    citySelected: dataCitySelectedSlice.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer,
+    [productApi.reducerPath]: productApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
+    [commentApi.reducerPath]: commentApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer
+})
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
-    reducer: {
-        userAccount: persistedUserAccountReducer,
-        themeMode: changeThemeSlice.reducer,
-        resetState: resetStateSlice.reducer,
-        filterRating: filterRatingSlice.reducer,
-        [userApi.reducerPath]: userApi.reducer,
-        [productApi.reducerPath]: productApi.reducer,
-        [categoriesApi.reducerPath]: categoriesApi.reducer,
-        [commentApi.reducerPath]: commentApi.reducer
-    },
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userApi.middleware, productApi.middleware, categoriesApi.middleware, commentApi.middleware)
+        getDefaultMiddleware().concat(
+          userApi.middleware,
+          productApi.middleware,
+          categoriesApi.middleware,
+          commentApi.middleware,
+          cartApi.middleware
+        )
 });
 
 export const persistor  = persistStore(store)

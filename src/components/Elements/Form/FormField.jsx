@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import InputField from "../Input/InputField";
 import styles from "./FormField.module.scss"
+import dataCities from "../../../config/address/cities.json";
 
-const FormField = ({ control, errors, name, placeholder, label, type = "text", inputType, options }) => {
+const FormField = ({ control, errors, name, placeholder, label, type = "text", inputType, options, typeSelect,readonly }) => {
 		return (
 				<div className={styles.formItem}>
 						<label>{label}</label>
@@ -14,6 +15,8 @@ const FormField = ({ control, errors, name, placeholder, label, type = "text", i
 								errors={errors}
 								inputType={inputType}
 								options={options}
+								typeSelect={typeSelect}
+								readonly={readonly}
 						/>
 						{errors && errors[name] && (
 								<span className="text-red-500 text-sm mt-1">{errors[name].message}</span>

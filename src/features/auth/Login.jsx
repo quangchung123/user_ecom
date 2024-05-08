@@ -25,19 +25,21 @@ const Login = ({ children }) => {
         resolver: zodResolver(schemaLogin)
     });
     const { data } = useGetListUserQuery();
+    console.log(data)
     const handleRegister = () => {
         navigate(ROUTER_INIT.REGISTER);
     }
     const handleSubmitLogin = (payload) => {
         let isExists = false;
+        let foundUser = null;
         if (isGoogleLogin) {
-            isExists = data.some((item) => item.email === payload.email);
+            foundUser = data.find((item) => item.email === payload.email);
         } else {
-            isExists = data.some((item) => item.email === payload.email && item.password === payload.password);
+            foundUser = data.some((item) => item.email === payload.email && item.password === payload.password);
         }
-        if (isExists) {
-            dispatch(setUser({ user: payload }));
-            navigate(ROUTER_INIT.USER);
+        if (foundUser) {
+            dispatch(setUser({ user: {...payload, customerId: foundUser._id }}));
+            navigate(ROUTER_INIT.HOME);
         } else {
             setLoginError(true);
         }

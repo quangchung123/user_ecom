@@ -26,3 +26,6 @@ table {
 li {
   @apply mr-4
 }
+textarea {
+  @apply resize-none w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary;
+}

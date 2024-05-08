@@ -4,10 +4,11 @@ export const LOCAL_STORAGE_KEY = {
 
 export const ROUTER_INIT = {
     LOGIN: "/login",
-    ADMIN: "/admin",
+    CART: "/cart",
     HOME: "/home",
     REGISTER: "/register",
-    PRODUCT: "/product"
+    PRODUCT: "/product",
+    ACCOUNT: "/account"
 }
 export const ROUTER_ADMIN = {
     DASHBOARD: "",
@@ -17,3 +18,7 @@ export const ROUTER_ADMIN = {
 }
 export const CURRENT_PAGE = 1;
 export const RECORD_INIT = 3;
+
+export const STATUS_ORDER = {
+    PROCESSING: "Đang xử lý"
+}

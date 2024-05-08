@@ -15,7 +15,7 @@ export const categoriesApi = createApi({
 										body
 								}
 						},
-						providesTags: ['categories']
+						invalidatesTags : ['categories']
 				}),
 				createNewCategories: builder.mutation({
 						query(body) {
@@ -25,7 +25,7 @@ export const categoriesApi = createApi({
 										body
 								}
 						},
-						invalidatesTags: ['categories']
+						providesTags : ['categories']
 				}),
 				deleteCategories: builder.mutation({
 						query(id) {

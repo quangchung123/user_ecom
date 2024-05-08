@@ -8,7 +8,7 @@ import {getCurrentDateTime} from "../../../utils/help";
 const ImportComment = ({ productId }) => {
 	const [addComment] = useAddCommentMutation();
 	const user = useSelector((state) => state.userAccount.user.name);
-	const email = useSelector((state) => state.userAccount.user.email);
+	const customerId = useSelector((state) => state.userAccount.user.customerId);
 	const [rating, setRating] = useState(null);
 	const [hover, setHover] = useState(null);
 	const {
@@ -23,8 +23,8 @@ const ImportComment = ({ productId }) => {
 		const payload = {
 			product_Id: productId,
 			comment: data,
+			customerId: customerId,
 			name: user,
-			email: email,
 			rating: rating,
 			date: getCurrentDateTime()
 		}
@@ -41,11 +41,11 @@ const ImportComment = ({ productId }) => {
 	return (
 		<div className="border border-gray-300 p-4 rounded-lg">
 			<form onSubmit={handleSubmit(handleAddComment)}>
-				<div className="mb-4">
+				<div className="mb-2">
 					{[...Array(5)].map((star, index) => {
 						const currentRating = index + 1;
 						return (
-							<label>
+							<label key={index}>
 								<input
 									type="radio"
 									name="rating"
@@ -61,20 +61,20 @@ const ImportComment = ({ productId }) => {
 							</label>
 						)
 					})}
-					<InputField
-						control={control}
-						errors={errors}
-						name={"comment"}
-						placeholder={"Nhập bình luận"}
-						inputType={"textarea"}
-					/>
 				</div>
+				<InputField
+					control={control}
+					errors={errors}
+					name={"comment"}
+					placeholder={"Nhập bình luận"}
+					inputType={"textarea"}
+				/>
 				<div className="flex justify-end">
 					<button
 						type="submit"
-						className="bg-secondary  px-4 py-2 mr-2 rounded-lg  hover:bg-emerald-600"
+						className="px-4 py-2 mr-2 rounded hover:opacity-80 bg-primary text-white "
 					>
-						Gửi
+						<i className="bi bi-send-fill"></i>
 					</button>
 				</div>
 			</form>

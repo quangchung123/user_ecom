@@ -33,7 +33,7 @@ const Register = ({children}) => {
 			setLoginError(true)
 		} else {
 			await createNewUser(dataPayload);
-			navigate(ROUTER_INIT.USER)
+			navigate(ROUTER_INIT.LOGIN)
 		}
 	};
 	const handleGoogleLoginSuccess = async (credentialResponse) => {

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import MainLayout from "../../container/user/MainLayout";
-import { useGetListProductQuery } from "../../services/product";
-import BannerProduct from "../../components/Banner/BannerProduct";
-import { useGetListCategoriesQuery } from "../../services/categories";
-import MenuAction from "../../components/Elements/MenuActions/MenuAction";
-import InputSearch from "../../components/Elements/Search/InputSearch";
-import {convertToVietnameseDong} from "../../utils/help";
+import MainLayout from "../../../container/user/MainLayout";
+import { useGetListProductQuery } from "../../../services/product";
+import BannerProduct from "../../../components/Banner/BannerProduct";
+import { useGetListCategoriesQuery } from "../../../services/categories";
+import MenuAction from "../../../components/Elements/MenuActions/MenuAction";
+import InputSearch from "../../../components/Elements/Search/InputSearch";
+import {convertToVietnameseDong} from "../../../utils/help";
 import {useNavigate} from "react-router-dom";
-import {ROUTER_INIT} from "../../config/constant";
+import {ROUTER_INIT} from "../../../config/constant";
+import FacebookMsg from "../FacebookMsg";
 
 const Home = () => {
 	const { data: productList } = useGetListProductQuery();
@@ -73,7 +74,7 @@ const Home = () => {
 								<option key={category._id}>{category.title}</option>
 							))}
 						</select>
-						<MenuAction data={listActionIconProduct} />
+						<MenuAction data={listActionIconProduct} title={"Sắp xếp"} />
 					</div>
 					<div className="grid grid-cols-productCol gap-4 py-6">
 						{productOfCategories?.map((product, index) => (
@@ -90,6 +91,7 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
+			{/*<FacebookMsg />*/}
 		</MainLayout>
 	);
 };

@@ -1,8 +1,8 @@
 import {ROUTER_INIT} from "../config/constant";
-import Home from "../features/user/Home";
+import Home from "../features/user/home/Home";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
-import ProductDetail from "../features/user/ProductDetail";
+import ProductDetail from "../features/user/product/ProductDetail";
 
 export const publicRoutes = [
     {
@@ -20,5 +20,9 @@ export const publicRoutes = [
     {
         path: `${ROUTER_INIT.PRODUCT}/:productId`,
         element: <ProductDetail />
+    },
+    {
+        path: '*',
+        element: <Home />
     },
 ]

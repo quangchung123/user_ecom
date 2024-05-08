@@ -70,6 +70,14 @@ export const columnDetailProduct = [
     // {key: 'comment', Label: 'Comment'},
 ]
 
+export const columnItemCart = [
+    {key: '_id', label: '#'},
+    {key: 'name', label: 'Name'},
+    {key: 'username', label: 'Username'},
+    {key: 'password', label: 'Password'},
+    {key: 'action', label: 'Action'}
+]
+
 export const tabsUser = [
     {key: 'Admin', label: 'Admin'},
     {key: 'Customer', label: 'Customer'},
@@ -105,10 +113,17 @@ export const initStateUser = {
 }
 
 export const ratings = [
-    { value: 0, label: "Tất cả" },
-    { value: 5, label: "5 sao" },
-    { value: 4, label: "4 sao" },
-    { value: 3, label: "3 sao" },
-    { value: 2, label: "2 sao" },
-    { value: 1, label: "1 sao" }
+    { value: 0, label: "Tất Cả" },
+    { value: 5, label: "5 Sao" },
+    { value: 4, label: "4 Sao" },
+    { value: 3, label: "3 Sao" },
+    { value: 2, label: "2 Sao" },
+    { value: 1, label: "1 Sao" }
+]
+export const sizes = [
+    {key: 0, value: 38},
+    {key: 1, value: 39},
+    {key: 2, value: 40},
+    {key: 3, value: 41},
+    {key: 4, value: 42},
 ]

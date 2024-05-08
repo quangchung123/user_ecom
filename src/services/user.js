@@ -46,6 +46,15 @@ export const userApi = createApi({
                 }
             },
             invalidatesTags: ['user']
+        }),
+        getDetailUser: builder.query({
+            query(id) {
+                return {
+                    url: `${END_POINT_USER}/user/${id}`,
+                    method: "GET",
+                }
+            },
+            providesTags: ['user']
         })
     })
 });
@@ -54,5 +63,6 @@ export const {
     useCreateNewUserMutation,
     useLazyGetListUserQuery,
     useDeleteUserMutation,
-    useUpdateUserMutation
+    useUpdateUserMutation,
+    useGetDetailUserQuery
 } = userApi;
