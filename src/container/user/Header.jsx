@@ -1,41 +1,49 @@
-import React, {useEffect, useState} from 'react';
-import {logoUser} from "../../assets/index"
+import React, { useEffect, useState } from 'react';
+import { logoUser } from "../../assets/index"
 import MyButton from "../../components/Elements/Button/MyButton";
-import {useNavigate} from "react-router-dom";
-import {ROUTER_INIT} from "../../config/constant";
-import {useDispatch, useSelector} from "react-redux";
-import {useGetListItemCartQuery} from "../../services/cart";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ROUTER_INIT } from "../../config/constant";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetListItemCartQuery } from "../../services/cart";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {setCart} from "../../store/action/cartSlice";
 import MenuAction from "../../components/Elements/MenuActions/MenuAction";
+import styles from "./Header.module.scss"
 
 const Header = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const location = useLocation();
+	const { pathname } = location;
+	const {HOME, CART, LOGIN, REGISTER, ACCOUNT} = ROUTER_INIT;
+	const [active, setActive] = useState(HOME);
 	const user = useSelector((state) => state.userAccount.user.name);
 	const customerId = useSelector(state => state.userAccount.user.customerId);
 	const [dataListCart, setDataListCart] = useState(null);
-	const {data} = useGetListItemCartQuery();
-	const notify = dataListCart?.length;
+	const { data } = useGetListItemCartQuery();
+	const numberItem = dataListCart?.length === 0 ? null : dataListCart?.length;
 
 	useEffect(() => {
-		if(data) {
+		setActive(pathname);
+	}, [pathname]);
+
+	useEffect(() => {
+		if (data) {
 			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
 		}
-	}, [data]);
-	const handleLogin = () => {
-		navigate(ROUTER_INIT.LOGIN);
-	}
-	const handleNavigateCart = () => {
-		navigate(ROUTER_INIT.CART)
-	}
+	}, [data, customerId]);
+
 	const handleNavigateAccount = () => {
-		navigate(ROUTER_INIT.ACCOUNT)
-	}
+		navigate(ACCOUNT)
+	};
+
 	const listActionAccount = [
 		{
 			key: 1,
-			title: 'Thông tin tài khoản',
+			title: 'Tài khoản',
+			handleRowAction: handleNavigateAccount,
+		},
+		{
+			key: 1,
+			title: 'Đơn mua',
 			handleRowAction: handleNavigateAccount,
 		},
 		{
@@ -43,57 +51,67 @@ const Header = () => {
 			title: 'Đăng xuất',
 		},
 	];
+
 	return (
-		<div>
-			<nav className="h-10 bg-primary flex justify-between box-border px-28 items-center text-white">
+		<div className={styles.header}>
+			<nav className={styles.headerTop}>
 				<div>
-					<ul className="flex">
+					<ul>
 						<li>+255 768 356 890</li>
 						<li>info@zpunet.com</li>
 					</ul>
 				</div>
 				<div>
-					<ul className="flex">
+					<ul>
 						<li>
-							<MyButton onClick={handleLogin}>
-								Login
-							</MyButton>
+							<Link to={LOGIN}>
+								<MyButton active={active}>
+									Login
+								</MyButton>
+							</Link>
 						</li>
 						<li>
-							<MyButton>
-								Register
-							</MyButton>
+							<Link to={REGISTER}>
+								<MyButton active={active}>
+									Register
+								</MyButton>
+							</Link>
 						</li>
 					</ul>
 				</div>
 			</nav>
-			<div className="h-24 bg-white border-b border-gray-400 flex items-center justify-between box-border px-40">
+			<div className={styles.headerBottom}>
 				<div>
-					<a href="/home" className="mr-3.5">
-						<img src={logoUser} alt="logo" className="h-14 inline-block"/>
-					</a>
+					<Link to={HOME}>
+						<img src={logoUser} alt="logo" />
+					</Link>
 				</div>
 				<nav>
-					<ul className="flex box-border">
-						<li>
-							<MyButton>
-								Home
-							</MyButton>
+					<ul className={styles.headerRight}>
+						<li className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-gray-500'}`}>
+							<Link to={HOME}>
+								<MyButton>
+									<i className="bi bi-house-fill mr-2 text-lg not-italic"></i>
+									Trang chủ
+								</MyButton>
+							</Link>
 						</li>
-						<li>
+						<li className={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-gray-500'}`}>
 							<MenuAction data={listActionAccount} title={user}>
-								<i className="bi bi-person-fill not-italic"></i>
+								<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
 							</MenuAction>
 						</li>
-						<li>
-							<MyButton styleModify={"px-3.5 hover:bg-accent rounded-full hover:text-primary relative"} onClick={handleNavigateCart}>
-								<i className="bi bi-cart-check-fill"></i>
-								{notify && (
-									<span className="bg-red-500 rounded-full text-white w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs">
-										{notify}
-									</span>
-								)}
-							</MyButton>
+						<li className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-gray-500'}`}>
+							<Link to={CART}>
+								<MyButton>
+									<i className="bi bi-cart-check-fill"></i>
+									{numberItem && (
+										<span>
+											{numberItem}
+										</span>
+									)}
+								</MyButton>
+							</Link>
 						</li>
 					</ul>
 				</nav>

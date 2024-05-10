@@ -44,7 +44,6 @@ const ModalCategories = ({ isShowing, hide, rowData, isCreating }) => {
 				hide();
 				reset(initStateCategory);
 		}
-		
 		return (
 				<MyModal isShowing={isShowing} handleSubmit={handleSubmit} onSubmit={onSubmit} handleHideModal={handleHideModal} isCreating={isCreating}>
 						<FormField

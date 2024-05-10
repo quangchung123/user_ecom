@@ -1,0 +1,26 @@
+.header {
+  .headerTop {
+    @apply h-10 bg-primary flex justify-between box-border px-28 items-center text-white;
+    ul {
+      @apply flex;
+    }
+  }
+  .headerBottom {
+    @apply h-24 bg-white border-b border-gray-400 flex items-center justify-between box-border px-32;
+    img {
+      @apply h-14 inline-block;
+    }
+    .headerRight {
+      @apply flex;
+      .infoAccount, .infoCart {
+        @apply hover:bg-accent hover:text-primary p-2 rounded-lg;
+      }
+      .infoCart {
+        @apply p-3 relative rounded-full;
+        span {
+          @apply bg-red-500 rounded-full text-white w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs;
+        }
+      }
+    }
+  }
+}

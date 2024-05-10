@@ -11,7 +11,6 @@ const MenuAction = ({data, value, title, children}) => {
 						<Menu
 								menuButton={ <MenuButton>{title}</MenuButton> }
 								arrow={true}
-								className={"hover:bg-primary"}
 						>
 								{data.map(({title, handleRowAction}, index) => (
 									<div key={index}>

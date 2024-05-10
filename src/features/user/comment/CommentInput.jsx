@@ -120,7 +120,7 @@ const CommentInput = ({ productId }) => {
 										onClick={() => handleDeleteComment(comment)}
 										className="px-1 rounded-full hover:bg-accent hover:text-second"
 									>
-											<i className="bi bi-trash"></i>
+										<i className="bi bi-trash"></i>
 									</button>
 								</div>
 								)}
@@ -128,12 +128,14 @@ const CommentInput = ({ productId }) => {
 						</div>
 				</div>
 			))}
-			<Pagination
-				setCurrentPage={setCurrentPage}
-				pageNumbers={pageNumbers}
-				currentPage={currentPage}
-				totalPage={totalPage}
-			/>
+			{dataListComment?.length > 0 && (
+				<Pagination
+					setCurrentPage={setCurrentPage}
+					pageNumbers={pageNumbers}
+					currentPage={currentPage}
+					totalPage={totalPage}
+				/>
+			)}
 		</div>
 	);
 };

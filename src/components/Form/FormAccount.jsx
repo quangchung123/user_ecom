@@ -26,10 +26,14 @@ const FormAccount = () => {
 		handleSubmit,
 		control,
 		formState: { errors },
-		reset
+		reset,
+		getValues
 	} = useForm({
 		defaultValues: data
 	});
+
+	const alLValue = getValues();
+	console.log('getValues() ', alLValue);
 	useEffect(() => {
 		if (data) {
 			reset(data)

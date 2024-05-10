@@ -1,7 +1,8 @@
-export const END_POINT_PRODUCT = "566a963802a243cfa3c8d26a5912809b";
-export const END_POINT_CATEGORIES = "93262444ed2c4bb0be7bed53d5fe547b";
-export const END_POINT_USER = "9ff93f543038466195e32eb7430a7a4d";
-export const END_POINT_COMMENT = "0d424e4ca1234a13953edf3367eb7ff9";
-export const END_POINT_CART = "4cc97a942aa54a33bb7f77178ad2b7ea";
-export const END_POINT_ORDER = "50a4c59ae7ab44e2bc989e6f44bb8861";
+export const END_POINT_PRODUCT = "74faee924f6044bc9fddf9f73debdd0f";
+export const END_POINT_CATEGORIES = "e543fab83f2849b0a75f1e57909ef13f";
+export const END_POINT_USER = "db72a02c2b6d4d69a0a0d9ca5034a302";
+export const END_POINT_COMMENT = "e207b12825f64c6887fa99764edcbcd5";
+export const END_POINT_CART = "874b2ed2674549359f47086ee1e35dca";
+export const END_POINT_ORDER = "bf0de479130d46c7bf43deb4bcc1eba0";
+export const END_POINT_PRODUCT_SELECTED = "450b611838a645b5ab16bbcdd54a14aa";
 

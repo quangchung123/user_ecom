@@ -2,14 +2,18 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector } from "react-redux";
 import {useDeleteItemToCartMutation, useGetListItemCartQuery} from "../../../services/cart";
 import styles from "../styles/Cart.module.scss";
-import OrderProduct from "./OrderProduct";
+import {useNavigate} from "react-router-dom";
+import {ROUTER_INIT} from "../../../config/constant";
+import {useCreateProductSelectedMutation} from "../../../services/productSelected";
 
 const Cart = () => {
 	const customerId = useSelector(state => state.userAccount.user.customerId);
 	const [selectedRow, setSelectedRow] = useState([]);
 	const { data } = useGetListItemCartQuery();
 	const [dataListCart, setDataListCart] = useState(null);
-	const [deleteItemToCart] = useDeleteItemToCartMutation()
+	const [deleteItemToCart] = useDeleteItemToCartMutation();
+	const navigate = useNavigate();
+	const [createProductSelected] = useCreateProductSelectedMutation();
 
 	useEffect(() => {
 		if (data) {
@@ -30,6 +34,7 @@ const Cart = () => {
 	const dataSelected = useMemo(() => {
 		return dataListCart?.filter(item => selectedRow.includes(item._id)) || []
 	},[selectedRow, dataListCart]);
+
 	const totalPriceSelected = useMemo(() => {
 		return dataSelected.reduce((accumulator, currentValue) => accumulator + currentValue.totalPrice, 0)
 	},[dataSelected])
@@ -38,6 +43,18 @@ const Cart = () => {
 		await deleteItemToCart(index)
 	}
 
+	const handleNavigateCheckOut = async () => {
+		try {
+			const response = await createProductSelected({
+				dataProduct: dataSelected,
+				totalPriceSelected: totalPriceSelected
+			});
+			const productSelectedId = response.data._id;
+			navigate(`${ROUTER_INIT.CHECKOUT}/${productSelectedId}`);
+		} catch (e) {
+			console.log(e)
+		}
+	}
 	return (
 		<div className={styles.container}>
 			<div className={styles.containerCart}>
@@ -79,7 +96,12 @@ const Cart = () => {
 					}
 				</div>
 			</div>
-			<OrderProduct totalPriceSelected={totalPriceSelected} dataSelected={dataSelected}/>
+			<div className="fixed bottom-0 h-10 w-full bg-primary">
+				<span>Tổng thanh toán {totalPriceSelected}</span>
+				<button onClick={handleNavigateCheckOut}>
+					Mua hàng ({dataSelected.length} sản phẩm)
+				</button>
+			</div>
 		</div>
 	);
 };

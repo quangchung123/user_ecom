@@ -4,7 +4,7 @@ import ImportComment from "./ImportComment";
 
 const Comment = ({productId}) => {
 	return (
-		<div className={"overflow-auto ml-5 box-border py-12"}>
+		<div className={"overflow-auto box-border py-12"}>
 			<CommentInput productId={productId}/>
 			<ImportComment productId={productId}/>
 		</div>

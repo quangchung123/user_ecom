@@ -3,6 +3,7 @@ import Home from "../features/user/home/Home";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 import ProductDetail from "../features/user/product/ProductDetail";
+import {Navigate} from "react-router-dom";
 
 export const publicRoutes = [
     {
@@ -23,6 +24,6 @@ export const publicRoutes = [
     },
     {
         path: '*',
-        element: <Home />
+        element: <Navigate to={ROUTER_INIT.HOME} />
     },
 ]

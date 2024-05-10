@@ -4,10 +4,10 @@ import {useSelector} from "react-redux";
 
 function App() {
   return (
-    <div className="bg-gray-300">
-        <Router>
-            <AppRoutes />
-        </Router>
+    <div>
+      <Router>
+        <AppRoutes />
+      </Router>
     </div>
   );
 }
