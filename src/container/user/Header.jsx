@@ -66,14 +66,14 @@ const Header = () => {
 						<li>
 							<Link to={LOGIN}>
 								<MyButton active={active}>
-									Login
+									Đăng nhập
 								</MyButton>
 							</Link>
 						</li>
 						<li>
 							<Link to={REGISTER}>
 								<MyButton active={active}>
-									Register
+									Đăng ký
 								</MyButton>
 							</Link>
 						</li>
@@ -97,7 +97,7 @@ const Header = () => {
 							</Link>
 						</li>
 						<li className={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-gray-500'}`}>
-							<MenuAction data={listActionAccount} title={user}>
+							<MenuAction data={listActionAccount} title={user? user : "Tài khoản"}>
 								<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
 							</MenuAction>
 						</li>

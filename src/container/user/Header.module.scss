@@ -6,14 +6,14 @@
     }
   }
   .headerBottom {
-    @apply h-24 bg-white border-b border-gray-400 flex items-center justify-between box-border px-32;
+    @apply h-24 bg-white border-b border-gray-400 flex items-center justify-between box-border px-28;
     img {
       @apply h-14 inline-block;
     }
     .headerRight {
       @apply flex;
       .infoAccount, .infoCart {
-        @apply hover:bg-accent hover:text-primary p-2 rounded-lg;
+        @apply p-2 rounded-lg hover:bg-accent hover:text-primary;
       }
       .infoCart {
         @apply p-3 relative rounded-full;

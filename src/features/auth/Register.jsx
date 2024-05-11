@@ -3,7 +3,7 @@ import styles from './FormLogin.module.scss';
 import { useForm } from "react-hook-form";
 import InputField from "../../components/Elements/Input/InputField";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { schemaLogin } from "../../config/validate";
+import {schemaLogin, schemaRegister} from "../../config/validate";
 import {useCreateNewUserMutation, useGetListUserQuery} from "../../services/user";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -14,14 +14,15 @@ import { jwtDecode } from "jwt-decode";
 import MainLayout from "../../container/user/MainLayout";
 
 const Register = ({children}) => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [loginError, setLoginError] = useState(false);
 	const {
 		handleSubmit,
 		control,
 		formState: { errors }
-	} = useForm();
+	} = useForm({
+		resolver: zodResolver(schemaRegister)
+	});
 	const { data } = useGetListUserQuery();
 	const [createNewUser]  = useCreateNewUserMutation();
 	const handleCrateAccount = async (payload) => {
@@ -49,12 +50,9 @@ const Register = ({children}) => {
 	return (
 		<MainLayout>
 			<div className={styles.container}>
-				<Link to={ROUTER_INIT.HOME}>
-					Home
-				</Link>
 				<form onSubmit={handleSubmit(handleCrateAccount)}>
 					<div className={styles.formItem}>
-						<p>Register</p>
+						<span>Register</span>
 					</div>
 					<div>
 						<label>Tên</label>
@@ -89,15 +87,22 @@ const Register = ({children}) => {
 							inputType={"text"}
 						/>
 					</div>
-					<GoogleLogin
-						onSuccess={handleGoogleLoginSuccess}
-						onError={() => {
-							console.log('Login Failed');
-						}}
-					/>
 					{loginError && <p className={styles.error}>Email đã tồn tại</p>}
 					<div className={styles.formItem}>
 						<button type="submit">Đăng ký</button>
+					</div>
+					<div className={styles.formLoginBottom}>
+						<div className={styles.lineBottom}>
+							<span className={styles.lineBefore}></span>
+							<span className={styles.lineContent}>Hoặc tiếp tục bằng</span>
+							<span className={styles.lineBefore}></span>
+						</div>
+						<GoogleLogin
+							onSuccess={handleGoogleLoginSuccess}
+							onError={() => {
+								console.log('Login Failed');
+							}}
+						/>
 					</div>
 				</form>
 				{children}

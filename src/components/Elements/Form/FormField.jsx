@@ -5,7 +5,7 @@ import dataCities from "../../../config/address/cities.json";
 
 const FormField = ({ control, errors, name, placeholder, label, type = "text", inputType, options, typeSelect,readonly }) => {
 		return (
-				<div className={styles.formItem}>
+				<div>
 						<label>{label}</label>
 						<InputField
 								name={name}
@@ -18,9 +18,6 @@ const FormField = ({ control, errors, name, placeholder, label, type = "text", i
 								typeSelect={typeSelect}
 								readonly={readonly}
 						/>
-						{errors && errors[name] && (
-								<span className="text-red-500 text-sm mt-1">{errors[name].message}</span>
-						)}
 				</div>
 		);
 };

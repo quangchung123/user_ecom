@@ -12,6 +12,7 @@ import { ROUTER_INIT } from "../../config/constant";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import MainLayout from "../../container/user/MainLayout";
+import FormField from "../../components/Elements/Form/FormField";
 
 const Login = ({ children }) => {
     const dispatch = useDispatch();
@@ -57,45 +58,45 @@ const Login = ({ children }) => {
     return (
       <MainLayout>
           <div className={styles.container}>
-              <Link to={ROUTER_INIT.HOME}>
-                  Home
-              </Link>
               <form onSubmit={handleSubmit(handleSubmitLogin)}>
                   <div className={styles.formItem}>
-                      <p>Login</p>
+                      <span>Login</span>
                   </div>
-                  <div>
-                      <label>Tên đăng nhập</label>
-                      <InputField
-                        type="text"
-                        placeholder="Tên đăng nhập"
-                        name="username"
-                        control={control}
-                        errors={errors}
-                        inputType={"text"}
-                      />
-                  </div>
-                  <div>
-                      <label htmlFor="password">Mật khẩu</label>
-                      <InputField
-                        type="password"
-                        placeholder="Mật khẩu"
-                        name="password"
-                        control={control}
-                        errors={errors}
-                        inputType={"text"}
-                      />
-                  </div>
-                  <p className={styles.formItem} onClick={handleRegister}>Create Account?</p>
-                  <GoogleLogin
-                    onSuccess={handleGoogleLoginSuccess}
-                    onError={() => {
-                        console.log('Login Failed');
-                    }}
+                  <FormField
+                    control={control}
+                    errors={errors}
+                    name={"email"}
+                    placeholder={"Nhập email"}
+                    label={"Email"}
+                  />
+                  <FormField
+                    control={control}
+                    errors={errors}
+                    name={"password"}
+                    placeholder={"Nhập mật khẩu"}
+                    label={"Mật khẩu"}
                   />
                   {loginError && <p className={styles.error}>Tên đăng nhập hoặc mật khẩu không đúng</p>}
                   <div className={styles.formItem}>
                       <button type="submit">Đăng nhập</button>
+                  </div>
+                  <div className={styles.formLoginBottom}>
+                      <div className={styles.lineBottom}>
+                          <span className={styles.lineBefore}></span>
+                          <span className={styles.lineContent}>Hoặc tiếp tục bằng</span>
+                          <span className={styles.lineBefore}></span>
+                      </div>
+                      <GoogleLogin
+                        onSuccess={handleGoogleLoginSuccess}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                      />
+                      <p
+                         onClick={handleRegister}
+                      >
+                          Đăng ký tài khoản
+                      </p>
                   </div>
               </form>
               {children}

@@ -10,6 +10,9 @@ import {sizeImage} from "../../../assets"
 import {useCreateNewItemToCartMutation} from "../../../services/cart";
 import {ROUTER_INIT} from "../../../config/constant";
 import {convertToVietnameseDong} from "../../../utils/help";
+import useModal from "../../../hooks/useModal";
+import ModalLogin from "../../../components/Modal/ModalLogin";
+import ModalRegister from "../../../components/Modal/ModalRegister";
 
 const ProductDetail = () => {
 	const { productId } =useParams();
@@ -24,6 +27,8 @@ const ProductDetail = () => {
 	const [activeBtnSize, setActiveBtnSize] = useState(null);
 	const [sizeSelected, setSizeSelected] = useState(false);
 	const [quantitySelected, setQuantitySelected] = useState(false);
+	const {isShowing, toggle} = useModal();
+	const [openModalRegister, setOpenModalRegister] = useState(false);
 	const handleQuantity = (quantity, type) => {
 		if(quantity>1 && type === 'decrement') {
 			setQuantity(quantity - 1);
@@ -51,7 +56,7 @@ const ProductDetail = () => {
 			}
 			await createNewItemToCart(payload);
 		} else {
-			alert("Vui long dang nhap")
+			toggle();
 		}
 		if(statusCustomer === "buyNow") {
 			navigate(ROUTER_INIT.CART)
@@ -163,6 +168,16 @@ const ProductDetail = () => {
 							</ul>
 						</div>
 						<Comment productId={productId}/>
+						<ModalLogin
+							isShowingLogin={isShowing}
+							showLogin={toggle}
+							setOpenModalRegister={setOpenModalRegister}
+						/>
+						<ModalRegister
+							isShowingRegister={openModalRegister}
+							hideRegister={setOpenModalRegister}
+							hideLogin={toggle}
+						/>
 					</div>
 				</div>
 			</div>
