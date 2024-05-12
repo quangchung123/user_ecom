@@ -13,10 +13,12 @@ import {convertToVietnameseDong} from "../../../utils/help";
 import useModal from "../../../hooks/useModal";
 import ModalLogin from "../../../components/Modal/ModalLogin";
 import ModalRegister from "../../../components/Modal/ModalRegister";
+import MyButton from "../../../components/Elements/Button/MyButton";
+import {setProductSelected} from "../../../store/action/productSelectedSlice";
 
 const ProductDetail = () => {
 	const { productId } =useParams();
-	const customerId = useSelector((state) => state.userAccount.user.customerId);
+	const customerId = useSelector((state) => state.userAccount?.user.customerId);
 	const navigate = useNavigate();
 	const { data } = useGetDetailProductQuery(productId);
 	const [createNewItemToCart] = useCreateNewItemToCartMutation();
@@ -42,24 +44,34 @@ const ProductDetail = () => {
 		setSizeSelected(true)
 	}
 	const handleCreateItem = async (statusCustomer) => {
-		if (data && customerId && sizeSelected && quantitySelected) {
-			const { image, name, price } = data;
-			const totalPrice = price * quantity;
-			const payload = {
-				image: image,
-				name: name,
-				price: price,
-				size: sizeNumber,
-				quantity: quantity,
-				totalPrice: totalPrice,
-				customerId: customerId
+		try {
+			if (data && customerId && sizeSelected && quantitySelected) {
+				const { image, name, price } = data;
+				const totalPrice = price * quantity;
+				const payload = {
+					image: image,
+					name: name,
+					price: price,
+					size: sizeNumber,
+					quantity: quantity,
+					totalPrice: totalPrice,
+					customerId: customerId
+				}
+				const response = await createNewItemToCart(payload);
+				if(statusCustomer === "buyNow") {
+					if(customerId) {
+						dispatch(setProductSelected({productId: response.data._id}))
+						navigate(ROUTER_INIT.CART);
+					} else {
+						toggle();
+					}
+				}
 			}
-			await createNewItemToCart(payload);
-		} else {
-			toggle();
-		}
-		if(statusCustomer === "buyNow") {
-			navigate(ROUTER_INIT.CART)
+			else {
+				toggle();
+			}
+		} catch (e) {
+			console.log(e)
 		}
 	}
 	useEffect(() => {
@@ -101,21 +113,19 @@ const ProductDetail = () => {
 					        Số lượng
 					    </span>
 							<div className="ml-4 flex">
-								<button
-									type="button"
-									className={`px-2.5 py-1 border border-gray-300 rounded-l focus:outline-none ${quantity <=0? 'cursor-not-allowed': 'cursor-pointer'}`}
+								<MyButton
+									styleModify={`px-2.5 py-1 border border-gray-300 rounded-l focus:outline-none ${quantity <=0? 'cursor-not-allowed': 'cursor-pointer'}`}
 									onClick={() => handleQuantity(quantity, "decrement")}
 								>
 									-
-								</button>
+								</MyButton>
 								<input type="text" className="border-t py-1 border-b border-gray-300 focus:outline-none w-16 text-center" value={quantity} readOnly/>
-								<button
-									type="button"
-									className={`px-2.5 py-1 border border-gray-300 rounded-r focus:outline-none ${quantity < data?.count? 'cursor-pointer': 'cursor-not-allowed'}`}
+								<MyButton
+									styleModify={`px-2.5 py-1 border border-gray-300 rounded-r focus:outline-none ${quantity < data?.count? 'cursor-pointer': 'cursor-not-allowed'}`}
 									onClick={() => handleQuantity(quantity, "increment")}
 								>
 									+
-								</button>
+								</MyButton>
 							</div>
 							<div className="flex ml-4 items-center">
 								<span className="mr-2">{data?.count}</span>
@@ -123,21 +133,21 @@ const ProductDetail = () => {
 							</div>
 						</div>
 						<div className="flex items-center justify-between box-border px-14 mt-8">
-							<button
-								className={`border-primary border py-2 px-4 flex justify-center items-center cursor-pointer text-primary rounded hover:opacity-85 ${sizeSelected? 'cursor-pointer': 'cursor-not-allowed'}`}
+							<MyButton
+								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary rounded hover:opacity-85 ${sizeSelected && quantitySelected? 'cursor-pointer': 'cursor-not-allowed'}`}
 								onClick={() => handleCreateItem("addToCart")}
-								disabled={!sizeSelected}
+								disabled={!(sizeSelected && quantitySelected)}
 							>
 								<i className="bi bi-cart-check-fill mr-3"></i>
 								<span>Thêm vào giỏ hàng</span>
-							</button>
-							<button
-								className={`bg-primary py-2 px-4 flex justify-center items-center cursor-pointer text-white rounded hover:opacity-85 ${sizeSelected? 'cursor-pointer': 'cursor-not-allowed'} `}
+							</MyButton>
+							<MyButton
+								styleModify={`bg-primary py-2 px-4 flex justify-center items-center text-white rounded hover:opacity-85 ${sizeSelected && quantitySelected? 'cursor-pointer': 'cursor-not-allowed'}`}
 								onClick={() => handleCreateItem("buyNow")}
-								disabled={!sizeSelected}
+								disabled={!(sizeSelected && quantitySelected)}
 							>
 								Mua ngay
-							</button>
+							</MyButton>
 						</div>
 					</div>
 				</div>

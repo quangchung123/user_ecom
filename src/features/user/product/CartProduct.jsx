@@ -5,21 +5,17 @@ import styles from "../styles/Cart.module.scss";
 import {useNavigate} from "react-router-dom";
 import {ROUTER_INIT} from "../../../config/constant";
 import {useCreateProductSelectedMutation} from "../../../services/productSelected";
+import {convertToVietnameseDong} from "../../../utils/help";
 
 const Cart = () => {
 	const customerId = useSelector(state => state.userAccount.user.customerId);
+	const productBuyNowById = useSelector(state => state.productSelected.productId);
 	const [selectedRow, setSelectedRow] = useState([]);
 	const { data } = useGetListItemCartQuery();
 	const [dataListCart, setDataListCart] = useState(null);
 	const [deleteItemToCart] = useDeleteItemToCartMutation();
 	const navigate = useNavigate();
 	const [createProductSelected] = useCreateProductSelectedMutation();
-
-	useEffect(() => {
-		if (data) {
-			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
-		}
-	}, [data, customerId]);
 
 	const handleGetDataRow = (value) => {
 		setSelectedRow(prevSelectedRow => prevSelectedRow.includes(value)
@@ -55,6 +51,24 @@ const Cart = () => {
 			console.log(e)
 		}
 	}
+
+	useEffect(() => {
+		if (data) {
+			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
+		}
+		if (productBuyNowById) {
+			setSelectedRow([productBuyNowById])
+			setDataListCart(preDataListCart => {
+				const selectedIndex = preDataListCart.findIndex(item => item._id === productBuyNowById);
+				if(selectedIndex !== -1) {
+					const productSelected = preDataListCart.splice(selectedIndex, 1)[0];
+					return [productSelected, ...preDataListCart];
+				}
+				return preDataListCart;
+			})
+		}
+	}, [data, customerId, productBuyNowById]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.containerCart}>
@@ -70,11 +84,10 @@ const Cart = () => {
 						<span>Thao tác</span>
 					</div>
 				</div>
-				<div className={styles.cartBody}>
 					{
 						dataListCart?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
-							<div key={_id}>
-								<label>
+							<div key={_id} className={styles.cartBody}>
+								<label className="flex items-center">
 									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)} />
 									<div>
 										<img src={image} className="h-[110px] w-[110px]" alt="image product" />
@@ -94,10 +107,18 @@ const Cart = () => {
 							</div>
 						))
 					}
-				</div>
 			</div>
-			<div className="fixed bottom-0 h-10 w-full bg-primary">
-				<span>Tổng thanh toán {totalPriceSelected}</span>
+			<div className={styles.cartPrice}>
+				<div className={styles.totalPrice}>
+					<div className={styles.priceHeader}>
+						<span className={styles.title}>Tạm tính</span>
+						<span className={styles.price}>{convertToVietnameseDong(totalPriceSelected)}</span>
+					</div>
+					<div className={styles.priceHeader}>
+						<span className={styles.title}>Tổng tiền</span>
+						<span className={styles.price}>{convertToVietnameseDong(totalPriceSelected)}</span>
+					</div>
+				</div>
 				<button onClick={handleNavigateCheckOut}>
 					Mua hàng ({dataSelected.length} sản phẩm)
 				</button>

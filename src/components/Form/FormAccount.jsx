@@ -19,27 +19,27 @@ const FormAccount = () => {
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts)
 	const citySelectedByCode = useSelector((state) => state.citySelected.cities.code);
 	const [updateUser] = useUpdateUserMutation();
-	useEffect(() => {
-		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === citySelectedByCode))
-	}, [citySelectedByCode, data]);
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
 		reset,
-		getValues
+		getValues,
+		watch
 	} = useForm({
 		defaultValues: data
 	});
 
-	const alLValue = getValues();
-	console.log('getValues() ', alLValue);
+	const alLValue = watch();
+	console.log(alLValue)
 	useEffect(() => {
 		if (data) {
 			reset(data)
 		}
 	}, [data]);
-
+	useEffect(() => {
+		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === citySelectedByCode))
+	}, [citySelectedByCode, data]);
 	const onsubmit = async (payload) =>{
 		await updateUser(payload)
 	}

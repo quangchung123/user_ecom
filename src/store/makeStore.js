@@ -14,6 +14,7 @@ import cartSlice from "./action/cartSlice";
 import dataCitySelectedSlice from "./action/dataCitySelectedSlice";
 import orderApi from "../services/order";
 import productSelectedApi from "../services/productSelected";
+import productSelectedSlice from "./action/productSelectedSlice";
 
 const persistConfig = {
     key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     resetState: resetStateSlice.reducer,
     filterRating: filterRatingSlice.reducer,
     cart: cartSlice.reducer,
+    productSelected: productSelectedSlice.reducer,
     citySelected: dataCitySelectedSlice.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
@@ -33,7 +35,7 @@ const rootReducer = combineReducers({
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [commentApi.reducerPath]: commentApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
-    [productSelectedApi.reducerPath]: productSelectedApi.reducer
+    [productSelectedApi.reducerPath]: productSelectedApi.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
