@@ -9,15 +9,12 @@ import {useGetDetailUserQuery, useUpdateUserMutation} from "../../services/user"
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
 import styles from "./FormAccount.module.scss"
+import {useCreateNewAddressMutation, useGetAddressQuery} from "../../services/address";
 
-const FormAccount = () => {
-	const customerIdStoreRedux = useSelector((state) => state.userAccount.user.customerId);
-	const storedUser = customerIdStoreRedux ? handleLoadDataFromStorage(LOCAL_STORAGE_KEY.PERSIST_STORE).userAccount : null;
-	const parsedPersistedData = JSON.parse(storedUser);
-	const customer_id = customerIdStoreRedux || (parsedPersistedData && parsedPersistedData.user.customerId);
-	const { data } = useGetDetailUserQuery(customer_id);
-	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts)
-	const [updateUser] = useUpdateUserMutation();
+const FormAddress = () => {
+	const { data } = useGetAddressQuery();
+	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
+	const [createNewAddress] = useCreateNewAddressMutation();
 	const {
 		handleSubmit,
 		control,
@@ -29,8 +26,8 @@ const FormAccount = () => {
 		defaultValues: data
 	});
 
-	const formData   = watch();
-	const {city} = formData  ;
+	const formData= watch();
+	const {city} = formData;
 	useEffect(() => {
 		if (data) {
 			reset(data)
@@ -38,22 +35,22 @@ const FormAccount = () => {
 	}, [data]);
 	useEffect(() => {
 		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))
-	}, [city, data]);
+		console.log(dataDistrictsFilter)
+	}, [data, city]);
 	const onsubmit = async (payload) =>{
-		console.log("payload", payload);
-		await updateUser(payload)
+		await createNewAddress(payload)
 	}
 	return (
 		<div className={styles.containerForm}>
 			<form onSubmit={handleSubmit(onsubmit)}>
 				<div className="border-b pb-4">
-					<h2>Thông tin tài khoản</h2>
+					<h2>Thông tin người nhận</h2>
 					<FormField
 						control={control}
 						errors={errors}
 						name={"name"}
-						placeholder={"Nhập họ và tên"}
-						label={"Họ & Tên"}
+						placeholder={"Nhập tên"}
+						label={"Tên người nhân"}
 					/>
 					<FormField
 						control={control}
@@ -62,17 +59,9 @@ const FormAccount = () => {
 						placeholder={"Nhập số điện thoại"}
 						label={"Số điện thoại"}
 					/>
-					<FormField
-						control={control}
-						errors={errors}
-						name={"email"}
-						placeholder={"Nhập Email"}
-						label={"Email"}
-						readonly={true}
-					/>
 				</div>
 				<div>
-					<h2>Địa chỉ cá nhân</h2>
+					<h2>Địa chỉ nhận hàng</h2>
 					<FormField
 						control={control}
 						errors={errors}
@@ -95,7 +84,7 @@ const FormAccount = () => {
 						errors={errors}
 						name={"detail"}
 						label={"Địa chỉ"}
-						placeholder={"Nhập địa chỉ"}
+						placeholder={"Nhập địa chỉ nhà hoặc công ty"}
 						inputType={"textarea"}
 					/>
 				</div>
@@ -107,4 +96,4 @@ const FormAccount = () => {
 	);
 };
 
-export default FormAccount;
+export default FormAddress;

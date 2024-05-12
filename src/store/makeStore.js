@@ -15,6 +15,7 @@ import dataCitySelectedSlice from "./action/dataCitySelectedSlice";
 import orderApi from "../services/order";
 import productSelectedApi from "../services/productSelected";
 import productSelectedSlice from "./action/productSelectedSlice";
+import {addressApi} from "../services/address";
 
 const persistConfig = {
     key: 'root',
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
     [commentApi.reducerPath]: commentApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [productSelectedApi.reducerPath]: productSelectedApi.reducer,
+    [addressApi.reducerPath]: addressApi.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -48,7 +50,8 @@ export const store = configureStore({
           categoriesApi.middleware,
           commentApi.middleware,
           cartApi.middleware,
-          productSelectedApi.middleware
+          productSelectedApi.middleware,
+          addressApi.middleware
         )
 });
 

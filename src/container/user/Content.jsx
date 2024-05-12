@@ -8,7 +8,7 @@ const Content = ({children}) => {
 			<div>
 				<Header />
 			</div>
-			<div className="bg-content">
+			<div className="bg-content min-h-screen">
 				{children}
 			</div>
 			<div>

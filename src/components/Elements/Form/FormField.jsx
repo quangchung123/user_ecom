@@ -3,9 +3,9 @@ import InputField from "../Input/InputField";
 import styles from "./FormField.module.scss"
 import dataCities from "../../../config/address/cities.json";
 
-const FormField = ({ control, errors, name, placeholder, label, type = "text", inputType, options, typeSelect,readonly }) => {
+const FormField = ({ control, errors, name, placeholder, label, type = "text", inputType, options, typeSelect,readonly,style }) => {
 		return (
-				<div>
+				<div className={style}>
 						<label>{label}</label>
 						<InputField
 								name={name}

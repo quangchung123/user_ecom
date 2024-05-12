@@ -1,0 +1,18 @@
+.containerForm {
+  @apply box-border p-4;
+  form {
+    @apply flex flex-col items-center justify-center;
+    div {
+      @apply mb-2 w-full;
+      h2 {
+        @apply font-semibold text-lg mb-5;
+      }
+      label {
+        @apply block text-gray-700 text-xs font-bold mb-2 uppercase;
+      }
+      input, select {
+        @apply shadow appearance-none border rounded w-full py-2.5 px-3 text-gray-700 leading-tight focus:border-primary;
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@ const InputField = ({ name, type, placeholder, control, errors, inputType, optio
           <select {...field} onChange={(e) => {field.onChange(e.target.value)}} required={true}>
             <option value="">All --</option>
             {options.map((option, index) => (
-              <option key={index} value={option.value}>
+              <option key={index} value={option.code} data-display={option.name}>
                 {option.name}
               </option>
             ))}

@@ -24,7 +24,7 @@ const Cart = () => {
 		);
 	};
 	const handleSelectedAll = () => {
-		setSelectedRow(selectedRow.length === dataListCart?.length ? [] : dataListCart?.map(item => item._id))
+		setSelectedRow(selectedRow?.length === dataListCart?.length ? [] : dataListCart?.map(item => item._id))
 	}
 
 	const dataSelected = useMemo(() => {
@@ -74,34 +74,31 @@ const Cart = () => {
 			<div className={styles.containerCart}>
 				<div className={styles.cartHeader}>
 					<div>
-						<label>
+						<label className="w-5/12">
 							<input type="checkbox" checked={selectedRow?.length === dataListCart?.length} onChange={handleSelectedAll}/>
 							<span>Tất cả ({data?.length || 0} sản phẩm)</span>
 						</label>
-						<span>Đơn giá</span>
-						<span>Số lượng</span>
-						<span>Thành tiền</span>
-						<span>Thao tác</span>
+						<span className="w-1/6">Đơn giá</span>
+						<span className="w-1/6">Số lượng</span>
+						<span className="w-1/6">Thành tiền</span>
+						<span className="w-1/12">Thao tác</span>
 					</div>
 				</div>
 					{
 						dataListCart?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
 							<div key={_id} className={styles.cartBody}>
-								<label className="flex items-center">
-									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)} />
-									<div>
-										<img src={image} className="h-[110px] w-[110px]" alt="image product" />
-										<span>{name}</span>
+								<label className="flex items-center w-5/12">
+									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)}/>
+									<img src={image} className="h-[110px] w-[110px] ml-4" alt="image product" />
+									<div className="flex flex-col">
+										<span className="font-semibold">{name}</span>
+										<span className="text-sm opacity-85 mt-2.5">Kích cỡ {size}</span>
 									</div>
-									<span>Kích cỡ {size}</span>
 								</label>
-								<div>
-									<span>{price}</span>
-									<sup>đ</sup>
-								</div>
-								<span>{quantity}</span>
-								<span>{totalPrice}</span>
-								<button onClick={() => handleDeleteItem(_id)}>
+								<span className="w-1/6">{convertToVietnameseDong(price)}</span>
+								<span className="w-1/6">{quantity}</span>
+								<span className="w-1/6 text-second">{convertToVietnameseDong(totalPrice)}</span>
+								<button onClick={() => handleDeleteItem(_id)} className="w-1/12">
 									<i className="bi bi-trash"></i>
 								</button>
 							</div>
