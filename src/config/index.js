@@ -37,50 +37,50 @@ export const sideBarOptions = [
 ]
 
 export const columnProduct = [
-    {key: '_id', label: '#'},
-    {key: 'image', label: 'Image'},
-    {key: 'name', label: 'Name'},
-    {key: 'price', label: 'Price'},
-    {key: 'count', label: 'Count'},
-    {key: 'description', label: 'Description'},
-    {key: 'action', label: 'Action'}
+    { key: '_id', label: '#' },
+    { key: 'image', label: 'Image' },
+    { key: 'name', label: 'Name' },
+    { key: 'price', label: 'Price' },
+    { key: 'count', label: 'Count' },
+    { key: 'description', label: 'Description' },
+    { key: 'action', label: 'Action' }
 ]
 export const columnCategories = [
-    {key: '_id', label: '#'},
-    {key: 'title', label: 'Title'},
-    {key: 'description', label: 'Description'},
-    {key: 'action', label: 'Action'}
+    { key: '_id', label: '#' },
+    { key: 'title', label: 'Title' },
+    { key: 'description', label: 'Description' },
+    { key: 'action', label: 'Action' }
 ]
 export const columnUser = [
-    {key: '_id', label: '#'},
-    {key: 'name', label: 'Name'},
-    {key: 'username', label: 'Username'},
-    {key: 'password', label: 'Password'},
-    {key: 'action', label: 'Action'}
+    { key: '_id', label: '#' },
+    { key: 'name', label: 'Name' },
+    { key: 'username', label: 'Username' },
+    { key: 'password', label: 'Password' },
+    { key: 'action', label: 'Action' }
 ]
 
 export const columnDetailProduct = [
-    {key: '_id', label: '#'},
-    {key: 'image', label: 'Image'},
-    {key: 'name', label: 'Name'},
-    {key: 'price', label: 'Price'},
-    {key: 'count', label: 'Count'},
-    {key: 'description', label: 'Description'},
+    { key: '_id', label: '#' },
+    { key: 'image', label: 'Image' },
+    { key: 'name', label: 'Name' },
+    { key: 'price', label: 'Price' },
+    { key: 'count', label: 'Count' },
+    { key: 'description', label: 'Description' },
     // {key: 'rate', Label: 'Rate'},
     // {key: 'comment', Label: 'Comment'},
 ]
 
 export const columnItemCart = [
-    {key: '_id', label: '#'},
-    {key: 'name', label: 'Name'},
-    {key: 'username', label: 'Username'},
-    {key: 'password', label: 'Password'},
-    {key: 'action', label: 'Action'}
+    { key: '_id', label: '#' },
+    { key: 'name', label: 'Name' },
+    { key: 'username', label: 'Username' },
+    { key: 'password', label: 'Password' },
+    { key: 'action', label: 'Action' }
 ]
 
 export const tabsUser = [
-    {key: 'Admin', label: 'Admin'},
-    {key: 'Customer', label: 'Customer'},
+    { key: 'Admin', label: 'Admin' },
+    { key: 'Customer', label: 'Customer' },
 ]
 
 export const titleNameList = [
@@ -99,6 +99,14 @@ export const initStateProduct = {
     description: "",
     image: "",
     categories: ""
+}
+
+export const initStateAddress = {
+    name: "",
+    phone: "",
+    city: "",
+    districts: "",
+    detail: "",
 }
 
 export const initStateCategory = {
@@ -121,9 +129,9 @@ export const ratings = [
     { value: 1, label: "1 Sao" }
 ]
 export const sizes = [
-    {key: 0, value: 38},
-    {key: 1, value: 39},
-    {key: 2, value: 40},
-    {key: 3, value: 41},
-    {key: 4, value: 42},
+    { key: 0, value: 38 },
+    { key: 1, value: 39 },
+    { key: 2, value: 40 },
+    { key: 3, value: 41 },
+    { key: 4, value: 42 },
 ]

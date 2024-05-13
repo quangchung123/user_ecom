@@ -51,3 +51,9 @@ export const getCurrentDateTime = () => {
 
     return formattedDate;
 }
+
+export const getNameAddressByCode = (code, address) => {
+    //handle get name city or district by code
+    const addressFind = address.find(item => item.code === code);
+    return addressFind ? addressFind.name : "";
+}

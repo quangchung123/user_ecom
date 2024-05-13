@@ -6,30 +6,21 @@ import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
 import {useSelector} from "react-redux";
 import {useUpdateUserMutation} from "../../services/user";
-const ModalAccount = ({isShowing, hide, rowData}) => {
+import {getNameAddressByCode} from "../../utils/help";
+const ModalAccount = ({isShowing, hide, rowData, setAddress}) => {
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
 		reset
-	} = useForm({
-		defaultValues: rowData
-	});
-	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
-	const citySelectedByCode = useSelector((state) => state.citySelected.cities.code);
-	const [updateUser] = useUpdateUserMutation();
-	useEffect(() => {
-		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === citySelectedByCode))
-	}, [citySelectedByCode]);
-
-	useEffect(() => {
-		if(rowData) {
-			reset(rowData)
-		}
-	}, [rowData]);
-	const onSubmit = async (payload) => {
-		await updateUser(payload);
-		hide()
+	} = useForm();
+	const [selectedAddress, setSelectedAddress] = useState({});
+	const handleRadioChange = (address) => {
+		setSelectedAddress(address)
+	};
+	const onSubmit = () => {
+		setAddress(selectedAddress);
+		hide();
 	}
 	return (
 		<MyModal
@@ -37,45 +28,27 @@ const ModalAccount = ({isShowing, hide, rowData}) => {
 			handleSubmit={handleSubmit}
 			onSubmit={onSubmit}
 			handleHideModal={hide}
+			title={"Cập nhật"}
 		>
-			<FormField
-				control={control}
-				errors={errors}
-				name={"name"}
-				placeholder={"Nhập họ và tên"}
-				label={"Họ & Tên"}
-			/>
-			<FormField
-				control={control}
-				errors={errors}
-				name={"phone"}
-				placeholder={"Nhập số điện thoại"}
-				label={"Số điện thoại"}
-			/>
-			<FormField
-				control={control}
-				errors={errors}
-				name={"city"}
-				label={"Thành phố/tỉnh"}
-				inputType={"select"}
-				options={dataCities}
-				typeSelect={"selectCities"}
-			/>
-			<FormField
-				control={control}
-				errors={errors}
-				name={"districts"}
-				label={"Quận/huyện"}
-				inputType={"select"}
-				options={dataDistrictsFilter}
-			/>
-			<FormField
-				control={control}
-				errors={errors}
-				name={"detail"}
-				label={"Địa chỉ"}
-				placeholder={"Nhập địa chỉ"}
-			/>
+			{rowData?.map((address, key) =>
+				<div key={key} className="flex items-center">
+					<input
+						type="radio"
+						value={address}
+						checked={selectedAddress._id === address._id}
+						onChange={() => handleRadioChange({...address})}
+					/>
+					<div className="border rounded-md p-4 mb-4">
+						<div>
+							<span className="text-lg font-semibold mr-2">{address.name}</span>
+							<span className="text-gray-600">{address.phone}</span>
+							<p className="mt-2">{address.detail}</p>
+							<span className="mr-2">{getNameAddressByCode(address.districts, dataDistricts)}</span>
+							<span>{getNameAddressByCode(address.city, dataCities)}</span>
+						</div>
+					</div>
+				</div>
+			)}
 		</MyModal>
 	);
 };

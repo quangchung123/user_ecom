@@ -30,8 +30,10 @@ const FormAccount = () => {
 	});
 
 	const formData= watch();
-	console.log(formData)
 	const {city} = formData;
+	const onsubmit = async (payload) =>{
+		await updateUser(payload)
+	}
 	useEffect(() => {
 		if (data) {
 			reset(data)
@@ -40,10 +42,7 @@ const FormAccount = () => {
 	useEffect(() => {
 		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))
 	}, [city, data]);
-	const onsubmit = async (payload) =>{
-		console.log("payload", payload);
-		await updateUser(payload)
-	}
+	
 	return (
 		<div className={styles.containerForm}>
 			<form onSubmit={handleSubmit(onsubmit)}>

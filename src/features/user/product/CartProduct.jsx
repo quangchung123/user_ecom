@@ -116,7 +116,11 @@ const Cart = () => {
 						<span className={styles.price}>{convertToVietnameseDong(totalPriceSelected)}</span>
 					</div>
 				</div>
-				<button onClick={handleNavigateCheckOut}>
+				<button
+					onClick={handleNavigateCheckOut}
+					disabled={dataSelected.length === 0}
+					className={`${dataSelected.length === 0 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+				>
 					Mua hàng ({dataSelected.length} sản phẩm)
 				</button>
 			</div>

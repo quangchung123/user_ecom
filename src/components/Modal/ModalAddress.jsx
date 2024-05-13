@@ -4,7 +4,9 @@ import FormField from "../Elements/Form/FormField";
 import {useForm} from "react-hook-form";
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
-import {useCreateNewAddressMutation} from "../../services/address";
+import {useCreateNewAddressMutation, useUpdateAddressMutation} from "../../services/address";
+import {initStateAddress} from "../../config";
+
 
 const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 	const {
@@ -14,25 +16,40 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 		watch,
 		reset
 	} = useForm({
-		defaultValues: rowData
+		defaultValues: isCreating ? {...initStateAddress} : rowData
 	});
 	const formData= watch();
 	const {city} = formData;
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
 	const [createNewAddress] = useCreateNewAddressMutation();
+	const [updateAddress]= useUpdateAddressMutation()
+	const onSubmit = async (data) => {
+		try {
+			if (isCreating) {
+				await createNewAddress(data);
+			} else {
+				const payload = {
+					...data,
+				};
+				await updateAddress(payload);
+			}
+			reset()
+			hide()
+		} catch (err) {
+			console.log(err);
+		}
+	}
 	useEffect(() => {
 		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))
 	}, [city]);
-
 	useEffect(() => {
-		if(rowData) {
-			reset(rowData)
+		if (isCreating) {
+			reset({ ...initStateAddress });
+		} else {
+			reset(rowData);
 		}
-	}, [rowData]);
-	const onSubmit = async (payload) => {
-		await createNewAddress(payload);
-		hide()
-	}
+	}, [isCreating, rowData]);
+
 	return (
 		<MyModal
 			isShowing={isShowing}
@@ -40,6 +57,8 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 			onSubmit={onSubmit}
 			handleHideModal={hide}
 			isCreating={isCreating}
+			reset={reset}
+			title={"Cập nhật"}
 		>
 			<FormField
 				control={control}

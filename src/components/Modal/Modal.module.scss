@@ -28,8 +28,14 @@
       label {
         @apply block text-gray-700 text-xs font-bold mb-2 uppercase;
       }
-      input, select {
+      input[type="text"], select {
         @apply shadow appearance-none border rounded w-full py-2.5 px-3 text-gray-700 leading-tight;
+      }
+      input[type="radio"] {
+        @apply h-5 w-5 mr-3;
+      }
+      input[type="radio"]:checked {
+        @apply bg-primary;
       }
     }
     .formItem {

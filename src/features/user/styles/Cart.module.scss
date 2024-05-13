@@ -3,7 +3,7 @@
   .containerCart {
     @apply w-9/12 mr-3.5;
     .cartHeader {
-      @apply border rounded shadow mb-3;
+      @apply border rounded shadow mb-3 bg-white;
       div {
         @apply flex items-center justify-between px-4 py-2;
         label {
@@ -16,7 +16,7 @@
     }
   }
   .cartBody {
-    @apply border rounded shadow mb-3 flex items-center justify-between box-border px-4 py-2.5;
+    @apply border rounded shadow mb-3 flex items-center justify-between box-border px-4 py-2.5 bg-white;
     div {
       @apply flex px-4 py-2 items-center justify-between;
       label {
@@ -25,7 +25,7 @@
     }
   }
   .cartPrice {
-    @apply border rounded shadow sticky top-0 h-56 w-3/12 box-border p-2.5 flex items-center flex-col;
+    @apply border rounded shadow sticky top-0 h-56 w-3/12 box-border p-2.5 flex items-center flex-col bg-white;
     .totalPrice {
       @apply mb-6 border-b w-full;
       .priceHeader {
@@ -42,7 +42,7 @@
       @apply px-12 py-3 bg-primary text-white rounded;
     }
   }
-  input {
+  input[type="checkbox"] {
     @apply h-4 w-4 accent-primary;
   }
 }
