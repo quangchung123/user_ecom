@@ -4,23 +4,25 @@ import FormField from "../Elements/Form/FormField";
 import {useForm} from "react-hook-form";
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
-import {useSelector} from "react-redux";
-import {useUpdateUserMutation} from "../../services/user";
-const ModalAccount = ({isShowing, hide, rowData}) => {
+import {useCreateNewAddressMutation} from "../../services/address";
+
+const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
+		watch,
 		reset
 	} = useForm({
 		defaultValues: rowData
 	});
+	const formData= watch();
+	const {city} = formData;
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
-	const citySelectedByCode = useSelector((state) => state.citySelected.cities.code);
-	const [updateUser] = useUpdateUserMutation();
+	const [createNewAddress] = useCreateNewAddressMutation();
 	useEffect(() => {
-		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === citySelectedByCode))
-	}, [citySelectedByCode]);
+		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))
+	}, [city]);
 
 	useEffect(() => {
 		if(rowData) {
@@ -28,7 +30,7 @@ const ModalAccount = ({isShowing, hide, rowData}) => {
 		}
 	}, [rowData]);
 	const onSubmit = async (payload) => {
-		await updateUser(payload);
+		await createNewAddress(payload);
 		hide()
 	}
 	return (
@@ -37,6 +39,7 @@ const ModalAccount = ({isShowing, hide, rowData}) => {
 			handleSubmit={handleSubmit}
 			onSubmit={onSubmit}
 			handleHideModal={hide}
+			isCreating={isCreating}
 		>
 			<FormField
 				control={control}
@@ -75,9 +78,10 @@ const ModalAccount = ({isShowing, hide, rowData}) => {
 				name={"detail"}
 				label={"Địa chỉ"}
 				placeholder={"Nhập địa chỉ"}
+				inputType={"textarea"}
 			/>
 		</MyModal>
 	);
 };
 
-export default ModalAccount;
+export default ModalAddress;

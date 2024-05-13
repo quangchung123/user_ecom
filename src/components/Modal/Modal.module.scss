@@ -28,7 +28,7 @@
       label {
         @apply block text-gray-700 text-xs font-bold mb-2 uppercase;
       }
-      input {
+      input, select {
         @apply shadow appearance-none border rounded w-full py-2.5 px-3 text-gray-700 leading-tight;
       }
     }

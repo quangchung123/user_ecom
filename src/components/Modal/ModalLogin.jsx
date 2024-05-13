@@ -10,7 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {setUser} from "../../store/action/userAccountSlice";
 import {useDispatch} from "react-redux";
 import styles from "../../features/auth/FormLogin.module.scss"
-const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister}) => {
+const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister, isCreating}) => {
 	const dispatch = useDispatch();
 	const [loginError, setLoginError] = useState(false);
 	const [isGoogleLogin, setIsGoogleLogin] = useState(true);

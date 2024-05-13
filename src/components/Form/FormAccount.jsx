@@ -29,8 +29,9 @@ const FormAccount = () => {
 		defaultValues: data
 	});
 
-	const formData   = watch();
-	const {city} = formData  ;
+	const formData= watch();
+	console.log(formData)
+	const {city} = formData;
 	useEffect(() => {
 		if (data) {
 			reset(data)
