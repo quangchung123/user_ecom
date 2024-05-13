@@ -7,7 +7,7 @@ import dataDistricts from "../../config/address/districts.json";
 import {useSelector} from "react-redux";
 import {useUpdateUserMutation} from "../../services/user";
 import {getNameAddressByCode} from "../../utils/help";
-const ModalAccount = ({isShowing, hide, rowData, setAddress}) => {
+const ModalAccount = ({isShowing, hide, rowData, setAddress, setOpenModalAddress, setRowDataAddress, setIsCreating}) => {
 	const {
 		handleSubmit,
 		control,
@@ -18,6 +18,15 @@ const ModalAccount = ({isShowing, hide, rowData, setAddress}) => {
 	const handleRadioChange = (address) => {
 		setSelectedAddress(address)
 	};
+	const handleUpdateAddressInModal = (address) => {
+		setRowDataAddress(address)
+		setOpenModalAddress(true)
+		setIsCreating(false)
+	}
+	const handleCreateAddressInModal = () => {
+		setOpenModalAddress(true);
+		setIsCreating(true);
+	}
 	const onSubmit = () => {
 		setAddress(selectedAddress);
 		hide();
@@ -30,6 +39,7 @@ const ModalAccount = ({isShowing, hide, rowData, setAddress}) => {
 			handleHideModal={hide}
 			title={"Cập nhật"}
 		>
+			<button onClick={() => handleCreateAddressInModal()}>Tạo mới</button>
 			{rowData?.map((address, key) =>
 				<div key={key} className="flex items-center">
 					<input
@@ -47,6 +57,7 @@ const ModalAccount = ({isShowing, hide, rowData, setAddress}) => {
 							<span>{getNameAddressByCode(address.city, dataCities)}</span>
 						</div>
 					</div>
+					<button onClick={() => handleUpdateAddressInModal(address)}>Cập nhật</button>
 				</div>
 			)}
 		</MyModal>

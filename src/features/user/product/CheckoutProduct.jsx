@@ -12,6 +12,7 @@ import styles from "../styles/Cart.module.scss";
 import {useGetAddressQuery} from "../../../services/address";
 import dataDistricts from "../../../config/address/districts.json";
 import dataCities from "../../../config/address/cities.json";
+import ModalAddress from "../../../components/Modal/ModalAddress";
 
 const CheckoutProduct = () => {
 	const {productSelectedId} = useParams();
@@ -24,6 +25,9 @@ const CheckoutProduct = () => {
 	const { data: infoAddress } = useGetAddressQuery();
 	const [createNewOrder] = useCreateNewOrderMutation();
 	const [address, setAddress] = useState({});
+	const [openModalAddress, setOpenModalAddress] = useState(false);
+	const [rowDataAddress, setRowDataAddress] = useState({});
+	const [isCreating, setIsCreating] = useState(false);
 	const handleSubmitOrder = async () => {
 		try {
 			const payload = {
@@ -63,12 +67,21 @@ const CheckoutProduct = () => {
 						</div>
 					</div>
 				</div>
-
 				<ModalAccount
 					isShowing={isShowing}
 					hide={toggle}
 					rowData={infoAddress}
 					setAddress={setAddress}
+					setOpenModalAddress={setOpenModalAddress}
+					setRowDataAddress={setRowDataAddress}
+					setIsCreating={setIsCreating}
+				/>
+				<ModalAddress
+					isShowing={openModalAddress}
+					hide={setOpenModalAddress}
+					isCreating={isCreating}
+					showModalAccount={toggle}
+					rowData={rowDataAddress}
 				/>
 				<div className="mt-8">
 					{

@@ -3,27 +3,32 @@ import ReactDOM from 'react-dom';
 import styles from './Modal.module.scss';
 import MyButton from '../Elements/Button/MyButton';
 
-const MyModal = ({ isShowing, handleSubmit, onSubmit, handleHideModal, isCreating, children, title, reset }) => {
+const MyModal = ({ isShowing, handleSubmit, onSubmit, handleHideModal, isCreating, children, title, reset, openModalOther = () => {} }) => {
+    const handleModalClose = () => {
+        handleHideModal(false);
+        openModalOther();
+    };
+
     return isShowing ? ReactDOM.createPortal(
-        <React.Fragment>
-            <div className={styles.layoutModal} onClick={() => handleHideModal(false)} />
-            <div className={styles.containerModal}>
-                <div className={styles.modal}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        {children}
-                        <div className={styles.groupBtn}>
-                            <MyButton styleModify={styles.modalBtnCreate}>
-                                {isCreating ? 'Create' : title}
-                            </MyButton>
-                            <MyButton styleModify={styles.modalBtnDelete} onClick={() =>  handleHideModal(false)}>
-                                <i className="bi bi-x text-4xl" />
-                            </MyButton>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </React.Fragment>,
-        document.body
+      <React.Fragment>
+          <div className={styles.layoutModal} onClick={() => handleHideModal(false)} />
+          <div className={styles.containerModal}>
+              <div className={styles.modal}>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                      {children}
+                      <div className={styles.groupBtn}>
+                          <MyButton type="submit" styleModify={styles.modalBtnCreate}>
+                              {isCreating ? 'Create' : title}
+                          </MyButton>
+                          <MyButton type="button" styleModify={styles.modalBtnDelete} onClick={handleModalClose}>
+                              <i className="bi bi-x text-4xl" />
+                          </MyButton>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </React.Fragment>,
+      document.body
     ) : null;
 };
 

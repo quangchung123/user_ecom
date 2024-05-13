@@ -8,7 +8,9 @@ import {useCreateNewAddressMutation, useUpdateAddressMutation} from "../../servi
 import {initStateAddress} from "../../config";
 
 
-const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
+const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) => {
+	console.log(rowData)
+	console.log(isCreating)
 	const {
 		handleSubmit,
 		control,
@@ -34,6 +36,7 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 				await updateAddress(payload);
 			}
 			reset()
+			showModalAccount()
 			hide()
 		} catch (err) {
 			console.log(err);
@@ -45,6 +48,7 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 	useEffect(() => {
 		if (isCreating) {
 			reset({ ...initStateAddress });
+			console.log("______________")
 		} else {
 			reset(rowData);
 		}
@@ -59,6 +63,7 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating}) => {
 			isCreating={isCreating}
 			reset={reset}
 			title={"Cập nhật"}
+			openModalOther={showModalAccount}
 		>
 			<FormField
 				control={control}

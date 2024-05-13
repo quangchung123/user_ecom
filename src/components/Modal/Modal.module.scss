@@ -11,7 +11,7 @@
   @apply fixed inset-0 flex items-center justify-center;
 }
 .modal {
-  @apply bg-white rounded-lg max-w-md p-8 w-1/2 px-10 pt-8 pb-8 mb-4 relative;
+  @apply bg-white rounded-lg max-w-md p-8 w-1/2 px-10 pt-8 pb-8 mb-4 relative max-h-[80%] overflow-auto;
   .groupBtn {
     @apply flex justify-center box-border px-2.5 mt-4;
     .modalBtnCreate {
