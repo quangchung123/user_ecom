@@ -1,3 +1,4 @@
+
 export const handleSaveDataToStorage = (key, value) => {
     //handle save data to localStorage
     try {
@@ -35,7 +36,7 @@ export const convertToVietnameseDong = (amount) => {
         const formattedAmount = parsedAmount .toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
         return formattedAmount;
     } else {
-        return 'Số không hợp lệ';
+        return '--';
     }
 }
 

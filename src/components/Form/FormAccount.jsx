@@ -9,12 +9,11 @@ import {useGetDetailUserQuery, useUpdateUserMutation} from "../../services/user"
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
 import styles from "./FormAccount.module.scss"
+import {useId} from "../../hooks/useId";
 
 const FormAccount = () => {
-	const customerIdStoreRedux = useSelector((state) => state.userAccount.user.customerId);
-	const storedUser = customerIdStoreRedux ? handleLoadDataFromStorage(LOCAL_STORAGE_KEY.PERSIST_STORE).userAccount : null;
-	const parsedPersistedData = JSON.parse(storedUser);
-	const customer_id = customerIdStoreRedux || (parsedPersistedData && parsedPersistedData.user.customerId);
+	const customer_id = useId();
+	console.log(customer_id)
 	const { data } = useGetDetailUserQuery(customer_id);
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts)
 	const [updateUser] = useUpdateUserMutation();
@@ -41,7 +40,7 @@ const FormAccount = () => {
 	}, [data]);
 	useEffect(() => {
 		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))
-	}, [city, data]);
+	}, [city]);
 	
 	return (
 		<div className={styles.containerForm}>

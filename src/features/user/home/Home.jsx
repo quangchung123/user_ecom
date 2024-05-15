@@ -90,11 +90,11 @@ const Home = () => {
 						<div className="flex space-x-4 items-center">
 							<h2>Sắp xếp</h2>
 							<SortButton
-								label="Thấp đến cao"
+								label="Giá thấp đến cao"
 								onClick={() => sortProductsByPrice(PRICE_MIN_TO_MAX)} active={sortBy === PRICE_MIN_TO_MAX}
 							/>
 							<SortButton
-								label="Cao đến thấp"
+								label="Giá cao đến thấp"
 								onClick={() => sortProductsByPrice(PRICE_MAX_TO_MIN)} active={sortBy === PRICE_MAX_TO_MIN}
 							/>
 							<SortButton

@@ -1,21 +1,17 @@
 import { Outlet, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { handleLoadDataFromStorage } from "../utils/help";
 import {LOCAL_STORAGE_KEY, ROUTER_ADMIN, ROUTER_INIT} from "../config/constant";
 import MainLayout from "../container/user/MainLayout";
 import Cart from "../features/user/product/CartProduct";
 import AccountCustomer from "../features/user/account/AccountCustomer";
 import CheckoutProduct from "../features/user/product/CheckoutProduct";
+import {useId} from "../hooks/useId";
 
 const ProtectedRoute = ({element}) => {
-  const user = useSelector((state) => state.userAccount.user);
-  const storedUser = user? handleLoadDataFromStorage(LOCAL_STORAGE_KEY.PERSIST_STORE).userAccount : null;
-  const parsedPersistedData = JSON.parse(storedUser);
-  const isAuthenticated = user || parsedPersistedData;
+  const isAuthenticated = useId();
   return isAuthenticated ? (
     <MainLayout>
       {element}
-    </MainLayout> ): (<Navigate to={ROUTER_INIT.LOGIN} />);
+    </MainLayout> ): (<Navigate to={ROUTER_INIT.HOME} />);
 };
 
 export const protectedRoutes = [

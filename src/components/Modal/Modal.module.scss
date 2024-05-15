@@ -5,13 +5,13 @@
   }
 }
 .layoutModal {
-  @apply fixed inset-0 bg-black opacity-40;
+  @apply fixed inset-0 bg-black opacity-40 z-10;
 }
 .containerModal {
-  @apply fixed inset-0 flex items-center justify-center;
+  @apply fixed inset-0 flex items-center justify-center z-10;
 }
 .modal {
-  @apply bg-white rounded-lg max-w-md p-8 w-1/2 px-10 pt-8 pb-8 mb-4 relative max-h-[80%] overflow-auto;
+  @apply bg-white rounded p-8 w-auto px-8 pt-8 pb-8 mb-4 relative;
   .groupBtn {
     @apply flex justify-center box-border px-2.5 mt-4;
     .modalBtnCreate {
@@ -32,7 +32,7 @@
         @apply shadow appearance-none border rounded w-full py-2.5 px-3 text-gray-700 leading-tight;
       }
       input[type="radio"] {
-        @apply h-5 w-5 mr-3;
+        @apply h-5 w-5 mr-1;
       }
       input[type="radio"]:checked {
         @apply bg-primary;

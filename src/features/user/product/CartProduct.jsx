@@ -16,7 +16,6 @@ const Cart = () => {
 	const [deleteItemToCart] = useDeleteItemToCartMutation();
 	const navigate = useNavigate();
 	const [createProductSelected] = useCreateProductSelectedMutation();
-
 	const handleGetDataRow = (value) => {
 		setSelectedRow(prevSelectedRow => prevSelectedRow.includes(value)
 			? prevSelectedRow.filter(rowId => rowId !== value)
@@ -75,8 +74,8 @@ const Cart = () => {
 				<div className={styles.cartHeader}>
 					<div>
 						<label className="w-5/12">
-							<input type="checkbox" checked={selectedRow?.length === dataListCart?.length} onChange={handleSelectedAll}/>
-							<span>Tất cả ({data?.length || 0} sản phẩm)</span>
+							<input type="checkbox" checked={selectedRow?.length === dataListCart?.length && selectedRow?.length !== 0 && dataListCart?.length !==0} onChange={handleSelectedAll}/>
+							<span>Tất cả ({dataListCart?.length || 0} sản phẩm)</span>
 						</label>
 						<span className="w-1/6">Đơn giá</span>
 						<span className="w-1/6">Số lượng</span>
@@ -119,7 +118,7 @@ const Cart = () => {
 				<button
 					onClick={handleNavigateCheckOut}
 					disabled={dataSelected.length === 0}
-					className={`${dataSelected.length === 0 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+					className={`${dataSelected.length === 0 ? 'cursor-not-allowed opacity-65' : 'cursor-pointer'}`}
 				>
 					Mua hàng ({dataSelected.length} sản phẩm)
 				</button>

@@ -1,18 +1,15 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import {handleLoadDataFromStorage} from "../../../utils/help";
-import {LOCAL_STORAGE_KEY, STATUS_ORDER} from "../../../config/constant";
+import {STATUS_ORDER} from "../../../config/constant";
 import {useGetDetailUserQuery} from "../../../services/user";
 import useModal from "../../../hooks/useModal";
 import ModalAccount from "../../../components/Modal/ModalAccount";
 import {useCreateNewOrderMutation} from "../../../services/order";
+import {useId} from "../../../hooks/useId";
 
 const OrderProduct = ({totalPriceSelected, dataSelected}) => {
-	const customerIdStoreRedux = useSelector((state) => state.userAccount.user.customerId);
 	const { isShowing, toggle } = useModal();
-	const storedUser = customerIdStoreRedux ? handleLoadDataFromStorage(LOCAL_STORAGE_KEY.PERSIST_STORE).userAccount : null;
-	const parsedPersistedData = JSON.parse(storedUser);
-	const customer_id = customerIdStoreRedux || (parsedPersistedData && parsedPersistedData.user.customerId);
+	const customer_id = useId();
 	const { data } = useGetDetailUserQuery(customer_id);
 	const [createNewOrder] = useCreateNewOrderMutation();
 	const handleSubmitOrder = async () => {

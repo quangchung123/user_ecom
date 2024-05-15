@@ -134,7 +134,7 @@ const ProductDetail = () => {
 						</div>
 						<div className="flex items-center justify-between box-border px-14 mt-8">
 							<MyButton
-								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary rounded hover:opacity-85 ${sizeSelected && quantitySelected? 'cursor-pointer': 'cursor-not-allowed'}`}
+								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary rounded ${sizeSelected && quantitySelected? 'cursor-pointer hover:opacity-85': 'cursor-not-allowed opacity-60'}`}
 								onClick={() => handleCreateItem("addToCart")}
 								disabled={!(sizeSelected && quantitySelected)}
 							>
@@ -142,7 +142,7 @@ const ProductDetail = () => {
 								<span>Thêm vào giỏ hàng</span>
 							</MyButton>
 							<MyButton
-								styleModify={`bg-primary py-2 px-4 flex justify-center items-center text-white rounded hover:opacity-85 ${sizeSelected && quantitySelected? 'cursor-pointer': 'cursor-not-allowed'}`}
+								styleModify={`bg-primary py-2 px-4 flex justify-center items-center text-white rounded ${sizeSelected && quantitySelected? 'cursor-pointer hover:opacity-85': 'cursor-not-allowed opacity-60'}`}
 								onClick={() => handleCreateItem("buyNow")}
 								disabled={!(sizeSelected && quantitySelected)}
 							>

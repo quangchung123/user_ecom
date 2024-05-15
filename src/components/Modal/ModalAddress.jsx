@@ -6,17 +6,16 @@ import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
 import {useCreateNewAddressMutation, useUpdateAddressMutation} from "../../services/address";
 import {initStateAddress} from "../../config";
+import {useId} from "../../hooks/useId";
 
 
 const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) => {
-	console.log(rowData)
-	console.log(isCreating)
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
 		watch,
-		reset
+		reset,
 	} = useForm({
 		defaultValues: isCreating ? {...initStateAddress} : rowData
 	});
@@ -24,20 +23,22 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 	const {city} = formData;
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
 	const [createNewAddress] = useCreateNewAddressMutation();
-	const [updateAddress]= useUpdateAddressMutation()
+	const [updateAddress]= useUpdateAddressMutation();
+	const customer_id = useId();
 	const onSubmit = async (data) => {
+		const payload = {
+			...data,
+			customer_id: customer_id
+		}
 		try {
 			if (isCreating) {
-				await createNewAddress(data);
+				await createNewAddress(payload);
 			} else {
-				const payload = {
-					...data,
-				};
 				await updateAddress(payload);
 			}
 			reset()
 			showModalAccount()
-			hide()
+			hide();
 		} catch (err) {
 			console.log(err);
 		}
@@ -48,7 +49,6 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 	useEffect(() => {
 		if (isCreating) {
 			reset({ ...initStateAddress });
-			console.log("______________")
 		} else {
 			reset(rowData);
 		}
@@ -63,7 +63,6 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 			isCreating={isCreating}
 			reset={reset}
 			title={"Cập nhật"}
-			openModalOther={showModalAccount}
 		>
 			<FormField
 				control={control}

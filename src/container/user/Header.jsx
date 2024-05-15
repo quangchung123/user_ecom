@@ -8,6 +8,9 @@ import { useGetListItemCartQuery } from "../../services/cart";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MenuAction from "../../components/Elements/MenuActions/MenuAction";
 import styles from "./Header.module.scss"
+import useModal from "../../hooks/useModal";
+import ModalLogin from "../../components/Modal/ModalLogin";
+import ModalRegister from "../../components/Modal/ModalRegister";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -20,6 +23,8 @@ const Header = () => {
 	const [dataListCart, setDataListCart] = useState(null);
 	const { data } = useGetListItemCartQuery();
 	const numberItem = dataListCart?.length === 0 ? null : dataListCart?.length;
+	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
+	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
 
 	useEffect(() => {
 		setActive(pathname);
@@ -64,18 +69,24 @@ const Header = () => {
 				<div>
 					<ul>
 						<li>
-							<Link to={LOGIN}>
-								<MyButton active={active}>
+							<MyButton onClick={toggleLogin}>
 									Đăng nhập
-								</MyButton>
-							</Link>
+							</MyButton>
+							<ModalLogin
+								isShowingLogin={isShowingLogin}
+								hideLogin={toggleLogin}
+								showRegister={toggleRegister}
+							/>
 						</li>
 						<li>
-							<Link to={REGISTER}>
-								<MyButton active={active}>
-									Đăng ký
-								</MyButton>
-							</Link>
+							<MyButton onClick={toggleRegister}>
+								Đăng ký
+							</MyButton>
+							<ModalRegister
+								isShowingRegister={isShowingRegister}
+								hideRegister={toggleRegister}
+								showLogin={toggleLogin}
+							/>
 						</li>
 					</ul>
 				</div>
@@ -88,18 +99,20 @@ const Header = () => {
 				</div>
 				<nav>
 					<ul className={styles.headerRight}>
-						<li className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-gray-500'}`}>
+						<li>
 							<Link to={HOME}>
-								<MyButton>
+								<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-gray-500'}`}>
 									<i className="bi bi-house-fill mr-2 text-lg not-italic"></i>
 									Trang chủ
-								</MyButton>
+								</button>
 							</Link>
 						</li>
-						<li className={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-gray-500'}`}>
-							<MenuAction data={listActionAccount} title={user? user : "Tài khoản"}>
-								<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
-							</MenuAction>
+						<li>
+							{user && (
+								<MenuAction data={listActionAccount} title={user? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-gray-500'}`}>
+									<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
+								</MenuAction>
+							)}
 						</li>
 						<li className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-gray-500'}`}>
 							<Link to={CART}>

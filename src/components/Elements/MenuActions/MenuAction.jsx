@@ -4,12 +4,11 @@ import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import styles from "./MenuAction.module..scss"
 
-const MenuAction = ({data, value, title, children}) => {
+const MenuAction = ({data, value, title, children, styleButton}) => {
 		return (
 				<div className={styles.menus}>
-					{children}
 						<Menu
-								menuButton={ <MenuButton>{title}</MenuButton> }
+								menuButton={ <MenuButton className={styleButton}>{children} {title}</MenuButton> }
 								arrow={true}
 						>
 								{data.map(({title, handleRowAction}, index) => (

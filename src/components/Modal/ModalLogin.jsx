@@ -10,7 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {setUser} from "../../store/action/userAccountSlice";
 import {useDispatch} from "react-redux";
 import styles from "../../features/auth/FormLogin.module.scss"
-const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister, isCreating}) => {
+const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 	const dispatch = useDispatch();
 	const [loginError, setLoginError] = useState(false);
 	const [isGoogleLogin, setIsGoogleLogin] = useState(true);
@@ -32,7 +32,7 @@ const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister, isCreating
 		}
 		if (foundUser) {
 			dispatch(setUser({ user: {...payload, customerId: foundUser._id }}));
-			showLogin();
+			hideLogin()
 		} else {
 			setLoginError(true);
 		}
@@ -46,17 +46,17 @@ const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister, isCreating
 		setIsGoogleLogin(true);
 		await handleSubmitLogin(payload);
 	}
-
-	const handleRegister = () => {
-		setOpenModalRegister(true)
-		showLogin();
+	const handleOpenRegister = () => {
+		showRegister();
+		hideLogin();
 	}
+
 	return (
 		<MyModal
 			isShowing={isShowingLogin}
 			handleSubmit={handleSubmit}
 			onSubmit={handleSubmitLogin}
-			handleHideModal={showLogin}
+			handleHideModal={hideLogin}
 			title={"Đăng nhập"}
 			style={styles}
 		>
@@ -83,7 +83,7 @@ const ModalLogin = ({isShowingLogin, showLogin, setOpenModalRegister, isCreating
 					}}
 				/>
 			</div>
-			<p className="cursor-pointer" onClick={handleRegister}>Đăng ký tài khoản</p>
+			<p className="cursor-pointer" onClick={handleOpenRegister}>Đăng ký tài khoản</p>
 			{loginError && <p className={styles.error}>Tên đăng nhập hoặc mật khẩu không đúng</p>}
 		</MyModal>
 	);

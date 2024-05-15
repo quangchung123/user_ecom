@@ -7,7 +7,7 @@ const AccountCustomer = () => {
 
 	return (
 		<div className="flex justify-center box-border pt-16">
-			<aside className="mr-6">
+			<aside className="mr-2">
 				<ul>
 					<li
 						onClick={() => setSelectedTab("personal")}

@@ -9,7 +9,7 @@ import { schemaRegister } from "../../config/validate";
 import { useCreateNewUserMutation, useGetListUserQuery } from "../../services/user";
 import { jwtDecode } from "jwt-decode";
 
-const ModalRegister = ({ isShowingRegister, hideRegister, hideLogin }) => {
+const ModalRegister = ({ isShowingRegister, hideRegister, showLogin }) => {
 	const [loginError, setLoginError] = useState(false);
 	const { data } = useGetListUserQuery();
 	const [createNewUser] = useCreateNewUserMutation();
@@ -31,8 +31,8 @@ const ModalRegister = ({ isShowingRegister, hideRegister, hideLogin }) => {
 			setLoginError(true)
 		} else {
 			await createNewUser(dataPayload);
+			showLogin();
 			hideRegister()
-			hideLogin();
 		}
 	}
 
