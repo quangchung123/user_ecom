@@ -51,7 +51,8 @@ export const store = configureStore({
           commentApi.middleware,
           cartApi.middleware,
           productSelectedApi.middleware,
-          addressApi.middleware
+          addressApi.middleware,
+          orderApi.middleware
         )
 });
 

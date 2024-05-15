@@ -4,20 +4,22 @@ import { useSelector } from "react-redux";
 import ModalAccount from "../../../components/Modal/ModalAccount";
 import useModal from "../../../hooks/useModal";
 import { convertToVietnameseDong, getNameAddressByCode } from "../../../utils/help";
-import { LOCAL_STORAGE_KEY, STATUS_ORDER } from "../../../config/constant";
+import {LOCAL_STORAGE_KEY, ROUTER_INIT, STATUS_ORDER} from "../../../config/constant";
 import { useGetListUserQuery } from "../../../services/user";
 import { useCreateNewOrderMutation } from "../../../services/order";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import styles from "../styles/Cart.module.scss";
 import { useGetAddressQuery } from "../../../services/address";
 import dataDistricts from "../../../config/address/districts.json";
 import dataCities from "../../../config/address/cities.json";
 import ModalAddress from "../../../components/Modal/ModalAddress";
 import { useId } from "../../../hooks/useId";
+import {paymentMethods, shippingMethods} from "../../../config";
 
 const CheckoutProduct = () => {
 	const customer_id = useId();
 	const { productSelectedId } = useParams();
+	const navigate = useNavigate();
 	const { data: productSelected } = useGetListProductSelectedQuery(productSelectedId);
 	const { isShowing: isShowingModalAccount, toggle: toggleModalAccount } = useModal();
 	const { isShowing: isShowingModalAddress, toggle: toggleModalAddress } = useModal();
@@ -30,17 +32,32 @@ const CheckoutProduct = () => {
 	const [address, setAddress] = useState([]);
 	const [dataAddressByIdCustomer, setDataAddressByIdCustomer] = useState([]);
 	const [addressCheckout, setAddressCheckout] = useState({});
-
+	const [selectedShipping, setSelectedShipping] = useState('');
+	const [selectedPayment, setSelectedPayment] = useState('');
+	const handleShippingChange = (event) => {
+		setSelectedShipping(event.target.value);
+	};
+	const handlePaymentChange = (event) => {
+		setSelectedPayment(event.target.value);
+	};
+	const isAllRadioSelected = () => {
+		return selectedShipping !== '' && selectedPayment !== '';
+	};
 	const handleSubmitOrder = async () => {
 		try {
 			const payload = {
+				address: addressCheckout,
 				products: productSelected,
-				customerId: customer_id,
 				totalPrice: productSelected?.totalPriceSelected,
-				payment: "COD",
-				status: STATUS_ORDER.PROCESSING
-			};
-			await createNewOrder(payload);
+				status: STATUS_ORDER.PROCESSING,
+				shipping: selectedShipping,
+				payment: selectedPayment,
+				customer_id: customer_id
+			}
+			const response = await createNewOrder(payload);
+			if (response) {
+				navigate(ROUTER_INIT.ORDER)
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -138,38 +155,46 @@ const CheckoutProduct = () => {
 						</div>
 					))}
 				</div>
-				<div className="box-border p-2 border rounded shadow bg-white">
-					<div className="flex justify-between">
-						<span>Phương thức thanh toán</span>
-						<span>Chọn hình thức</span>
-					</div>
-					<div>
-						<div>
-							<input type="radio" />
-							<span>Thanh toán khi nhận hàng</span>
+					<div className="mt-8 p-4 border rounded shadow bg-white space-y-4">
+						<div className="flex justify-between items-center pb-2 border-b">
+							<span className="font-semibold">Phương thức thanh toán</span>
 						</div>
-						<div>
-							<input type="radio"/>
-							<span>Thanh toán qua thẻ ngân hàng</span>
-						</div>
-					</div>
-				</div>
-				<div className="box-border p-2 border rounded shadow bg-white">
-					<div className="flex justify-between">
-						<span>Lựa chọn đơn vị vận chuyển</span>
-						<span>Chọn hình thức</span>
-					</div>
-					<div>
-						<div>
-							<input type="radio" />
-							<span>Thanh toán khi nhận hàng</span>
-						</div>
-						<div>
-							<input type="radio"/>
-							<span>Thanh toán qua thẻ ngân hàng</span>
+						<div className="space-y-2">
+							{paymentMethods.map(method => (
+								<label key={method.id} className="flex items-center space-x-2">
+								 <input
+									type="radio"
+									name="payment"
+									value="Thanh toán khi nhận hàng"
+									onChange={handlePaymentChange}
+									checked={selectedPayment ===  method.name}
+									className="form-radio text-blue-500"
+									/>
+								  <span>{method.name}</span>
+								</label>
+							))}
 						</div>
 					</div>
-				</div>
+					<div className="mt-8 p-4 border rounded shadow bg-white space-y-4">
+						<div className="flex justify-between items-center pb-2 border-b">
+							<span className="font-semibold">Đơn vị vận chuyển</span>
+						</div>
+						<div className="space-y-2">
+							{shippingMethods.map(method => (
+								<label key={method.id} className="flex items-center space-x-2">
+									<input
+										type="radio"
+										name="shipping"
+										value={method.name}
+										onChange={handleShippingChange}
+										checked={selectedShipping === method.name}
+										className="form-radio text-blue-500"
+									/>
+									<span>{method.name}</span>
+								</label>
+							))}
+						</div>
+					</div>
 			</div>
 			<div className={styles.cartPrice}>
 				<div className={styles.totalPrice}>
@@ -182,7 +207,11 @@ const CheckoutProduct = () => {
 						<span className={styles.price}>{convertToVietnameseDong(productSelected?.totalPriceSelected)}</span>
 					</div>
 				</div>
-				<button onClick={handleSubmitOrder}>
+				<button
+					onClick={handleSubmitOrder}
+					className={`${!isAllRadioSelected() ? 'opacity-65 cursor-not-allowed' : 'cursor-pointer hover:opacity-85'}`}
+					disabled={!isAllRadioSelected()}
+				>
 					Đặt hàng
 				</button>
 			</div>

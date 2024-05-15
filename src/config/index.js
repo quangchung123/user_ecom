@@ -83,6 +83,12 @@ export const tabsUser = [
     { key: 'Customer', label: 'Customer' },
 ]
 
+export const tabsOrder = [
+    { key: 'Đang xử lý', label: 'Đang xử lý' },
+    { key: 'Đang vận chuyển', label: 'Đang vận chuyển' },
+    { key: 'Hoàn thành', label: 'Hoàn thành' },
+]
+
 export const titleNameList = [
     {
         title: 'Admin'
@@ -134,4 +140,14 @@ export const sizes = [
     { key: 2, value: 40 },
     { key: 3, value: 41 },
     { key: 4, value: 42 },
+]
+export const shippingMethods = [
+    { id: 1, name: 'Giao hàng nhanh' },
+    { id: 2, name: 'Giao hàng tiết kiệm' },
+    { id: 3, name: 'Viettel Post' },
+    { id: 4, name: 'J&T Express' }
+];
+
+export const paymentMethods = [
+    { id: 1, name: 'Thanh toán khi nhận hàng'}
 ]

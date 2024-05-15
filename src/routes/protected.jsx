@@ -5,6 +5,7 @@ import Cart from "../features/user/product/CartProduct";
 import AccountCustomer from "../features/user/account/AccountCustomer";
 import CheckoutProduct from "../features/user/product/CheckoutProduct";
 import {useId} from "../hooks/useId";
+import OrderProduct from "../features/user/product/OrderProduct";
 
 const ProtectedRoute = ({element}) => {
   const isAuthenticated = useId();
@@ -26,5 +27,9 @@ export const protectedRoutes = [
   {
     path: `${ROUTER_INIT.CHECKOUT}/:productSelectedId`,
     element: <ProtectedRoute  element={<CheckoutProduct />} />,
+  },
+  {
+    path: ROUTER_INIT.ORDER,
+    element: <ProtectedRoute  element={<OrderProduct />} />,
   }
 ];

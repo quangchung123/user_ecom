@@ -32,7 +32,7 @@ const FormAddress = () => {
 					Tạo Mới
 				</MyButton>
 			</div>
-			{dataFilter.map((address, key) =>
+			{dataFilter?.map((address, key) =>
 				<div key={key} className="border-b border-gray-300 py-3">
 					<div>
 						<span className="text-base mr-2">{address.name}</span>

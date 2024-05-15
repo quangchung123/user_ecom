@@ -9,7 +9,8 @@ export const ROUTER_INIT = {
     REGISTER: "/register",
     PRODUCT: "/product",
     ACCOUNT: "/account",
-    CHECKOUT: "/checkout"
+    CHECKOUT: "/checkout",
+    ORDER: "/order"
 }
 export const ROUTER_ADMIN = {
     DASHBOARD: "",

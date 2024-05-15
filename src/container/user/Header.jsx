@@ -39,6 +39,9 @@ const Header = () => {
 	const handleNavigateAccount = () => {
 		navigate(ACCOUNT)
 	};
+	const handleNavigateOrder = () => {
+		navigate(ROUTER_INIT.ORDER)
+	};
 
 	const listActionAccount = [
 		{
@@ -49,7 +52,7 @@ const Header = () => {
 		{
 			key: 1,
 			title: 'Đơn mua',
-			handleRowAction: handleNavigateAccount,
+			handleRowAction: handleNavigateOrder,
 		},
 		{
 			key: 2,

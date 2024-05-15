@@ -1,66 +1,42 @@
-import React from 'react';
-import {useSelector} from "react-redux";
-import {STATUS_ORDER} from "../../../config/constant";
-import {useGetDetailUserQuery} from "../../../services/user";
-import useModal from "../../../hooks/useModal";
-import ModalAccount from "../../../components/Modal/ModalAccount";
-import {useCreateNewOrderMutation} from "../../../services/order";
+import React, {useEffect, useState} from 'react';
+import {tabsOrder} from "../../../config";
+import MyTabs from "../../../components/Elements/Tabs/MyTabs";
+import {useGetListOrderQuery} from "../../../services/order";
 import {useId} from "../../../hooks/useId";
+import {convertToVietnameseDong} from "../../../utils/help";
 
-const OrderProduct = ({totalPriceSelected, dataSelected}) => {
-	const { isShowing, toggle } = useModal();
-	const customer_id = useId();
-	const { data } = useGetDetailUserQuery(customer_id);
-	const [createNewOrder] = useCreateNewOrderMutation();
-	const handleSubmitOrder = async () => {
-		try {
-			const payload = {
-				customer_id: customer_id,
-				dataProduct: dataSelected,
-				totalPrice: totalPriceSelected,
-				payment: "COD",
-				status: STATUS_ORDER.PROCESSING
-			}
-			await createNewOrder(payload)
-		} catch (e) {
-			console.log(e)
-		}
-	}
+const OrderProduct = () => {
+	const {data} = useGetListOrderQuery();
+	const id = useId();
+	const [tabSelected, setTabSelected] = useState('Đang xử lý');
+	const dataFilterById = data?.filter((dataOrder) => dataOrder.customer_id === id);
+	const [dataFilterByTabName, setDataFilterByTabName] = useState([]);
+	console.log(dataFilterByTabName)
+	useEffect(() => {
+		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected))
+	}, [tabSelected, data]);
 	return (
-		<div className="w-1/4 border rounded-lg shadow-xl">
-			<div>
-				<div className="flex justify-between">
-					<span>Giao tới</span>
-					<button onClick={toggle}>Thay đổi</button>
-				</div>
-				<div className="flex">
-					<span>{data?.name}</span>
-					<span>{data?.phone}</span>
-				</div>
-				<p>{data?.detail}, {data?.districts}, {data?.city}</p>
-			</div>
-			<div>
-				<span>Tổng tiền {totalPriceSelected}</span>
+		<div className="flex items-center justify-center box-border py-12">
+			<div className="w-2/3 min-h-screen bg-white">
+				<MyTabs tabs={tabsOrder} setTabSelected={setTabSelected} tabSelected={tabSelected} />
 				<div>
-					<span>Số tiền {totalPriceSelected}</span>
-					<span>(Đã bao gồm VAT nếu có)</span>
+					{dataFilterByTabName?.map((dataItem) => (
+						dataItem.products.dataProduct?.map((product) => (
+							<div key={product._id} className="rounded  mb-3 flex items-center justify-between box-border px-4 py-2.5 bg-white">
+								<label className="flex items-center w-5/12">
+									<img src={product.image} className="h-[110px] w-[110px] ml-4" alt="image product" />
+									<div className="flex flex-col">
+										<span className="font-semibold">{product.name}</span>
+										<span className="text-sm opacity-85 mt-2.5">Kích cỡ {product.size}</span>
+									</div>
+								</label>
+								<span className="w-1/6">{product.quantity}</span>
+								<span className="w-1/6 text-second">{convertToVietnameseDong(product.totalPrice)}</span>
+							</div>
+						))
+					))}
 				</div>
 			</div>
-			<div>
-				<div className="flex">
-					<span>Phương thức thanh toán</span>
-					<span>Thay đổi</span>
-				</div>
-				<span>Thanh toán khi nhận hàng</span>
-			</div>
-			<button onClick={handleSubmitOrder}>
-				Mua hàng ({dataSelected.length} sản phẩm)
-			</button>
-			<ModalAccount
-				isShowing={isShowing}
-				hide={toggle}
-				rowData={data}
-			/>
 		</div>
 	);
 };
