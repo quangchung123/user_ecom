@@ -14,7 +14,7 @@ import useModal from "../../../hooks/useModal";
 import ModalLogin from "../../../components/Modal/ModalLogin";
 import ModalRegister from "../../../components/Modal/ModalRegister";
 import MyButton from "../../../components/Elements/Button/MyButton";
-import {setProductSelected} from "../../../store/action/productSelectedSlice";
+import {setProductBuyNow} from "../../../store/action/productBuyNowSlice";
 
 const ProductDetail = () => {
 	const { productId } =useParams();
@@ -29,7 +29,8 @@ const ProductDetail = () => {
 	const [activeBtnSize, setActiveBtnSize] = useState(null);
 	const [sizeSelected, setSizeSelected] = useState(false);
 	const [quantitySelected, setQuantitySelected] = useState(false);
-	const {isShowing, toggle} = useModal();
+	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
+	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
 	const [openModalRegister, setOpenModalRegister] = useState(false);
 	const handleQuantity = (quantity, type) => {
 		if(quantity>1 && type === 'decrement') {
@@ -60,15 +61,15 @@ const ProductDetail = () => {
 				const response = await createNewItemToCart(payload);
 				if(statusCustomer === "buyNow") {
 					if(customerId) {
-						dispatch(setProductSelected({productId: response.data._id}))
+						dispatch(setProductBuyNow({productId: response.data._id}))
 						navigate(ROUTER_INIT.CART);
 					} else {
-						toggle();
+						toggleLogin();
 					}
 				}
 			}
 			else {
-				toggle();
+				toggleLogin();
 			}
 		} catch (e) {
 			console.log(e)
@@ -179,14 +180,14 @@ const ProductDetail = () => {
 						</div>
 						<Comment productId={productId}/>
 						<ModalLogin
-							isShowingLogin={isShowing}
-							showLogin={toggle}
-							setOpenModalRegister={setOpenModalRegister}
+							isShowingLogin={isShowingLogin}
+							hideLogin={toggleLogin}
+							showRegister={toggleRegister}
 						/>
 						<ModalRegister
-							isShowingRegister={openModalRegister}
-							hideRegister={setOpenModalRegister}
-							hideLogin={toggle}
+							isShowingRegister={isShowingRegister}
+							hideRegister={toggleRegister}
+							showLogin={toggleLogin}
 						/>
 					</div>
 				</div>

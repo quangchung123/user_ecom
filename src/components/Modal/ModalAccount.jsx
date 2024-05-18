@@ -15,19 +15,16 @@ const ModalAccount = ({isShowing, hide, rowData, setIsCreating, infoCustomer, sh
 		formState: { errors },
 		reset
 	} = useForm();
-	const [selectedAddress, setSelectedAddress] = useState({});
+	const [selectedAddress, setSelectedAddress] = useState('');
 	const [updateUser] = useUpdateUserMutation();
-
-	const handleRadioChange = (address) => {
-		setSelectedAddress(address);
+	const handleRadioChange = (id) => {
+		setSelectedAddress(id);
 	};
-
 	const handleUpdateAddressInModal = (address) => {
 		setRowDataAddress(address);
 		showModalAddress();
 		hide();
 	};
-
 	const handleCreateAddressInModal = () => {
 		setIsCreating(true);
 		showModalAddress();
@@ -39,12 +36,18 @@ const ModalAccount = ({isShowing, hide, rowData, setIsCreating, infoCustomer, sh
 			const spreadInfoCustomer = infoCustomer[0];
 			await updateUser ({
 				...spreadInfoCustomer,
-				address_Id: selectedAddress._id
+				address_Id: selectedAddress
 			});
 			hide();
 		}
 	};
 
+	useEffect(() => {
+		if(infoCustomer?.[0]) {
+			setSelectedAddress(infoCustomer[0].address_Id)
+		}
+	}
+		,[infoCustomer])
 	return (
 		<MyModal
 			isShowing={isShowing}
@@ -62,15 +65,13 @@ const ModalAccount = ({isShowing, hide, rowData, setIsCreating, infoCustomer, sh
 							<input
 								type="radio"
 								value={address}
-								checked={selectedAddress._id === address._id}
-								onChange={() => handleRadioChange({...address})}
+								checked={selectedAddress === address._id}
+								onChange={() => handleRadioChange(address._id)}
 							/>
 							<div className="rounded-md p-2 mb-4">
 								<header className="flex-1 flex justify-between items-center">
 									<div className="flex items-center whitespace-nowrap">
 										<span className="text-base mr-1">{address.name}</span>
-										<span className="border-l h-4 mx-2"></span>
-										<span className="text-gray-600">{address.phone}</span>
 										{key === 0 && <span className="text-sm text-gray-500 ml-4">Địa chỉ cá nhân</span>}
 									</div>
 									{key !== 0 && (
@@ -80,9 +81,16 @@ const ModalAccount = ({isShowing, hide, rowData, setIsCreating, infoCustomer, sh
 									)}
 								</header>
 								<div className="text-gray-600">
-									<p>{address.detail}</p>
-									<span className="mr-2">{getNameAddressByCode(address.districts, dataDistricts)}</span>
-									<span>{getNameAddressByCode(address.city, dataCities)}</span>
+									<div className="py-0">
+										<span className="mr-3">Số điện thoại</span>
+										<span className="text-gray-600">{address.phone}</span>
+									</div>
+									<div className="flex">
+										<span className="mr-2.5">Địa chỉ</span>
+										<p className="mr-1.5">{address.detail}</p>
+										<span className="mr-1.5">{getNameAddressByCode(address.districts, dataDistricts)}</span>
+										<span>{getNameAddressByCode(address.city, dataCities)}</span>
+									</div>
 								</div>
 							</div>
 					</div>

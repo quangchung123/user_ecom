@@ -15,17 +15,18 @@ import dataCities from "../../../config/address/cities.json";
 import ModalAddress from "../../../components/Modal/ModalAddress";
 import { useId } from "../../../hooks/useId";
 import {paymentMethods, shippingMethods} from "../../../config";
+import {useDeleteItemToCartMutation} from "../../../services/cart";
 
 const CheckoutProduct = () => {
 	const customer_id = useId();
-	const { productSelectedId } = useParams();
 	const navigate = useNavigate();
-	const { data: productSelected } = useGetListProductSelectedQuery(productSelectedId);
+	const listProductSelected = useSelector((state) => state.productSelected.products);
 	const { isShowing: isShowingModalAccount, toggle: toggleModalAccount } = useModal();
 	const { isShowing: isShowingModalAddress, toggle: toggleModalAddress } = useModal();
 	const { data: infoCustomer } = useGetListUserQuery();
 	const { data: infoAddress } = useGetAddressQuery();
 	const [createNewOrder] = useCreateNewOrderMutation();
+	const [deleteItemToCart] = useDeleteItemToCartMutation();
 	const [rowDataAddress, setRowDataAddress] = useState({});
 	const [isCreating, setIsCreating] = useState(false);
 	const [dataInfoCustomer, setDataInfoCustomer] = useState([]);
@@ -46,21 +47,26 @@ const CheckoutProduct = () => {
 	const handleSubmitOrder = async () => {
 		try {
 			const payload = {
-				address: addressCheckout,
-				products: productSelected,
-				totalPrice: productSelected?.totalPriceSelected,
-				status: STATUS_ORDER.PROCESSING,
-				shipping: selectedShipping,
-				payment: selectedPayment,
-				customer_id: customer_id
-			}
-			const response = await createNewOrder(payload);
-			if (response) {
-				navigate(ROUTER_INIT.ORDER)
-			}
-		} catch (e) {
-			console.log(e);
+			address: addressCheckout,
+			products: listProductSelected,
+			totalPrice: listProductSelected?.totalPriceSelected,
+			status: STATUS_ORDER.PROCESSING,
+			shipping: selectedShipping,
+			payment: selectedPayment,
+			email: dataInfoCustomer[0].email,
+			customer_id: customer_id,
 		}
+		const response = await createNewOrder(payload);
+		if (response) {
+			const deletePromises = listProductSelected.dataProduct.map((product) =>
+				deleteItemToCart(product._id)
+			);
+			await Promise.all(deletePromises);
+			navigate(ROUTER_INIT.ORDER);
+		}
+	} catch (e) {
+		console.log(e);
+	}
 	};
 
 	useEffect(() => {
@@ -88,6 +94,12 @@ const CheckoutProduct = () => {
 			setAddressCheckout(address.find((item) => item._id === customerAddressId) ?? dataInfoCustomer[0]);
 		}
 	}, [address, dataInfoCustomer]);
+
+	useEffect(() => {
+		if(Object.keys(listProductSelected).length === 0) {
+			navigate(ROUTER_INIT.CART)
+		}
+	}, [listProductSelected]);
 	return (
 		<div className={styles.container}>
 			<div className={styles.containerCart}>
@@ -98,15 +110,15 @@ const CheckoutProduct = () => {
 					</div>
 					<div className="mt-4">
 						<div className="mb-2">
-							<span className="font-semibold mr-3 italic opacity-65">Tên người nhận:</span>
+							<span className="mr-3 opacity-65">Tên người nhận:</span>
 							<span>{addressCheckout?.name}</span>
 						</div>
 						<div className="mb-2">
-							<span className="font-semibold mr-3 italic opacity-65">Số điện thoại:</span>
+							<span className="mr-3 opacity-65">Số điện thoại:</span>
 							<span>{addressCheckout?.phone}</span>
 						</div>
 						<div className="mb-2 flex items-center">
-							<span className="font-semibold mr-3 italic opacity-65">Địa chỉ:</span>
+							<span className="mr-3 opacity-65">Địa chỉ:</span>
 							<p className="mr-2">{addressCheckout?.detail}</p>
 							<span className="mr-2">{getNameAddressByCode(addressCheckout?.districts, dataDistricts)}</span>
 							<span>{getNameAddressByCode(addressCheckout?.city, dataCities)}</span>
@@ -129,8 +141,8 @@ const CheckoutProduct = () => {
            showModalAccount={toggleModalAccount}
            rowData={rowDataAddress}
 				 />
-				<div className="mt-8">
-					{productSelected?.dataProduct?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
+					<div className="mt-8">
+					{listProductSelected?.dataProduct?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
 						<div className={styles.cartHeader} key={_id}>
 							<div>
 								<label className="w-5/12">
@@ -200,11 +212,11 @@ const CheckoutProduct = () => {
 				<div className={styles.totalPrice}>
 					<div className={styles.priceHeader}>
 						<span className={styles.title}>Tạm tính</span>
-						<span className={styles.price}>{convertToVietnameseDong(productSelected?.totalPriceSelected)}</span>
+						<span className={styles.price}>{convertToVietnameseDong(listProductSelected?.totalPriceSelected)}</span>
 					</div>
 					<div className={styles.priceHeader}>
 						<span className={styles.title}>Tổng tiền</span>
-						<span className={styles.price}>{convertToVietnameseDong(productSelected?.totalPriceSelected)}</span>
+						<span className={styles.price}>{convertToVietnameseDong(listProductSelected?.totalPriceSelected)}</span>
 					</div>
 				</div>
 				<button

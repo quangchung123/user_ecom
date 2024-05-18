@@ -83,8 +83,8 @@ const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 					}}
 				/>
 			</div>
-			<p className="cursor-pointer" onClick={handleOpenRegister}>Đăng ký tài khoản</p>
-			{loginError && <p className={styles.error}>Tên đăng nhập hoặc mật khẩu không đúng</p>}
+			<p className="flex items-center justify-center font-bold mt-2.5 cursor-pointer opacity-65" onClick={handleOpenRegister}>Đăng ký tài khoản</p>
+			{loginError && <p className="text-red-500">Tên đăng nhập hoặc mật khẩu không đúng</p>}
 		</MyModal>
 	);
 };

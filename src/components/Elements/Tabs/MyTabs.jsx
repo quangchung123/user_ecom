@@ -6,14 +6,14 @@ const MyTabs = ({tabs, setTabSelected, tabSelected}) => {
 				setTabSelected(key);
 		}
 		return (
-				<div className="flex mr-5 md:mx-2.5 border-b-[1px] border-slate-400 mt-5">
+				<div className="border-b border-gray-300 mt-5 h-14 flex box-border px-2">
 						{tabs.map((tab, index) => (
-									<div key={index} className={"mr-7"}>
-											<MyButton onClick={() => handleSelectTab(tab.key)} styleModify={`w-46 h-9 p-2  flex-col justify-center items-center ${
-													tab.key === tabSelected ? 'border-b-4 border-primary text-black font-bold' : 'text-gray-500 font-semibold'}`}>
-													{tab.label}
-											</MyButton>
-									</div>
+							<div key={index} className={"mr-6 h-full flex items-center"}>
+								<MyButton onClick={() => handleSelectTab(tab.key)} styleModify={`w-46 h-9 p-2 h-full flex flex-col justify-center items-center ${
+									tab.key === tabSelected ? 'border-b-4 border-primary text-primary' : 'text-gray-500'}`}>
+									{tab.label}
+								</MyButton>
+							</div>
 						))}
 				</div>
 		);

@@ -25,7 +25,7 @@ export const protectedRoutes = [
     element: <ProtectedRoute  element={<AccountCustomer />} />,
   },
   {
-    path: `${ROUTER_INIT.CHECKOUT}/:productSelectedId`,
+    path: ROUTER_INIT.CHECKOUT,
     element: <ProtectedRoute  element={<CheckoutProduct />} />,
   },
   {

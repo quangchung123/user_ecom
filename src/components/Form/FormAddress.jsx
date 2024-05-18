@@ -39,7 +39,7 @@ const FormAddress = () => {
 						<span className="border-l-[1px] mr-2"></span>
 						<span className="text-gray-600">{address.phone}</span>
 					</div>
-					<div className="text-gray-600">
+					<div className="text-npm gray-600">
 						<p className="mt-2">{address.detail}</p>
 						<span className="mr-2">{getNameAddressByCode(address.districts, dataDistricts)}</span>
 						<span>{getNameAddressByCode(address.city, dataCities)}</span>

@@ -1,10 +1,10 @@
-export const END_POINT_PRODUCT = "febec215b696426983c431e93e95b69d";
-export const END_POINT_CATEGORIES = "e543fab83f2849b0a75f1e57909ef13f";
-export const END_POINT_USER = "b5238bbb1a4c4a62a6310ac4fa1b1f64";
-export const END_POINT_COMMENT = "e207b12825f64c6887fa99764edcbcd5";
-export const END_POINT_CART = "e591e121af4c4b199d8b63fdcd69b6de";
-export const END_POINT_ORDER = "75f54ffba1cc456293f97c7540133fa9";
-export const END_POINT_PRODUCT_SELECTED = "9b17bc2a363c4cdd8d05d6ff159beda3";
-export const END_POINT_ADDRESS = "540d1c5163ff4672869b75859980a750";
+export const END_POINT_PRODUCT = "b9b1c23cc07e4f74a0645062d406e6e2";
+export const END_POINT_CATEGORIES = "8f983ca371c2498eb522c8eb52d98a8e";
+export const END_POINT_USER = "65e11c25f99c40d5a8ed09d9bb724301";
+export const END_POINT_COMMENT = "4f05fb7d90b844f89bf3dbfba2e81ee9";
+export const END_POINT_CART = "9a5c6c0daedd4df6ba07814245a378ce";
+export const END_POINT_ORDER = "65e11c25f99c40d5a8ed09d9bb724301";
+export const END_POINT_PRODUCT_SELECTED = "b1bc2fd7697e4d638083699c813de7d9";
+export const END_POINT_ADDRESS = "f2bd53dfb90d43e3b580b5fecb76f240";
 
 

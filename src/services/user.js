@@ -40,7 +40,6 @@ export const userApi = createApi({
             query(body) {
                 console.log(body)
                 const {_id, ...payload} = body
-                console.log(_id)
                 return {
                     url: `${END_POINT_USER}/user/${_id}`,
                     method: 'PUT',

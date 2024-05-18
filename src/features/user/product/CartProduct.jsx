@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useDeleteItemToCartMutation, useGetListItemCartQuery} from "../../../services/cart";
 import styles from "../styles/Cart.module.scss";
 import {useNavigate} from "react-router-dom";
 import {ROUTER_INIT} from "../../../config/constant";
 import {useCreateProductSelectedMutation} from "../../../services/productSelected";
 import {convertToVietnameseDong} from "../../../utils/help";
+import {setProductSelected} from "../../../store/action/productSelected";
 
 const Cart = () => {
 	const customerId = useSelector(state => state.userAccount.user.customerId);
-	const productBuyNowById = useSelector(state => state.productSelected.productId);
+	const productBuyNowById = useSelector(state => state.productBuyNow.productId);
+	const dispatch = useDispatch();
 	const [selectedRow, setSelectedRow] = useState([]);
 	const { data } = useGetListItemCartQuery();
 	const [dataListCart, setDataListCart] = useState(null);
@@ -38,17 +40,23 @@ const Cart = () => {
 		await deleteItemToCart(index)
 	}
 
-	const handleNavigateCheckOut = async () => {
-		try {
-			const response = await createProductSelected({
-				dataProduct: dataSelected,
-				totalPriceSelected: totalPriceSelected
-			});
-			const productSelectedId = response.data._id;
-			navigate(`${ROUTER_INIT.CHECKOUT}/${productSelectedId}`);
-		} catch (e) {
-			console.log(e)
+	const handleNavigateCheckOut =  () => {
+		const payload = {
+			dataProduct: dataSelected,
+			totalPriceSelected: totalPriceSelected
 		}
+		dispatch(setProductSelected({products: payload}));
+		navigate(ROUTER_INIT.CHECKOUT);
+		// try {
+		// 	const response = await createProductSelected({
+		// 		dataProduct: dataSelected,
+		// 		totalPriceSelected: totalPriceSelected
+		// 	});
+		// 	const productSelectedId = response.data._id;
+		// 	navigate(`${ROUTER_INIT.CHECKOUT}/${productSelectedId}`);
+		// } catch (e) {
+		// 	console.log(e)
+		// }
 	}
 
 	useEffect(() => {
