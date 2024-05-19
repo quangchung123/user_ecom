@@ -13,7 +13,7 @@ module.exports = {
         'primary': '#4fa607',
         'second': '#FF0000',
         'accent': '#e9ecef',
-        'icon': '#adb5bd',
+        'icon': '#1e1e27',
         'content': '#f5f5fa'
       }
     },

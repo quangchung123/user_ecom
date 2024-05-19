@@ -1,42 +1,18 @@
 import React, { useState } from 'react';
-
+import {imgBanner} from '../../assets/index'
 const BannerProduct = ({ bannerImage }) => {
-	const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-	const nextImage = () => {
-		setCurrentImageIndex((prevIndex) =>
-			prevIndex === bannerImage.length - 1 ? 0 : prevIndex + 1
-		);
-	};
-
-	const prevImage = () => {
-		setCurrentImageIndex((prevIndex) =>
-			prevIndex === 0 ? bannerImage.length - 1 : prevIndex - 1
-		);
-	};
-
 	return (
-		<div className="relative h-auto w-full">
-			<button
-				className="absolute top-1/2 transform -translate-y-1/2 left-0"
-				onClick={prevImage}
-			>
-				<i className="bi bi-arrow-left-circle-fill"></i>
-			</button>
-			<button
-				className="absolute top-1/2 transform -translate-y-1/2 right-0"
-				onClick={nextImage}
-			>
-				<i className="bi bi-arrow-right-circle-fill"></i>
-			</button>
-			{bannerImage?.map((image, index) => (
+		<div className="w-full relative">
+			<div className="absolute top-52 left-48">
+				<h6>SPRING / SUMMER COLLECTION 2017</h6>
+				<h1>Get up to 30% Off New Arrivals</h1>
+				<button>Mua ngay</button>
+			</div>
 				<img
-					key={index}
-					src={image.product}
 					alt="Banner"
-					className={`${index === currentImageIndex ? 'block' : 'hidden'} h-[700px] w-full object-cover`}
+					src={imgBanner}
+					className="object-cover w-full min-h-screen"
 				/>
-			))}
 		</div>
 	);
 };

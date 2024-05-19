@@ -1,12 +1,12 @@
 .header {
   .headerTop {
-    @apply h-10 bg-primary flex justify-between box-border px-28 items-center text-white;
+    @apply h-10 bg-primary flex justify-between box-border px-40 items-center text-white;
     ul {
       @apply flex;
     }
   }
   .headerBottom {
-    @apply h-24 bg-white border-b border-gray-400 flex items-center justify-between box-border px-28;
+    @apply h-24 bg-white  flex items-center justify-between box-border px-40 ;
     img {
       @apply h-14 inline-block;
     }

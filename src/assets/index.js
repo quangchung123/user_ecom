@@ -6,3 +6,4 @@ export { default as nextIcon} from './icon/pagination/next.svg';
 export { default as previousIcon} from './icon/pagination/previous.svg';
 export { default as logoUser} from './icon/logo/logoUser.png';
 export { default as sizeImage } from './image/sizeFeman.png';
+export { default as imgBanner} from './banner/slider_1.jpg';

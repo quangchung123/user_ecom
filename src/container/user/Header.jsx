@@ -65,8 +65,17 @@ const Header = () => {
 			<nav className={styles.headerTop}>
 				<div>
 					<ul>
-						<li>+255 768 356 890</li>
-						<li>info@zpunet.com</li>
+						<li>Kết nối</li>
+						<li>
+							<a href="https://www.facebook.com/">
+								<i className="bi bi-facebook"></i>
+							</a>
+						</li>
+						<li>
+							<a href="https://www.instagram.com/">
+								<i className="bi bi-instagram"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 				<div>
@@ -104,7 +113,7 @@ const Header = () => {
 					<ul className={styles.headerRight}>
 						<li>
 							<Link to={HOME}>
-								<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-gray-500'}`}>
+								<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-icon'}`}>
 									<i className="bi bi-house-fill mr-2 text-lg not-italic"></i>
 									Trang chủ
 								</button>
@@ -112,12 +121,12 @@ const Header = () => {
 						</li>
 						<li>
 							{user && (
-								<MenuAction data={listActionAccount} title={user? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-gray-500'}`}>
+								<MenuAction data={listActionAccount} title={user? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-icon'}`}>
 									<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
 								</MenuAction>
 							)}
 						</li>
-						<li className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-gray-500'}`}>
+						<li className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-icon'}`}>
 							<Link to={CART}>
 								<MyButton>
 									<i className="bi bi-cart-check-fill"></i>

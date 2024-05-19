@@ -68,22 +68,19 @@ const Home = () => {
 
 	return (
 		<MainLayout>
-			<div className={`flex justify-center box-border px-14 py-12 fixed}`}>
-				<div className={`bg-white rounded-xl sticky top-0 w-2/12 mr-5 h-screen box-border py-4 px-3 z-10`}>
-					<h2 className="ml-4 font-bold">Danh mục</h2>
-					<div className="mt-3">
-						{categoryList && categoryList.map(category => (
-							<button key={category._id} onClick={handleSelect} className="flex flex-col items-center justify-center w-full py-2.5 hover:bg-gray-300 rounded-lg">
-								{category.title}
-							</button>
-						))}
-					</div>
-				</div>
-				<div className="w-10/12">
+			<div className={`flex justify-center`}>
+				<div>
 					<BannerProduct bannerImage={bannerImage} />
 					<div className="box-border px-36">
 						<h2 className="h-32 box-border py-12 not-italic text-3xl font-bold">New Arrivals</h2>
-						<div className="border-b-4 border-primary w-1/12"></div>
+						<div className="border-b-4 border-primary w-1/12">
+							<span>Danh mục</span>
+							{categoryList && categoryList.map(category => (
+								<button key={category._id} onClick={handleSelect} className="flex flex-col items-center justify-center w-full py-2.5 hover:bg-gray-300 rounded-lg">
+									{category.title}
+								</button>
+							))}
+						</div>
 						<div className="w-full">
 							<InputSearch setValueInput={setValueInput} />
 						</div>
