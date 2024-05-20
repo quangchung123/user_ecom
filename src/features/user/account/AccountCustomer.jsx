@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import FormAccount from "../../../components/Form/FormAccount";
 import FormAddress from "../../../components/Form/FormAddress";
 
 const AccountCustomer = () => {
 	const [selectedTab, setSelectedTab] = useState("personal");
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, []);
 	return (
-		<div className="flex justify-center box-border pt-16">
+		<div className="flex justify-center box-border py-12 px-28">
 			<aside className="mr-2">
 				<ul>
 					<li

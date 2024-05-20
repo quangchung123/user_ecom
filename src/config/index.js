@@ -1,3 +1,5 @@
+import {blog_01, blog_02, blog_03} from "../assets";
+
 export const sideBarOptions = [
     {
         key: "dashboard",
@@ -153,18 +155,18 @@ export const paymentMethods = [
 ]
 export const articles = [
     {
-        title: "Bài viết 1",
-        image: "link_to_image_1.jpg",
-        description: "Mô tả ngắn cho bài viết 1."
+        image: blog_01,
+        description: "Tủ đồ sang trong của nữ thần Shin Min Ah",
+        link: "https://www.elle.vn/sao-style/tu-do-sang-trong-o-do-tuoi-u50-cua-nu-than-shin-min-ah"
     },
     {
-        title: "Bài viết 2",
-        image: "link_to_image_2.jpg",
-        description: "Mô tả ngắn cho bài viết 2."
+        image: blog_02,
+        description: "Thời trang thanh lịch của “Single Mom” Anne Hathaway trong “The idea of you”",
+        link: "https://www.elle.vn/sao-style/phong-cach-thoi-trang-cua-anne-hathaway-trong-the-idea-of-you"
     },
     {
-        title: "Bài viết 3",
-        image: "link_to_image_3.jpg",
-        description: "Mô tả ngắn cho bài viết 3."
+        image: blog_03,
+        description: "Rosé và Jennie (Backpink) tái hiện “gossip girl” bản hàn tại New York",
+        link: "https://www.elle.vn/sao-style/rose-va-jennie-blackpink-tai-hien-gossip-girl-ban-han-tai-new-york"
     }
 ];

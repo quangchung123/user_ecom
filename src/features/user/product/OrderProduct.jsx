@@ -14,8 +14,9 @@ const OrderProduct = () => {
 	useEffect(() => {
 		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected))
 	}, [tabSelected, data]);
+
 	return (
-		<div className="flex items-center justify-center box-border py-12">
+		<div className="flex items-center justify-center">
 			<div className="w-2/3 min-h-screen">
 				<div className="bg-white mb-3">
 					<MyTabs tabs={tabsOrder} setTabSelected={setTabSelected} tabSelected={tabSelected} />

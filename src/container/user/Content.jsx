@@ -8,7 +8,7 @@ const Content = ({children}) => {
 			<div className="fixed top-0 z-10 w-full shadow-lg">
 				<Header />
 			</div>
-			<div className="bg-content min-h-screen mt-32">
+			<div className="bg-content min-h-screen mt-32 box-border">
 				{children}
 			</div>
 			<div>

@@ -80,7 +80,7 @@ const ProductDetail = () => {
 	}, []);
 	return (
 		<MainLayout>
-			<div className="box-border px-40 pt-16">
+			<div className="box-border py-12 px-28">
 				<div className="h-auto w-full shadow-lg border rounded-lg box-border p-5 bg-white grid grid-cols-detailProductCol gap-9">
 					<img src={data?.image} className="border-x-2 h-[110px] w-full" alt="" />
 					<img src={data?.image} className="h-[500px] border-x-2 w-full border rounded-md" alt="" />
