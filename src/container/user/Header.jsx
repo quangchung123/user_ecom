@@ -11,9 +11,12 @@ import styles from "./Header.module.scss"
 import useModal from "../../hooks/useModal";
 import ModalLogin from "../../components/Modal/ModalLogin";
 import ModalRegister from "../../components/Modal/ModalRegister";
+import InputSearch from "../../components/Elements/Search/InputSearch";
+import {setInputSearch} from "../../store/action/inputSearchSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const { pathname } = location;
 	const {HOME, CART, LOGIN, REGISTER, ACCOUNT} = ROUTER_INIT;
@@ -25,6 +28,8 @@ const Header = () => {
 	const numberItem = dataListCart?.length === 0 ? null : dataListCart?.length;
 	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
 	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
+	const [valueInput, setValueInput] = useState('');
+	dispatch(setInputSearch({valueInput: valueInput}))
 
 	useEffect(() => {
 		setActive(pathname);
@@ -90,6 +95,7 @@ const Header = () => {
 								showRegister={toggleRegister}
 							/>
 						</li>
+						<li className="border-l-[1px]"></li>
 						<li>
 							<MyButton onClick={toggleRegister}>
 								Đăng ký
@@ -108,6 +114,9 @@ const Header = () => {
 					<Link to={HOME}>
 						<img src={logoUser} alt="logo" />
 					</Link>
+				</div>
+				<div className="w-1/3 mr-48">
+					<InputSearch setValueInput={setValueInput} />
 				</div>
 				<nav>
 					<ul className={styles.headerRight}>

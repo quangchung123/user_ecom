@@ -17,6 +17,7 @@ import productSelectedApi from "../services/productSelected";
 import productBuyNowSlice from "./action/productBuyNowSlice";
 import {addressApi} from "../services/address";
 import productSelected from "./action/productSelected";
+import inputSearchSlice from "./action/inputSearchSlice";
 
 const persistConfig = {
     key: 'root',
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     productBuyNow: productBuyNowSlice.reducer,
     citySelected: dataCitySelectedSlice.reducer,
     productSelected: productSelected.reducer,
+    inputSearch: inputSearchSlice.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
