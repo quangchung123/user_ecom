@@ -151,3 +151,20 @@ export const shippingMethods = [
 export const paymentMethods = [
     { id: 1, name: 'Thanh toán khi nhận hàng'}
 ]
+export const articles = [
+    {
+        title: "Bài viết 1",
+        image: "link_to_image_1.jpg",
+        description: "Mô tả ngắn cho bài viết 1."
+    },
+    {
+        title: "Bài viết 2",
+        image: "link_to_image_2.jpg",
+        description: "Mô tả ngắn cho bài viết 2."
+    },
+    {
+        title: "Bài viết 3",
+        image: "link_to_image_3.jpg",
+        description: "Mô tả ngắn cho bài viết 3."
+    }
+];
