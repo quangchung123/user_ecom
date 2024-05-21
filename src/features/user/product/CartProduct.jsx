@@ -10,7 +10,7 @@ import {setProductSelected} from "../../../store/action/productSelected";
 
 const Cart = () => {
 	const customerId = useSelector(state => state.userAccount.user.customerId);
-	const productBuyNowById = useSelector(state => state.productBuyNow.productId);
+	const productBuyNowById = useSelector(state => state.productBuyNow.productSelectedId);
 	const dispatch = useDispatch();
 	const [selectedRow, setSelectedRow] = useState([]);
 	const { data } = useGetListItemCartQuery();
@@ -47,16 +47,6 @@ const Cart = () => {
 		}
 		dispatch(setProductSelected({products: payload}));
 		navigate(ROUTER_INIT.CHECKOUT);
-		// try {
-		// 	const response = await createProductSelected({
-		// 		dataProduct: dataSelected,
-		// 		totalPriceSelected: totalPriceSelected
-		// 	});
-		// 	const productSelectedId = response.data._id;
-		// 	navigate(`${ROUTER_INIT.CHECKOUT}/${productSelectedId}`);
-		// } catch (e) {
-		// 	console.log(e)
-		// }
 	}
 
 	useEffect(() => {
@@ -75,6 +65,10 @@ const Cart = () => {
 			})
 		}
 	}, [data, customerId, productBuyNowById]);
+
+	useEffect(() => {
+		window.scrollTo(0,0)
+	}, []);
 
 	return (
 		<div className={styles.container}>

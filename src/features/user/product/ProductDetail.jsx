@@ -15,14 +15,15 @@ import ModalLogin from "../../../components/Modal/ModalLogin";
 import ModalRegister from "../../../components/Modal/ModalRegister";
 import MyButton from "../../../components/Elements/Button/MyButton";
 import {setProductBuyNow} from "../../../store/action/productBuyNowSlice";
+import {setProductId} from "../../../store/action/productIdSlice";
 
 const ProductDetail = () => {
-	const { productId } =useParams();
+	const dispatch = useDispatch();
+	const { productId } = useParams();
 	const customerId = useSelector((state) => state.userAccount?.user.customerId);
 	const navigate = useNavigate();
 	const { data } = useGetDetailProductQuery(productId);
 	const [createNewItemToCart] = useCreateNewItemToCartMutation();
-	const dispatch = useDispatch();
 	const [activeRating, setActiveRating] = useState(0);
 	const [quantity, setQuantity] = useState(0);
 	const [sizeNumber, setSizeNumber] = useState(0);
@@ -32,6 +33,7 @@ const ProductDetail = () => {
 	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
 	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
 	const [openModalRegister, setOpenModalRegister] = useState(false);
+	dispatch(setProductId({productId: productId}))
 	const handleQuantity = (quantity, type) => {
 		if(quantity>1 && type === 'decrement') {
 			setQuantity(quantity - 1);
@@ -56,12 +58,12 @@ const ProductDetail = () => {
 					size: sizeNumber,
 					quantity: quantity,
 					totalPrice: totalPrice,
-					customerId: customerId
+					customerId: customerId,
 				}
 				const response = await createNewItemToCart(payload);
 				if(statusCustomer === "buyNow") {
 					if(customerId) {
-						dispatch(setProductBuyNow({productId: response.data._id}))
+						dispatch(setProductBuyNow({productSelectedId: response.data._id}))
 						navigate(ROUTER_INIT.CART);
 					} else {
 						toggleLogin();

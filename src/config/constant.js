@@ -29,3 +29,7 @@ export const LABEL_SORT = {
     NAME_A_TO_Z: "aToZ",
     NAME_Z_TO_A: "zToA",
 }
+export const PERSIT_KEY = {
+    USER_ACCOUNT: 'userAccount',
+    PRODUCT_ID: 'productId'
+}

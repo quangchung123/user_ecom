@@ -2,7 +2,7 @@ import React from 'react';
 
 const BenefitProduct = () => {
 	return (
-		<div className="flex mt-8 w-full space-x-0.5">
+		<div className="flex mt-8 w-full space-x-0.5 box box-border px-36">
 			<div className="flex items-center justify-center h-20 bg-[#f3f3f3] w-1/3">
 				<i className="bi bi-truck text-primary text-3xl mr-3"></i>
 				<span className="font-semibold text-base">Miễn phí vận chuyển</span>

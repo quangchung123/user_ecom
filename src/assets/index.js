@@ -14,4 +14,5 @@ export { default as blog_01} from './blog/blog_01.jpg';
 export { default as blog_02} from './blog/blog_02.jpg';
 export { default as blog_03} from './blog/blog_03.jpg';
 export { default as imgFooter } from './image/footer.png';
+export { default as imgCountDown } from './image/deal_ofthe_week.png';
 

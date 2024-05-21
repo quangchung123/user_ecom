@@ -18,11 +18,12 @@ import productBuyNowSlice from "./action/productBuyNowSlice";
 import {addressApi} from "../services/address";
 import productSelected from "./action/productSelected";
 import inputSearchSlice from "./action/inputSearchSlice";
+import productIdSlice from "./action/productIdSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['userAccount', 'cart', 'citySelected'],
+    whitelist: ['userAccount', 'cart', 'citySelected', 'productId'],
 };
 const rootReducer = combineReducers({
     userAccount: userAccountSlice.reducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     citySelected: dataCitySelectedSlice.reducer,
     productSelected: productSelected.reducer,
     inputSearch: inputSearchSlice.reducer,
+    productId: productIdSlice.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [productApi.reducerPath]: productApi.reducer,

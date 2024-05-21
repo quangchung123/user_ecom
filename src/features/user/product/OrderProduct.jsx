@@ -3,13 +3,16 @@ import {tabsOrder} from "../../../config";
 import MyTabs from "../../../components/Elements/Tabs/MyTabs";
 import {useGetListOrderQuery} from "../../../services/order";
 import {useId} from "../../../hooks/useId";
-import {convertToVietnameseDong} from "../../../utils/help";
+import {convertToVietnameseDong, getDataInPersistStore} from "../../../utils/help";
+import {useSelector} from "react-redux";
+import {PERSIT_KEY} from "../../../config/constant";
 
 const OrderProduct = () => {
 	const {data} = useGetListOrderQuery();
-	const id = useId();
+	const customerIdStoreRedux = useSelector((state) => state.userAccount);
+	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
 	const [tabSelected, setTabSelected] = useState('Đang xử lý');
-	const dataFilterById = data?.filter((dataOrder) => dataOrder.customer_id === id);
+	const dataFilterById = data?.filter((dataOrder) => dataOrder.customer_id === dataCustomer.user.customerId);
 	const [dataFilterByTabName, setDataFilterByTabName] = useState([]);
 	useEffect(() => {
 		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected))

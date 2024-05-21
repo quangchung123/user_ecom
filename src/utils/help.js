@@ -1,3 +1,5 @@
+import {useSelector} from "react-redux";
+import {LOCAL_STORAGE_KEY} from "../config/constant";
 
 export const handleSaveDataToStorage = (key, value) => {
     //handle save data to localStorage
@@ -57,4 +59,16 @@ export const getNameAddressByCode = (code, address) => {
     //handle get name city or district by code
     const addressFind = address.find(item => item.code === code);
     return addressFind ? addressFind.name : "";
+}
+
+export const getDataInPersistStore = (dataSelectorState, key) => {
+    if (dataSelectorState) {
+        return dataSelectorState;
+    }
+    const dataStored = handleLoadDataFromStorage(LOCAL_STORAGE_KEY.PERSIST_STORE);
+    if (dataStored && dataStored[key]) {
+        return JSON.parse(dataStored[key]);
+    }
+
+    return null;
 }

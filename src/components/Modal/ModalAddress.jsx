@@ -7,6 +7,9 @@ import dataDistricts from "../../config/address/districts.json";
 import {useCreateNewAddressMutation, useUpdateAddressMutation} from "../../services/address";
 import {initStateAddress} from "../../config";
 import {useId} from "../../hooks/useId";
+import {useSelector} from "react-redux";
+import {getDataInPersistStore} from "../../utils/help";
+import {PERSIT_KEY} from "../../config/constant";
 
 
 const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) => {
@@ -24,11 +27,12 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts);
 	const [createNewAddress] = useCreateNewAddressMutation();
 	const [updateAddress]= useUpdateAddressMutation();
-	const customer_id = useId();
+	const customerIdStoreRedux = useSelector((state) => state.userAccount);
+	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
 	const onSubmit = async (data) => {
 		const payload = {
 			...data,
-			customer_id: customer_id
+			customer_id: dataCustomer.user.customerId
 		}
 		try {
 			if (isCreating) {

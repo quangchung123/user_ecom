@@ -3,8 +3,8 @@ import FormField from "../Elements/Form/FormField";
 import { useForm } from "react-hook-form";
 import MyButton from "../Elements/Button/MyButton";
 import { useSelector } from "react-redux";
-import { handleLoadDataFromStorage } from "../../utils/help";
-import { LOCAL_STORAGE_KEY } from "../../config/constant";
+import {getDataInPersistStore, handleLoadDataFromStorage} from "../../utils/help";
+import {LOCAL_STORAGE_KEY, PERSIT_KEY} from "../../config/constant";
 import {useGetDetailUserQuery, useUpdateUserMutation} from "../../services/user";
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
@@ -12,9 +12,9 @@ import styles from "./FormAccount.module.scss"
 import {useId} from "../../hooks/useId";
 
 const FormAccount = () => {
-	const customer_id = useId();
-	console.log(customer_id)
-	const { data } = useGetDetailUserQuery(customer_id);
+	const customerIdStoreRedux = useSelector((state) => state.userAccount);
+	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
+	const { data } = useGetDetailUserQuery(dataCustomer.user.customerId);
 	const [dataDistrictsFilter, setDataDistrictsFilter] = useState(dataDistricts)
 	const [updateUser] = useUpdateUserMutation();
 	const {

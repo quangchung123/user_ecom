@@ -3,17 +3,19 @@ import MyButton from "../Elements/Button/MyButton";
 import { useGetAddressQuery, useUpdateAddressMutation } from "../../services/address";
 import ModalAddress from "../Modal/ModalAddress";
 import useModal from "../../hooks/useModal";
-import {getNameAddressByCode} from "../../utils/help";
+import {getDataInPersistStore, getNameAddressByCode} from "../../utils/help";
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
-import {useId} from "../../hooks/useId";
+import {useSelector} from "react-redux";
+import {PERSIT_KEY} from "../../config/constant";
 const FormAddress = () => {
-	const customer_id = useId();
+	const customerIdStoreRedux = useSelector((state) => state.userAccount);
+	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
 	const { data } = useGetAddressQuery();
 	const [isCreating, setIsCreating] = useState(false);
 	const { isShowing, toggle } = useModal();
 	const [rowData, setRowData] = useState(null);
-	const dataFilter = data?.filter((item) => item.customer_id === customer_id);
+	const dataFilter = data?.filter((item) => item.customer_id === dataCustomer.user.customerId);
 	const handleCreateNewAddress = () => {
 		toggle();
 		setIsCreating(true);

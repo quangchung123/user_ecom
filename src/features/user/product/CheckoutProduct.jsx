@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { useGetListProductSelectedQuery } from "../../../services/productSelected";
 import { useSelector } from "react-redux";
 import ModalAccount from "../../../components/Modal/ModalAccount";
 import useModal from "../../../hooks/useModal";
-import { convertToVietnameseDong, getNameAddressByCode } from "../../../utils/help";
-import {LOCAL_STORAGE_KEY, ROUTER_INIT, STATUS_ORDER} from "../../../config/constant";
+import {convertToVietnameseDong, getDataInPersistStore, getNameAddressByCode} from "../../../utils/help";
+import {LOCAL_STORAGE_KEY, PERSIT_KEY, ROUTER_INIT, STATUS_ORDER} from "../../../config/constant";
 import { useGetListUserQuery } from "../../../services/user";
 import { useCreateNewOrderMutation } from "../../../services/order";
 import {useNavigate, useParams} from "react-router-dom";
@@ -16,11 +16,19 @@ import ModalAddress from "../../../components/Modal/ModalAddress";
 import { useId } from "../../../hooks/useId";
 import {paymentMethods, shippingMethods} from "../../../config";
 import {useDeleteItemToCartMutation} from "../../../services/cart";
+import {useGetDetailProductQuery, useUpdateProductMutation} from "../../../services/product";
 
 const CheckoutProduct = () => {
-	const customer_id = useId();
+	const customerIdStoreRedux = useSelector((state) => state.userAccount);
+	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
+	const productIdStoreRedux = useSelector((state) => state.productId);
+	const dataProductId = getDataInPersistStore(productIdStoreRedux, PERSIT_KEY.PRODUCT_ID);
 	const navigate = useNavigate();
 	const listProductSelected = useSelector((state) => state.productSelected.products);
+	const productId = useSelector((state) => state.productId.productId);
+	const { data: productDetail } = useGetDetailProductQuery(dataProductId.productId);
+	console.log('productDetail', productDetail)
+	const [updateProduct] = useUpdateProductMutation()
 	const { isShowing: isShowingModalAccount, toggle: toggleModalAccount } = useModal();
 	const { isShowing: isShowingModalAddress, toggle: toggleModalAddress } = useModal();
 	const { data: infoCustomer } = useGetListUserQuery();
@@ -35,6 +43,12 @@ const CheckoutProduct = () => {
 	const [addressCheckout, setAddressCheckout] = useState({});
 	const [selectedShipping, setSelectedShipping] = useState('');
 	const [selectedPayment, setSelectedPayment] = useState('');
+	const quality = useMemo(() =>
+			listProductSelected?.dataProduct?.reduce(
+				(accumulator, currentValue) => accumulator + currentValue.quantity, 0
+			),
+		[listProductSelected.dataProduct]
+	);
 	const handleShippingChange = (event) => {
 		setSelectedShipping(event.target.value);
 	};
@@ -54,7 +68,7 @@ const CheckoutProduct = () => {
 			shipping: selectedShipping,
 			payment: selectedPayment,
 			email: dataInfoCustomer[0].email,
-			customer_id: customer_id,
+			customer_id: dataCustomer.user.customerId,
 		}
 		const response = await createNewOrder(payload);
 		if (response) {
@@ -62,6 +76,11 @@ const CheckoutProduct = () => {
 				deleteItemToCart(product._id)
 			);
 			await Promise.all(deletePromises);
+			await updateProduct({
+				...productDetail,
+				count: Number(productDetail.count - quality),
+				countBought: Number(productDetail?.countBought ?? 0) + 1,
+			})
 			navigate(ROUTER_INIT.ORDER);
 		}
 	} catch (e) {
@@ -70,8 +89,8 @@ const CheckoutProduct = () => {
 	};
 
 	useEffect(() => {
-		setDataInfoCustomer(infoCustomer?.filter((item) => item._id === customer_id) ?? []);
-	}, [infoCustomer, customer_id]);
+		setDataInfoCustomer(infoCustomer?.filter((item) => item._id === dataCustomer.user.customerId) ?? []);
+	}, [infoCustomer, dataCustomer.user.customerId]);
 
 	useEffect(() => {
 		if (dataInfoCustomer.length > 0 && infoAddress?.length > 0) {
@@ -85,8 +104,8 @@ const CheckoutProduct = () => {
 	}, [dataInfoCustomer, infoAddress, dataAddressByIdCustomer]);
 
 	useEffect(() => {
-		setDataAddressByIdCustomer(infoAddress?.filter((item) => item.customer_id === customer_id) ?? []);
-	}, [infoAddress, customer_id]);
+		setDataAddressByIdCustomer(infoAddress?.filter((item) => item.customer_id === dataCustomer.user.customerId) ?? []);
+	}, [infoAddress, dataCustomer.user.customerId]);
 
 	useEffect(() => {
 		if (dataInfoCustomer.length > 0 && address.length > 0) {

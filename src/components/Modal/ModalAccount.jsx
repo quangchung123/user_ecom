@@ -3,7 +3,6 @@ import MyModal from "./MyModal";
 import {useForm} from "react-hook-form";
 import dataCities from "../../config/address/cities.json";
 import dataDistricts from "../../config/address/districts.json";
-import {useSelector} from "react-redux";
 import {useCreateNewUserMutation, useUpdateUserMutation} from "../../services/user";
 import {getNameAddressByCode} from "../../utils/help";
 import MyButton from "../Elements/Button/MyButton";
