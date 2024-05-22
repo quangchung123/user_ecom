@@ -47,6 +47,10 @@ const Header = () => {
 	const handleNavigateOrder = () => {
 		navigate(ROUTER_INIT.ORDER)
 	};
+	const handleLogout = () => {
+		localStorage.clear();
+		window.location.reload();
+	}
 
 	const listActionAccount = [
 		{
@@ -62,53 +66,56 @@ const Header = () => {
 		{
 			key: 2,
 			title: 'Đăng xuất',
+			handleRowAction: handleLogout,
 		},
 	];
 
 	return (
 		<div className={styles.header}>
-			<nav className={styles.headerTop}>
-				<div>
-					<ul>
-						<li>Kết nối</li>
-						<li>
-							<a href="https://www.facebook.com/">
-								<i className="bi bi-facebook"></i>
-							</a>
-						</li>
-						<li>
-							<a href="https://www.instagram.com/">
-								<i className="bi bi-instagram"></i>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div>
-					<ul>
-						<li>
-							<MyButton onClick={toggleLogin}>
+			{!user && (
+				<nav className={styles.headerTop}>
+					<div>
+						<ul>
+							<li>Kết nối</li>
+							<li>
+								<a href="https://www.facebook.com/">
+									<i className="bi bi-facebook"></i>
+								</a>
+							</li>
+							<li>
+								<a href="https://www.instagram.com/">
+									<i className="bi bi-instagram"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<ul>
+							<li>
+								<MyButton onClick={toggleLogin}>
 									Đăng nhập
-							</MyButton>
-							<ModalLogin
-								isShowingLogin={isShowingLogin}
-								hideLogin={toggleLogin}
-								showRegister={toggleRegister}
-							/>
-						</li>
-						<li className="border-l-[1px]"></li>
-						<li>
-							<MyButton onClick={toggleRegister}>
-								Đăng ký
-							</MyButton>
-							<ModalRegister
-								isShowingRegister={isShowingRegister}
-								hideRegister={toggleRegister}
-								showLogin={toggleLogin}
-							/>
-						</li>
-					</ul>
-				</div>
-			</nav>
+								</MyButton>
+								<ModalLogin
+									isShowingLogin={isShowingLogin}
+									hideLogin={toggleLogin}
+									showRegister={toggleRegister}
+								/>
+							</li>
+							<li className="border-l-[1px]"></li>
+							<li>
+								<MyButton onClick={toggleRegister}>
+									Đăng ký
+								</MyButton>
+								<ModalRegister
+									isShowingRegister={isShowingRegister}
+									hideRegister={toggleRegister}
+									showLogin={toggleLogin}
+								/>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			)}
 			<div className={styles.headerBottom}>
 				<div>
 					<Link to={HOME}>
@@ -135,16 +142,16 @@ const Header = () => {
 								</MenuAction>
 							)}
 						</li>
-						<li className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-icon'}`}>
+						<li>
 							<Link to={CART}>
-								<MyButton>
+								<button className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-icon'}`}>
 									<i className="bi bi-cart-check-fill"></i>
 									{numberItem && (
 										<span>
 											{numberItem}
 										</span>
 									)}
-								</MyButton>
+								</button>
 							</Link>
 						</li>
 					</ul>

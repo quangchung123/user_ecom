@@ -13,7 +13,7 @@ import styles from "../../features/auth/FormLogin.module.scss"
 const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 	const dispatch = useDispatch();
 	const [loginError, setLoginError] = useState(false);
-	const [isGoogleLogin, setIsGoogleLogin] = useState(true);
+	const [isGoogleLogin, setIsGoogleLogin] = useState(false);
 
 	const {
 		handleSubmit,
@@ -24,14 +24,14 @@ const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 	});
 	const { data } = useGetListUserQuery();
 	const handleSubmitLogin = (payload) => {
-		let foundUser = null;
+		let foundUser;
 		if (isGoogleLogin) {
-			foundUser = data.find((item) => item.email === payload.email);
+			foundUser = data?.find((item) => item.email === payload.email);
 		} else {
-			foundUser = data.some((item) => item.email === payload.email && item.password === payload.password);
+			foundUser = data?.find((item) => item.email === payload.email && item.password === payload.password);
 		}
 		if (foundUser) {
-			dispatch(setUser({ user: {...payload, customerId: foundUser._id }}));
+			dispatch(setUser({ user: {...payload, customerId: foundUser._id, name: foundUser.name }}));
 			hideLogin()
 		} else {
 			setLoginError(true);

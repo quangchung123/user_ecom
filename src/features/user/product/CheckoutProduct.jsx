@@ -79,7 +79,7 @@ const CheckoutProduct = () => {
 			await updateProduct({
 				...productDetail,
 				count: Number(productDetail.count - quality),
-				countBought: Number(productDetail?.countBought ?? 0) + 1,
+				countBought: Number(productDetail.countBought) + 1,
 			})
 			navigate(ROUTER_INIT.ORDER);
 		}

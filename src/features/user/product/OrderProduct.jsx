@@ -17,22 +17,24 @@ const OrderProduct = () => {
 	useEffect(() => {
 		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected))
 	}, [tabSelected, data]);
-
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, []);
 	return (
-		<div className="flex items-center justify-center">
+		<div className="flex items-center justify-center box-border py-8 px-28">
 			<div className="w-2/3 min-h-screen">
 				<div className="bg-white mb-3">
 					<MyTabs tabs={tabsOrder} setTabSelected={setTabSelected} tabSelected={tabSelected} />
 				</div>
 				{dataFilterByTabName?.map((dataItem) => (
-					<div className="bg-white mt-3">
-						<div className="border-b-2 h-12 items-center flex justify-end space-x-2 mx-2">
+					<div className="bg-white mt-3 box-border px-4">
+						<div className="border-b-2 h-12 items-center flex justify-end space-x-2">
 							<span className="text-base text-[#26aa99] mr-7">
 								<i className="bi bi-truck mr-2"></i>
 								{dataItem.shipping}
 							</span>
 						</div>
-						<div className="rounded mb-3 flex flex-col justify-between box-border px-4 py-2.5 border-b">
+						<div className="mb-3 flex flex-col justify-between box-border py-2.5 border-b-2">
 							<div className="flex justify-between mb-3 border-b pb-3.5">
 								<label className="w-5/12">
 									<span>Sản phẩm</span>

@@ -52,6 +52,7 @@ const CountDown = ({ targetDate }) => {
 				<div className="flex justify-center">
 					{timerComponents.length ? timerComponents : <span className="text-white">Time's up!</span>}
 				</div>
+
 				<button className="py-2 px-6 bg-primary text-white rounded mt-8">Mua ngay</button>
 			</div>
 		</div>

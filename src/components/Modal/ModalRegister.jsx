@@ -6,13 +6,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import styles from "../../features/auth/FormLogin.module.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schemaRegister } from "../../config/validate";
-import { useCreateNewUserMutation, useGetListUserQuery } from "../../services/user";
+import {useCreateNewUserMutation, useGetListUserQuery, useUpdateUserMutation} from "../../services/user";
 import { jwtDecode } from "jwt-decode";
 
 const ModalRegister = ({ isShowingRegister, hideRegister, showLogin }) => {
 	const [loginError, setLoginError] = useState(false);
 	const { data } = useGetListUserQuery();
 	const [createNewUser] = useCreateNewUserMutation();
+	const [updateUser] = useUpdateUserMutation();
 	const {
 		handleSubmit,
 		control,
@@ -26,11 +27,17 @@ const ModalRegister = ({ isShowingRegister, hideRegister, showLogin }) => {
 			...payload,
 			title: 'Customer'
 		}
-		const isExists = data.find((item) => item.email === payload.email);
+		const isExists = data?.find((item) => item.email === payload.email);
 		if (isExists) {
 			setLoginError(true)
 		} else {
-			await createNewUser(dataPayload);
+			const response = await createNewUser(dataPayload);
+			const payload = response.data;
+			await updateUser({
+				...payload,
+				address_Id: payload._id
+			})
+			console.log("response", response)
 			showLogin();
 			hideRegister()
 		}

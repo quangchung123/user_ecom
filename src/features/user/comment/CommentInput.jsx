@@ -108,10 +108,10 @@ const CommentInput = ({ productId }) => {
 									)}
 								</div>
 							{comment.customerId === customerId && (
-								<div className="flex justify-end space-x-1.5">
+								<div className="flex justify-end space-x-1.5 text-lg">
 									<button
 										onClick={() => handleEditComment(index, editIndex !== index, comment)}
-										className="px-1 rounded-full hover:bg-accent hover:text-primary text-lg"
+										className="px-1 rounded-full hover:bg-accent hover:text-primary"
 									>
 										{editIndex === index ? <i className="bi bi-floppy"></i> :
 											<i className="bi bi-pencil-square"></i>}

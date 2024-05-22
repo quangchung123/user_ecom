@@ -88,10 +88,10 @@ const Cart = () => {
 					{
 						dataListCart?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
 							<div key={_id} className={styles.cartBody}>
-								<label className="flex items-center w-5/12">
-									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)}/>
-									<img src={image} className="h-[110px] w-[110px] ml-4" alt="image product" />
-									<div className="flex flex-col">
+								<label className="flex items-center w-5/12 ">
+									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)} className="shrink-0" />
+									<img src={image} className="h-[110px] w-[110px]" alt="image product" />
+									<div className="flex flex-col items-center">
 										<span className="font-semibold">{name}</span>
 										<span className="text-sm opacity-85 mt-2.5">Kích cỡ {size}</span>
 									</div>

@@ -53,10 +53,12 @@ const Home = () => {
 	};
 
 	//check product have property countBought
-	const topSellingProducts = productList
-		?.filter(product => product.countBought !== undefined)
-		.sort((a, b) => b.countBought - a.countBought)
-		.slice(0, 4);
+	let topSellingProducts = [];
+	if(Array.isArray(productList)) {
+		topSellingProducts = [...productList];
+		topSellingProducts.sort((a, b) => b.countBought - a.countBought).slice(0, 4)
+	}
+
 	const handleDetailProductId = (index) => {
 		navigate(`${ROUTER_INIT.PRODUCT}/${index}`);
 	};
@@ -75,10 +77,10 @@ const Home = () => {
 				<SliderProduct />
 				<BannerProduct />
 				<div className="box-border pb-14 px-24 mt-8">
-					<div className="flex flex-col items-center box-border px-36">
-						<h2 className="h-28 box-border py-12 not-italic text-2xl font-bold uppercase">Bộ sưu tập mới</h2>
+					<div className="flex flex-col items-center">
+						<h2 className="h-20 box-border py-12 not-italic text-2xl font-bold uppercase">Bộ sưu tập mới</h2>
 						<div className="border-b-4 border-primary w-1/12"></div>
-						<div className="flex mt-12">
+						<div className="flex mt-8">
 							<button
 								className={`py-2.5 px-4 rounded border ${valueSelectOption === 'All category' ? 'bg-primary text-white' : 'hover:bg-gray-300'}`}
 								onClick={(e) => handleSelect(e, 'All category')}
@@ -88,15 +90,14 @@ const Home = () => {
 							{categoryList && categoryList.map(category => (
 								<button
 									key={category._id}
-									onClick={(e) => handleSelect(e, category._id)}
-									className={`py-2.5 px-4 rounded border ${valueSelectOption === category._id ? 'bg-primary text-white' : 'hover:bg-gray-300'}`}
+									onClick={(e) => handleSelect(e, category.title)}
+									className={`py-2.5 px-4 rounded border ${valueSelectOption === category.title ? 'bg-primary text-white' : 'hover:bg-gray-300'}`}
 								>
 									{category.title}
 								</button>
 							))}
 						</div>
 						<div className="flex space-x-4 items-center mt-4">
-							<h2>Sắp xếp</h2>
 							<SortButton
 								label="Giá thấp đến cao"
 								onClick={() => sortProductsByPrice(PRICE_MIN_TO_MAX)}
@@ -134,27 +135,27 @@ const Home = () => {
 					</div>
 				</div>
 				<CountDown targetDate="2024-05-25T23:59:59"/>
-				<div className="flex justify-center items-center flex-col">
-					<h3 className="h-28 box-border py-12 not-italic text-2xl font-bold upnpm percase mt-4">Sản phẩm bán chạy</h3>
-					<div className="border-b-4 border-primary w-1/12"></div>
-					<div className="grid grid-cols-productCol gap-4 py-6">
-						{topSellingProducts?.map((product, index) => (
-							<div
-								key={index}
-								className="relative flex flex-col items-center justify-center p-4 border border-gray-200 rounded shadow-md transition-transform duration-300 hover:cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-primary"
-								onClick={() => handleDetailProductId(product._id)}
-							>
-								<img src={product.image} className="w-full mb-2" alt={product.name} />
-								<span className="text-center font-semibold hover:text-icon cursor-pointer">{product.name}</span>
-								<span className="text-center text-second font-semibold">{convertToVietnameseDong(product.price)}</span>
-							</div>
-						))}
+				<div className="box-border px-56">
+					<div className="flex justify-center items-center flex-col">
+						<h3 className="h-20 box-border py-12 not-italic text-2xl font-bold uppercase mt-4">Sản phẩm bán chạy</h3>
+						<div className="border-b-4 border-primary w-1/12"></div>
+						<div className="grid grid-cols-productCol gap-4 py-6">
+							{topSellingProducts?.map((product, index) => (
+								<div
+									key={index}
+									className="relative flex flex-col items-center justify-center p-4 border border-gray-200 rounded shadow-md transition-transform duration-300 hover:cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-primary"
+									onClick={() => handleDetailProductId(product._id)}
+								>
+									<img src={product.image} className="w-full mb-2" alt={product.name} />
+									<span className="text-center font-semibold hover:text-icon cursor-pointer">{product.name}</span>
+									<span className="text-center text-second font-semibold">{convertToVietnameseDong(product.price)}</span>
+								</div>
+							))}
+						</div>
 					</div>
-				</div>
-				<BenefitProduct />
-				<div>
-					<div className="flex flex-col items-center box-border px-36">
-						<h3 className="h-28 box-border py-12 not-italic text-2xl font-bold upnpm percase mt-4">Các bài viết hay</h3>
+					<BenefitProduct />
+					<div className="flex flex-col items-center">
+						<h3 className="h-20 box-border py-12 not-italic text-2xl font-bold uppercase mt-4">Các bài viết hay</h3>
 						<div className="border-b-4 border-primary w-1/12"></div>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
 							{articles?.map((article, index) => (
@@ -166,22 +167,22 @@ const Home = () => {
 								</div>
 							))}
 						</div>
+				</div>
+				</div>
+				<div className="flex items-center bg-accent h-28 justify-between mt-8 box-border px-36">
+					<div>
+						<span className="text-2xl font-semibold">Nhập Email</span>
+						<p className="font-medium opacity-85 text-sm">Để nhận thêm nhiều bài viết hay</p>
 					</div>
-					<div className="flex items-center bg-accent h-28 justify-between mt-8 box-border px-36">
-						<div>
-							<span className="text-2xl font-semibold">Nhập Email</span>
-							<p className="font-medium opacity-85 text-sm">Để nhận thêm nhiều bài viết hay</p>
-						</div>
-						<div>
-							<input
-								className="border border-gray-300 p-2 focus:border-primary w-96"
-								type="email"
-								placeholder="Email"
-							/>
-							<button className="bg-primary text-white px-4 py-2 hover:opacity-85">
-								Đăng ký
-							</button>
-						</div>
+					<div>
+						<input
+							className="border border-gray-300 p-2 focus:border-primary w-96"
+							type="email"
+							placeholder="Email"
+						/>
+						<button className="bg-primary text-white px-4 py-2 hover:opacity-85">
+							Đăng ký
+						</button>
 					</div>
 				</div>
 			</div>

@@ -83,10 +83,9 @@ const ProductDetail = () => {
 	return (
 		<MainLayout>
 			<div className="box-border py-12 px-28">
-				<div className="h-auto w-full shadow-lg border rounded-lg box-border p-5 bg-white grid grid-cols-detailProductCol gap-9">
-					<img src={data?.image} className="border-x-2 h-[110px] w-full" alt="" />
-					<img src={data?.image} className="h-[500px] border-x-2 w-full border rounded-md" alt="" />
-					<div className="h-96 w-full">
+				<div className="h-auto w-full shadow-lg border rounded-lg box-border p-5 bg-white grid grid-cols-2 gap-9">
+					<img src={data?.image} className="h-[500px] border-x-2 w-full border rounded-md object-cover" alt="" />
+					<div className="h-96 w-full box-border px-12">
 						<span className="font-semibold text-3xl">{data?.name}</span>
 						<p className="pt-3 pb-8">{data?.description}</p>
 						<div className="w-full bg-[#f5f5f5] h-10 flex justify-center items-center">
@@ -163,7 +162,7 @@ const ProductDetail = () => {
 				<div className="h-auto w-full rounded mt-8 shadow-xl border bg-white">
 					<div className="box-border py-6 px-5">
 						<h2 className="uppercase text-xl font-semibold pb-4">đánh giá sản phẩm</h2>
-						<div className="w-full border shadow rounded box-border py-4 px-10">
+						<div className="w-full border shadow rounded box-border py-4 px-4">
 							<ul className="flex">
 								{ratings.map((rating, index) => (
 									<li key={index}>
