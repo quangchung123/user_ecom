@@ -9,7 +9,7 @@ import {ratings, sizes} from "../../../config";
 import {sizeImage} from "../../../assets"
 import {useCreateNewItemToCartMutation} from "../../../services/cart";
 import {ROUTER_INIT} from "../../../config/constant";
-import {convertToVietnameseDong} from "../../../utils/help";
+import {convertToVietnameseDong, notify} from "../../../utils/help";
 import useModal from "../../../hooks/useModal";
 import ModalLogin from "../../../components/Modal/ModalLogin";
 import ModalRegister from "../../../components/Modal/ModalRegister";

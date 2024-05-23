@@ -3,7 +3,7 @@ import { useGetListProductSelectedQuery } from "../../../services/productSelecte
 import { useSelector } from "react-redux";
 import ModalAccount from "../../../components/Modal/ModalAccount";
 import useModal from "../../../hooks/useModal";
-import {convertToVietnameseDong, getDataInPersistStore, getNameAddressByCode} from "../../../utils/help";
+import {convertToVietnameseDong, getDataInPersistStore, getNameAddressByCode, notifyConfirm} from "../../../utils/help";
 import {LOCAL_STORAGE_KEY, PERSIT_KEY, ROUTER_INIT, STATUS_ORDER} from "../../../config/constant";
 import { useGetListUserQuery } from "../../../services/user";
 import { useCreateNewOrderMutation } from "../../../services/order";
@@ -81,6 +81,7 @@ const CheckoutProduct = () => {
 				count: Number(productDetail.count - quality),
 				countBought: Number(productDetail.countBought) + 1,
 			})
+			notifyConfirm("Tạo đơn hàng thành công")
 			navigate(ROUTER_INIT.ORDER);
 		}
 	} catch (e) {

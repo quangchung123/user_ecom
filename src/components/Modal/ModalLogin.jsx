@@ -10,6 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {setUser} from "../../store/action/userAccountSlice";
 import {useDispatch} from "react-redux";
 import styles from "../../features/auth/FormLogin.module.scss"
+import {notify} from "../../utils/help";
 const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 	const dispatch = useDispatch();
 	const [loginError, setLoginError] = useState(false);
@@ -32,6 +33,7 @@ const ModalLogin = ({isShowingLogin, hideLogin, showRegister}) => {
 		}
 		if (foundUser) {
 			dispatch(setUser({ user: {...payload, customerId: foundUser._id, name: foundUser.name }}));
+			notify("Đăng nhập thành công")
 			hideLogin()
 		} else {
 			setLoginError(true);

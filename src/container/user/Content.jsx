@@ -10,7 +10,7 @@ const Content = ({children}) => {
 			<div className="fixed top-0 z-10 w-full shadow-lg">
 				<Header />
 			</div>
-			<div className={`bg-content min-h-screen box-border ${user? 'pt-20' : 'pt-32'}`}>
+			<div className={`bg-content min-h-screen box-border ${user? 'pt-24' : 'pt-28'}`}>
 				{children}
 			</div>
 			<div>

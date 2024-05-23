@@ -1,30 +1,30 @@
 .header {
   .headerTop {
-    @apply h-10 bg-primary flex justify-between box-border px-40 items-center text-white;
+    @apply h-10 bg-primary flex justify-between items-center text-white px-4 sm:px-20 lg:px-40;
     ul {
       @apply flex;
     }
     li {
-      @apply mr-3;
+      @apply mr-2 sm:mr-3;
     }
   }
   .headerBottom {
-    @apply h-24 bg-white flex items-center justify-between box-border px-40;
+    @apply h-20 sm:h-24 bg-white flex items-center justify-between px-4 sm:px-20 lg:px-40;
     li {
-      @apply mr-2;
+      @apply mr-2 sm:mr-3;
     }
     img {
-      @apply h-14 inline-block;
+      @apply h-10 sm:h-14 inline-block;
     }
     .headerRight {
       @apply flex;
       .infoAccount, .infoCart {
-        @apply p-2 rounded-lg hover:bg-accent hover:text-primary;
+        @apply p-2 sm:p-2 rounded-lg hover:bg-accent hover:text-primary;
       }
       .infoCart {
-        @apply p-3 relative rounded-full;
+        @apply p-2 sm:p-3 relative rounded-full;
         span {
-          @apply bg-red-500 rounded-full text-white w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs;
+          @apply bg-red-500 rounded-full text-white w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center absolute top-0 right-0 text-xs;
         }
       }
     }

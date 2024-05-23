@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { schemaRegister } from "../../config/validate";
 import {useCreateNewUserMutation, useGetListUserQuery, useUpdateUserMutation} from "../../services/user";
 import { jwtDecode } from "jwt-decode";
+import {notify} from "../../utils/help";
 
 const ModalRegister = ({ isShowingRegister, hideRegister, showLogin }) => {
 	const [loginError, setLoginError] = useState(false);
@@ -37,7 +38,7 @@ const ModalRegister = ({ isShowingRegister, hideRegister, showLogin }) => {
 				...payload,
 				address_Id: payload._id
 			})
-			console.log("response", response)
+			notify("Đăng ký thành công")
 			showLogin();
 			hideRegister()
 		}

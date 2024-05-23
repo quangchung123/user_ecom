@@ -12,35 +12,27 @@ import useModal from "../../hooks/useModal";
 import ModalLogin from "../../components/Modal/ModalLogin";
 import ModalRegister from "../../components/Modal/ModalRegister";
 import InputSearch from "../../components/Elements/Search/InputSearch";
-import {setInputSearch} from "../../store/action/inputSearchSlice";
+import { setInputSearch } from "../../store/action/inputSearchSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const { pathname } = location;
-	const {HOME, CART, LOGIN, REGISTER, ACCOUNT} = ROUTER_INIT;
+	const { HOME, CART, LOGIN, REGISTER, ACCOUNT } = ROUTER_INIT;
 	const [active, setActive] = useState(HOME);
 	const user = useSelector((state) => state.userAccount.user.name);
 	const customerId = useSelector(state => state.userAccount.user.customerId);
 	const [dataListCart, setDataListCart] = useState(null);
 	const { data } = useGetListItemCartQuery();
 	const numberItem = dataListCart?.length === 0 ? null : dataListCart?.length;
-	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
-	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
+	const { isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
+	const { isShowing: isShowingRegister, toggle: toggleRegister } = useModal();
 	const [valueInput, setValueInput] = useState('');
-	dispatch(setInputSearch({valueInput: valueInput}))
 
-	useEffect(() => {
-		setActive(pathname);
-	}, [pathname]);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	useEffect(() => {
-		if (data) {
-			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
-		}
-	}, [data, customerId]);
-
+	dispatch(setInputSearch({ valueInput: valueInput }))
 	const handleNavigateAccount = () => {
 		navigate(ACCOUNT)
 	};
@@ -51,7 +43,6 @@ const Header = () => {
 		localStorage.clear();
 		window.location.reload();
 	}
-
 	const listActionAccount = [
 		{
 			key: 1,
@@ -69,6 +60,20 @@ const Header = () => {
 			handleRowAction: handleLogout,
 		},
 	];
+
+	useEffect(() => {
+		setActive(pathname);
+	}, [pathname]);
+
+	useEffect(() => {
+		if (data) {
+			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
+		}
+	}, [data, customerId]);
+
+	const handleMenuToggle = () => {
+		setIsMenuOpen(!isMenuOpen);
+	}
 
 	return (
 		<div className={styles.header}>
@@ -117,16 +122,16 @@ const Header = () => {
 				</nav>
 			)}
 			<div className={styles.headerBottom}>
-				<div>
+				<div className="flex items-center space-x-5">
 					<Link to={HOME}>
 						<img src={logoUser} alt="logo" />
 					</Link>
+					<div className="md:w-96 mr-0 lg:mr-48">
+						<InputSearch setValueInput={setValueInput} />
+					</div>
 				</div>
-				<div className="w-1/3 mr-48">
-					<InputSearch setValueInput={setValueInput} />
-				</div>
-				<nav>
-					<ul className={styles.headerRight}>
+				<nav className="flex">
+					<ul className="hidden md:flex md:items-center">
 						<li>
 							<Link to={HOME}>
 								<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-icon'}`}>
@@ -137,26 +142,51 @@ const Header = () => {
 						</li>
 						<li>
 							{user && (
-								<MenuAction data={listActionAccount} title={user? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-icon'}`}>
+								<MenuAction data={listActionAccount} title={user ? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent rounded-lg' : 'text-icon'}`}>
 									<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
 								</MenuAction>
 							)}
 						</li>
-						<li>
-							<Link to={CART}>
-								<button className={`${styles.infoCart}  ${active === CART ? 'text-primary p-3 bg-accent' : 'text-icon'}`}>
-									<i className="bi bi-cart-check-fill"></i>
-									{numberItem && (
-										<span>
-											{numberItem}
-										</span>
-									)}
-								</button>
-							</Link>
-						</li>
 					</ul>
+					<div className="flex items-center">
+						<button className={`${styles.infoCart} ${active === CART ? 'text-primary p-3 bg-accent rounded-lg' : 'text-icon'}`}>
+							<Link to={CART}>
+								<i className="bi bi-cart-check-fill"></i>
+								{numberItem && <span>{numberItem}</span>}
+							</Link>
+						</button>
+						<button className="lg:hidden p-2 rounded-lg hover:bg-accent hover:text-primary" onClick={handleMenuToggle}>
+							<i className="bi bi-list text-lg"></i>
+						</button>
+					</div>
 				</nav>
 			</div>
+			{isMenuOpen && (
+				<div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-end">
+					<div className="bg-white w-64 p-5">
+						<button className="text-right mb-4" onClick={handleMenuToggle}>
+							<i className="bi bi-x-lg"></i>
+						</button>
+						<ul>
+							<li>
+								<Link to={HOME} onClick={handleMenuToggle}>
+									<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-icon'}`}>
+										<i className="bi bi-house-fill mr-2 text-lg not-italic"></i>
+										Trang chủ
+									</button>
+								</Link>
+							</li>
+							<li>
+								{user && (
+									<MenuAction data={listActionAccount} title={user ? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-icon'}`}>
+										<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
+									</MenuAction>
+								)}
+							</li>
+						</ul>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -8,11 +8,12 @@ import {useCreateNewAddressMutation, useUpdateAddressMutation} from "../../servi
 import {initStateAddress} from "../../config";
 import {useId} from "../../hooks/useId";
 import {useSelector} from "react-redux";
-import {getDataInPersistStore} from "../../utils/help";
+import {getDataInPersistStore, notify} from "../../utils/help";
 import {PERSIT_KEY} from "../../config/constant";
 
 
 const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) => {
+	console.log("isShowing", isShowing)
 	const {
 		handleSubmit,
 		control,
@@ -37,15 +38,18 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 		try {
 			if (isCreating) {
 				await createNewAddress(payload);
+				notify("Tạo mới thành công")
 			} else {
 				await updateAddress(payload);
+				notify("Cập nhật thành công")
 			}
 			reset()
-			showModalAccount()
-			hide();
+			showModalAccount();
+			console.log("hide", hide())
 		} catch (err) {
 			console.log(err);
 		}
+		hide()
 	}
 	useEffect(() => {
 		setDataDistrictsFilter(dataDistricts.filter((district) => district.parent_code === city))

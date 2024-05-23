@@ -1,5 +1,6 @@
 import {useSelector} from "react-redux";
 import {LOCAL_STORAGE_KEY} from "../config/constant";
+import Swal from "sweetalert2";
 
 export const handleSaveDataToStorage = (key, value) => {
     //handle save data to localStorage
@@ -69,6 +70,37 @@ export const getDataInPersistStore = (dataSelectorState, key) => {
     if (dataStored && dataStored[key]) {
         return JSON.parse(dataStored[key]);
     }
-
     return null;
+}
+
+export const notify = (message) => {
+    // handle notify message utils
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    Toast.fire({
+        icon: "success",
+        title: message
+    });
+}
+
+export const notifyConfirm = (message) => {
+    // handle notify message primary
+    Swal.fire({
+        title: 'Thông báo!',
+        text: message || "",
+        confirmButtonText: 'Đóng',
+        customClass: {
+            popup: 'text-xs',
+        },
+        position: 'center',
+    })
 }

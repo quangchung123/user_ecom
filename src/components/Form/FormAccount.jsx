@@ -3,7 +3,7 @@ import FormField from "../Elements/Form/FormField";
 import { useForm } from "react-hook-form";
 import MyButton from "../Elements/Button/MyButton";
 import { useSelector } from "react-redux";
-import {getDataInPersistStore, handleLoadDataFromStorage} from "../../utils/help";
+import {getDataInPersistStore, handleLoadDataFromStorage, notifyConfirm} from "../../utils/help";
 import {LOCAL_STORAGE_KEY, PERSIT_KEY} from "../../config/constant";
 import {useGetDetailUserQuery, useUpdateUserMutation} from "../../services/user";
 import dataCities from "../../config/address/cities.json";
@@ -32,6 +32,7 @@ const FormAccount = () => {
 	const {city} = formData;
 	const onsubmit = async (payload) =>{
 		await updateUser(payload)
+		notifyConfirm("Cập nhật thành công")
 	}
 	useEffect(() => {
 		if (data) {
