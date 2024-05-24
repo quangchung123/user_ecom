@@ -13,7 +13,6 @@ import {PERSIT_KEY} from "../../config/constant";
 
 
 const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) => {
-	console.log("isShowing", isShowing)
 	const {
 		handleSubmit,
 		control,
@@ -58,6 +57,7 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 		if (isCreating) {
 			reset({ ...initStateAddress });
 		} else {
+			console.log("_____________________")
 			reset(rowData);
 		}
 	}, [isCreating, rowData]);

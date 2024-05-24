@@ -31,7 +31,7 @@ const CountDown = ({ targetDate }) => {
 	const timerComponents = [];
 	Object.keys(timeCountDown).forEach((interval) => {
 		timerComponents.push(
-			<div key={interval} className="flex flex-col items-center mx-2">
+			<div key={interval} className="flex flex-col items-center">
 				<div className="flex items-center flex-col justify-center w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full">
 					<span className="text-primary text-2xl sm:text-3xl font-bold">
 						{timeCountDown[interval]}
@@ -53,7 +53,7 @@ const CountDown = ({ targetDate }) => {
 			<div className="flex flex-col items-center space-y-6 sm:space-y-10 h-full">
 				<h2 className="font-semibold opacity-80 text-2xl sm:text-4xl mb-2 text-center">Ưu đãi tuần này</h2>
 				<div className="border-b-4 border-primary mb-4 w-16 mt-2"></div>
-				<div className="flex justify-center">
+				<div className="flex justify-center space-x-2">
 					{timerComponents.length ? timerComponents : <span className="text-white">Time's up!</span>}
 				</div>
 				<button className="py-2 px-4 sm:px-6 bg-primary text-white rounded mt-8" onClick={ScrollToTop}>Mua ngay</button>

@@ -95,20 +95,22 @@ const ProductDetail = () => {
 						<div className="w-full h-10 bg-[#fafafa] flex items-center mt-8">
 							<p className="text-second font-bold text-lg ml-3">{convertToVietnameseDong(data?.price)}</p>
 						</div>
-						<div className="mt-4">
+						<div className="mt-4 flex items-center">
 							<span className="mr-3 text-gray-500">Kích cỡ</span>
-							{sizes.map(({key, value}) => (
-								<button
-									key={key}
-									className={`py-1.5 px-5 mr-3 border hover:border-primary hover:text-primary ${activeBtnSize === key ? 'border-primary text-primary': ''}`}
-									onClick={() => {
-										handleGetSize(value)
-										setActiveBtnSize(key)
-									}}
-								>
-									{value}
-								</button>
-							))}
+							<div className="ml-4">
+								{sizes.map(({key, value}) => (
+									<button
+										key={key}
+										className={`py-1.5 px-5 mr-3 border hover:border-primary hover:text-primary ${activeBtnSize === key ? 'border-primary text-primary': ''}`}
+										onClick={() => {
+											handleGetSize(value)
+											setActiveBtnSize(key)
+										}}
+									>
+										{value}
+									</button>
+								))}
+							</div>
 						</div>
 						<div className="mt-8 flex items-center">
 					    <span className="text-gray-500">
@@ -116,14 +118,14 @@ const ProductDetail = () => {
 					    </span>
 							<div className="ml-4 flex">
 								<MyButton
-									styleModify={`px-2.5 py-1 border border-gray-300 rounded-l focus:outline-none ${quantity <=0? 'cursor-not-allowed': 'cursor-pointer'}`}
+									styleModify={`px-2.5 py-1 border border-gray-300 focus:outline-none ${quantity <=0? 'cursor-not-allowed': 'cursor-pointer'}`}
 									onClick={() => handleQuantity(quantity, "decrement")}
 								>
 									-
 								</MyButton>
 								<input type="text" className="border-t py-1 border-b border-gray-300 focus:outline-none w-16 text-center" value={quantity} readOnly/>
 								<MyButton
-									styleModify={`px-2.5 py-1 border border-gray-300 rounded-r focus:outline-none ${quantity < data?.count? 'cursor-pointer': 'cursor-not-allowed'}`}
+									styleModify={`px-2.5 py-1 border border-gray-300 focus:outline-none ${quantity < data?.count? 'cursor-pointer': 'cursor-not-allowed'}`}
 									onClick={() => handleQuantity(quantity, "increment")}
 								>
 									+
@@ -134,7 +136,7 @@ const ProductDetail = () => {
 								<p>Sản phẩm sẵn có</p>
 							</div>
 						</div>
-						<div className="flex items-center justify-between box-border px-14 mt-8">
+						<div className="flex items-center justify-between mr-28 mt-8">
 							<MyButton
 								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary rounded ${sizeSelected && quantitySelected? 'cursor-pointer hover:opacity-85': 'cursor-not-allowed opacity-60'}`}
 								onClick={() => handleCreateItem("addToCart")}

@@ -12,7 +12,7 @@ const InputSearch = ({setValueInput}) => {
 				<div className={styles.inputSearch}>
 						<input
 								type="text"
-								placeholder="Search name"
+								placeholder="Tìm kiếm"
 								value={searchTerm}
 								onChange={handleChange}
 						/>

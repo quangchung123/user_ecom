@@ -19,7 +19,7 @@ const Header = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const { pathname } = location;
-	const { HOME, CART, LOGIN, REGISTER, ACCOUNT } = ROUTER_INIT;
+	const { HOME, CART, LOGIN, REGISTER, ACCOUNT , ORDER} = ROUTER_INIT;
 	const [active, setActive] = useState(HOME);
 	const user = useSelector((state) => state.userAccount.user.name);
 	const customerId = useSelector(state => state.userAccount.user.customerId);
@@ -126,7 +126,7 @@ const Header = () => {
 					<Link to={HOME}>
 						<img src={logoUser} alt="logo" />
 					</Link>
-					<div className="md:w-96 mr-0 lg:mr-48">
+					<div className="md:w-96 mr-0">
 						<InputSearch setValueInput={setValueInput} />
 					</div>
 				</div>
@@ -142,20 +142,23 @@ const Header = () => {
 						</li>
 						<li>
 							{user && (
-								<MenuAction data={listActionAccount} title={user ? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent rounded-lg' : 'text-icon'}`}>
+								<MenuAction data={listActionAccount} title={user ? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT || active === ORDER? 'text-primary p-2 bg-accent rounded-lg' : 'text-icon'}`}>
 									<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
 								</MenuAction>
 							)}
 						</li>
 					</ul>
 					<div className="flex items-center">
-						<button className={`${styles.infoCart} ${active === CART ? 'text-primary p-3 bg-accent rounded-lg' : 'text-icon'}`}>
-							<Link to={CART}>
-								<i className="bi bi-cart-check-fill"></i>
-								{numberItem && <span>{numberItem}</span>}
-							</Link>
-						</button>
-						<button className="lg:hidden p-2 rounded-lg hover:bg-accent hover:text-primary" onClick={handleMenuToggle}>
+						<div className="relative">
+							<button className={`${styles.infoCart} ${active === CART ? 'text-primary bg-accent rounded-full' : 'text-icon'} p-3 `}>
+								<Link to={CART}>
+									<i className="bi bi-cart-check-fill">
+										{numberItem && <span className="bg-red-500 rounded-full text-white w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs">{numberItem}</span>}
+									</i>
+								</Link>
+							</button>
+						</div>
+						<button className="md:hidden p-2 rounded-lg hover:bg-accent hover:text-primary" onClick={handleMenuToggle}>
 							<i className="bi bi-list text-lg"></i>
 						</button>
 					</div>

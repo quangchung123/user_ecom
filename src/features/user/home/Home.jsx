@@ -77,7 +77,7 @@ const Home = () => {
 			<div className="flex flex-col justify-center">
 				<SliderProduct />
 				<BannerProduct />
-				<div className="box-border pb-14 px-4 md:px-24 mt-8">
+				<div className="box-border px-4 md:px-56 mt-8">
 					<div className="flex flex-col items-center">
 						<h2 className="h-20 box-border py-12 not-italic text-2xl font-bold uppercase">Bộ sưu tập mới</h2>
 						<div className="border-b-4 border-primary w-1/12"></div>

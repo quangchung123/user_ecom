@@ -58,7 +58,7 @@ const OrderProduct = () => {
 								))}
 							</div>
 						</div>
-						<div className="h-20 flex flex-col items-end mx-2 mr-20 space-y-2">
+						<div className="h-20 flex flex-col items-end mx-2 mr-8 space-y-2">
 							<div className="space-x-2">
 								<span className="text-xl opacity-85">Thành tiền:</span>
 								<span className="text-second text-lg">{convertToVietnameseDong(dataItem.totalPrice)}</span>

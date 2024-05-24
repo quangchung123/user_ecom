@@ -2,7 +2,7 @@ import React from 'react';
 import {imgFooter} from '../../assets/index'
 const Footer = () => {
 	return (
-		<div className="flex items-center flex-col box-border py-10">
+		<div className="flex items-center flex-col box-border py-10 px-4">
 			<div>
 				<ul className="flex space-x-4 uppercase text-sm opacity-85">
 					<li>Chính sách bảo mật</li>

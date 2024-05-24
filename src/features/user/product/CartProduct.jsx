@@ -13,6 +13,7 @@ const Cart = () => {
 	const productBuyNowById = useSelector(state => state.productBuyNow.productSelectedId);
 	const dispatch = useDispatch();
 	const [selectedRow, setSelectedRow] = useState([]);
+	console.log("selectedRow", selectedRow)
 	const { data } = useGetListItemCartQuery();
 	const [dataListCart, setDataListCart] = useState(null);
 	const [deleteItemToCart] = useDeleteItemToCartMutation();

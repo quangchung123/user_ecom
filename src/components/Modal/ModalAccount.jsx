@@ -22,6 +22,7 @@ const ModalAccount = ({isShowing, hide, rowData, setIsCreating, infoCustomer, sh
 	const handleUpdateAddressInModal = (address) => {
 		setRowDataAddress(address);
 		showModalAddress();
+		setIsCreating(false);
 		hide();
 	};
 	const handleCreateAddressInModal = () => {
