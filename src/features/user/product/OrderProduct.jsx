@@ -5,17 +5,22 @@ import {useGetListOrderQuery} from "../../../services/order";
 import {useId} from "../../../hooks/useId";
 import {convertToVietnameseDong, getDataInPersistStore} from "../../../utils/help";
 import {useSelector} from "react-redux";
-import {PERSIT_KEY} from "../../../config/constant";
+import {PERSIT_KEY, ROUTER_INIT} from "../../../config/constant";
+import {useNavigate} from "react-router-dom";
 
 const OrderProduct = () => {
 	const {data} = useGetListOrderQuery();
+	const navigate = useNavigate();
 	const customerIdStoreRedux = useSelector((state) => state.userAccount);
 	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
 	const [tabSelected, setTabSelected] = useState('Đang xử lý');
 	const dataFilterById = data?.filter((dataOrder) => dataOrder.customer_id === dataCustomer.user.customerId);
 	const [dataFilterByTabName, setDataFilterByTabName] = useState([]);
+	const handleDetailProductId = (index) => {
+		navigate(`${ROUTER_INIT.PRODUCT}/${index}`);
+	};
 	useEffect(() => {
-		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected))
+		setDataFilterByTabName(dataFilterById?.filter((data) => data.status === tabSelected).reverse())
 	}, [tabSelected, data]);
 	useEffect(() => {
 		window.scrollTo(0, 0)
@@ -43,17 +48,17 @@ const OrderProduct = () => {
 								<span className="w-1/6">Tổng tiền</span>
 							</div>
 							<div className="space-y-3">
-								{dataItem.products?.dataProduct?.map((product) => (
-									<div key={product._id} className="flex justify-between items-center">
-										<label className="flex items-center w-5/12">
-											<img src={product.image} className="h-[110px] w-[110px] ml-4" alt="image product" />
+								{dataItem.products?.dataProduct?.map(({image, _id, size, totalPrice,quantity, productId, name}) => (
+									<div key={_id} className="flex justify-between items-center">
+										<div className="flex items-center w-5/12 cursor-pointer" onClick={() => handleDetailProductId(productId)}>
+											<img src={image} className="h-[110px] w-[110px] ml-4" alt="image product" />
 											<div className="flex flex-col">
-												<span className="font-semibold">{product.name}</span>
-												<span className="text-sm opacity-85 mt-2.5">Kích cỡ {product.size}</span>
+												<span className="font-semibold">{name}</span>
+												<span className="text-sm opacity-85 mt-2.5">Kích cỡ {size}</span>
 											</div>
-										</label>
-										<span className="w-1/6">{product.quantity}</span>
-										<span className="w-1/6 text-second">{convertToVietnameseDong(product.totalPrice)}</span>
+										</div>
+										<span className="w-1/6">{quantity}</span>
+										<span className="w-1/6 text-second">{convertToVietnameseDong(totalPrice)}</span>
 									</div>
 								))}
 							</div>

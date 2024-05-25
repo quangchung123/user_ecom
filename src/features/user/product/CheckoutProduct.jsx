@@ -16,18 +16,15 @@ import ModalAddress from "../../../components/Modal/ModalAddress";
 import { useId } from "../../../hooks/useId";
 import {paymentMethods, shippingMethods} from "../../../config";
 import {useDeleteItemToCartMutation} from "../../../services/cart";
-import {useGetDetailProductQuery, useUpdateProductMutation} from "../../../services/product";
+import {useGetDetailProductQuery, useGetListProductQuery, useUpdateProductMutation} from "../../../services/product";
+import product from "../../admin/Product";
 
 const CheckoutProduct = () => {
 	const customerIdStoreRedux = useSelector((state) => state.userAccount);
 	const dataCustomer = getDataInPersistStore(customerIdStoreRedux, PERSIT_KEY.USER_ACCOUNT);
-	const productIdStoreRedux = useSelector((state) => state.productId);
-	const dataProductId = getDataInPersistStore(productIdStoreRedux, PERSIT_KEY.PRODUCT_ID);
 	const navigate = useNavigate();
 	const listProductSelected = useSelector((state) => state.productSelected.products);
-	const productId = useSelector((state) => state.productId.productId);
-	const { data: productDetail } = useGetDetailProductQuery(dataProductId.productId);
-	console.log('productDetail', productDetail)
+	const { data: listProduct } = useGetListProductQuery();
 	const [updateProduct] = useUpdateProductMutation()
 	const { isShowing: isShowingModalAccount, toggle: toggleModalAccount } = useModal();
 	const { isShowing: isShowingModalAddress, toggle: toggleModalAddress } = useModal();
@@ -43,12 +40,6 @@ const CheckoutProduct = () => {
 	const [addressCheckout, setAddressCheckout] = useState({});
 	const [selectedShipping, setSelectedShipping] = useState('');
 	const [selectedPayment, setSelectedPayment] = useState('');
-	const quality = useMemo(() =>
-			listProductSelected?.dataProduct?.reduce(
-				(accumulator, currentValue) => accumulator + currentValue.quantity, 0
-			),
-		[listProductSelected.dataProduct]
-	);
 	const handleShippingChange = (event) => {
 		setSelectedShipping(event.target.value);
 	};
@@ -75,12 +66,17 @@ const CheckoutProduct = () => {
 			const deletePromises = listProductSelected.dataProduct.map((product) =>
 				deleteItemToCart(product._id)
 			);
-			await Promise.all(deletePromises);
-			await updateProduct({
-				...productDetail,
-				count: Number(productDetail.count - quality),
-				countBought: Number(productDetail.countBought) + 1,
+			const updatePromises = listProductSelected.dataProduct.map(product => {
+				const productDetailItem = listProduct.find(item => item._id === product.productId);
+				if(productDetailItem) {
+					return updateProduct({
+						...productDetailItem,
+						count: Number(productDetailItem.count) - product.quantity,
+						countBought: Number(productDetailItem.countBought + 1)
+					})
+				}
 			})
+			await Promise.all([...deletePromises, ...updatePromises]);
 			notifyConfirm("Tạo đơn hàng thành công")
 			navigate(ROUTER_INIT.ORDER);
 		}

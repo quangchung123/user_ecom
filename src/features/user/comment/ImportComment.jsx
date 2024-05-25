@@ -72,7 +72,8 @@ const ImportComment = ({ productId }) => {
 				<div className="flex justify-end">
 					<button
 						type="submit"
-						className="px-4 py-2 rounded hover:opacity-80 bg-primary text-white "
+						className={`px-4 py-2 rounded hover:opacity-80 bg-primary text-white ${!user && 'opacity-75 cursor-not-allowed'}`}
+						disabled={!user}
 					>
 						<i className="bi bi-send-fill"></i>
 					</button>

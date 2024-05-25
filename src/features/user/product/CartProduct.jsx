@@ -13,7 +13,6 @@ const Cart = () => {
 	const productBuyNowById = useSelector(state => state.productBuyNow.productSelectedId);
 	const dispatch = useDispatch();
 	const [selectedRow, setSelectedRow] = useState([]);
-	console.log("selectedRow", selectedRow)
 	const { data } = useGetListItemCartQuery();
 	const [dataListCart, setDataListCart] = useState(null);
 	const [deleteItemToCart] = useDeleteItemToCartMutation();
@@ -49,7 +48,9 @@ const Cart = () => {
 		dispatch(setProductSelected({products: payload}));
 		navigate(ROUTER_INIT.CHECKOUT);
 	}
-
+	const handleDetailProductId = (index) => {
+		navigate(`${ROUTER_INIT.PRODUCT}/${index}`);
+	};
 	useEffect(() => {
 		if (data) {
 			setDataListCart(data.filter(dataItemCart => dataItemCart.customerId === customerId));
@@ -87,14 +88,16 @@ const Cart = () => {
 					</div>
 				</div>
 					{
-						dataListCart?.map(({ image, name, _id, price, quantity, size, totalPrice }) => (
+						dataListCart?.map(({ image, name, _id, price, quantity, size, totalPrice, productId }) => (
 							<div key={_id} className={styles.cartBody}>
 								<label className="flex items-center w-5/12 ">
 									<input type="checkbox" checked={selectedRow.includes(_id)} onChange={() => handleGetDataRow(_id)} className="shrink-0" />
-									<img src={image} className="h-[110px] w-[110px]" alt="image product" />
-									<div className="flex flex-col items-center">
-										<span className="font-semibold">{name}</span>
-										<span className="text-sm opacity-85 mt-2.5">Kích cỡ {size}</span>
+									<div onClick={() => handleDetailProductId(productId)} className="cursor-pointer">
+										<img src={image} className="h-[110px] w-[110px]" alt="image product" />
+										<div className="flex flex-col items-center">
+											<span className="font-semibold">{name}</span>
+											<span className="text-sm opacity-85 mt-2.5">Kích cỡ {size}</span>
+										</div>
 									</div>
 								</label>
 								<span className="w-1/6">{convertToVietnameseDong(price)}</span>

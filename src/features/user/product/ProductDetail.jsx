@@ -59,6 +59,7 @@ const ProductDetail = () => {
 					quantity: quantity,
 					totalPrice: totalPrice,
 					customerId: customerId,
+					productId: productId,
 				}
 				const response = await createNewItemToCart(payload);
 				if(statusCustomer === "buyNow") {
@@ -92,8 +93,12 @@ const ProductDetail = () => {
 							<i className="bi bi-truck mr-3"></i>
 							<span>Miễn phí vận chuyển</span>
 						</div>
-						<div className="w-full h-10 bg-[#fafafa] flex items-center mt-8">
+						<div className="w-full h-10 bg-[#fafafa] flex items-center mt-5">
 							<p className="text-second font-bold text-lg ml-3">{convertToVietnameseDong(data?.price)}</p>
+						</div>
+						<div className="mt-5 flex items-center">
+							<span className="text-gray-500">Đã bán</span>
+							<span className="ml-7">{data?.countBought}</span>
 						</div>
 						<div className="mt-4 flex items-center">
 							<span className="mr-3 text-gray-500">Kích cỡ</span>
@@ -112,7 +117,7 @@ const ProductDetail = () => {
 								))}
 							</div>
 						</div>
-						<div className="mt-8 flex items-center">
+						<div className="mt-4 flex items-center">
 					    <span className="text-gray-500">
 					        Số lượng
 					    </span>
@@ -136,9 +141,9 @@ const ProductDetail = () => {
 								<p>Sản phẩm sẵn có</p>
 							</div>
 						</div>
-						<div className="flex items-center justify-between mr-28 mt-8">
+						<div className="flex items-center mr-28 mt-6">
 							<MyButton
-								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary rounded ${sizeSelected && quantitySelected? 'cursor-pointer hover:opacity-85': 'cursor-not-allowed opacity-60'}`}
+								styleModify={`border-primary border py-2 px-4 flex justify-center items-center text-primary mr-4 rounded ${sizeSelected && quantitySelected? 'cursor-pointer hover:opacity-85': 'cursor-not-allowed opacity-60'}`}
 								onClick={() => handleCreateItem("addToCart")}
 								disabled={!(sizeSelected && quantitySelected)}
 							>
