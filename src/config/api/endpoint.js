@@ -1,7 +1,7 @@
-export const END_POINT_PRODUCT = "7a66dc3962f64ddba130845ffccd9f0d";
-export const END_POINT_CATEGORIES = "043c1ea732cd47bab5439e42441d7e7b";
-export const END_POINT_USER = "02bac68ae23845f1aee0af85da88425b";
-export const END_POINT_COMMENT = "b2c0f024c386474882c5ae50bc2f034f";
+export const END_POINT_PRODUCT = "b060e578655c48e290b433bb92d17239";
+export const END_POINT_CATEGORIES = "a8584a009d2b4c54922d01b59e136390";
+export const END_POINT_USER = "faa9b5fe7a0d436ea020b8dbc189fee0";
+export const END_POINT_COMMENT = "7e027d5acb694b1db91ad22f5a54d088";
 export const END_POINT_CART = "a5643f4b09f6400aa9450ecefe642f2c";
 export const END_POINT_ORDER = "043acb5a806742dd95bd149843f5fbd6";
 export const END_POINT_PRODUCT_SELECTED = "b1bc2fd7697e4d638083699c813de7d9";

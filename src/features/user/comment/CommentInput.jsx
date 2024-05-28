@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import {getCurrentDateTime, getDataOnPage} from "../../../utils/help";
 import Pagination from "../../../components/Elements/Pagination/MyPagination";
 import {CURRENT_PAGE, RECORD_INIT} from "../../../config/constant";
+import {isAllOf} from "@reduxjs/toolkit";
 
 const CommentInput = ({ productId }) => {
 	const { data } = useGetListCommentQuery();
@@ -74,8 +75,8 @@ const CommentInput = ({ productId }) => {
 		for (let i = 1; i <= 5; i++) {
 			stars.push(
 				<i
-					key={i}
-					className={`bi bi-star-fill ${currentRating >= i ? 'text-yellow-500' : 'text-gray-400'} text-sm`}
+						key={i}
+						className={`bi bi-star-fill ${currentRating >= i ? 'text-yellow-500' : 'text-gray-400'} text-sm`}
 					onClick={() => handleChangeRating(i)}
 				>
 				</i>

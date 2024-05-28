@@ -32,7 +32,6 @@ const ProductDetail = () => {
 	const [quantitySelected, setQuantitySelected] = useState(false);
 	const {isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
 	const {isShowing: isShowingRegister, toggle: toggleRegister} = useModal();
-	const [openModalRegister, setOpenModalRegister] = useState(false);
 	dispatch(setProductId({productId: productId}))
 	const handleQuantity = (quantity, type) => {
 		if(quantity>1 && type === 'decrement') {

@@ -1,33 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import MainLayout from "../../../container/user/MainLayout";
 import { useGetListProductQuery } from "../../../services/product";
 import { useGetListCategoriesQuery } from "../../../services/categories";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { convertToVietnameseDong } from "../../../utils/help";
-import { LABEL_SORT, ROUTER_INIT } from "../../../config/constant";
+import {convertToVietnameseDong, getDataOnPage} from "../../../utils/help";
+import {CURRENT_PAGE, LABEL_SORT, RECORD_INT_PRODUCT, ROUTER_INIT} from "../../../config/constant";
 import SortButton from "../../../components/Elements/Button/SortButton";
 import SliderProduct from "../../../components/Slider/SliderProduct";
 import BannerProduct from "./BannerProduct";
 import BenefitProduct from "./BenefitProduct";
 import { articles } from "../../../config";
 import CountDown from "./CountDown";
+import Pagination from "../../../components/Elements/Pagination/MyPagination";
 
 const Home = () => {
 	const { data: productList } = useGetListProductQuery();
 	const { data: categoryList } = useGetListCategoriesQuery();
 	const [valueSelectOption, setValueSelectOption] = useState('All category');
-	const [productOfCategories, setProductOfCategories] = useState(productList);
 	const valueInput = useSelector(state => state.inputSearch.valueInput);
 	const navigate = useNavigate();
 	const [sortBy, setSortBy] = useState(null);
 	const { NAME_A_TO_Z, NAME_Z_TO_A, PRICE_MAX_TO_MIN, PRICE_MIN_TO_MAX } = LABEL_SORT;
+	const [currentPage, setCurrentPage] = useState(CURRENT_PAGE);
+	const recordPerPage = RECORD_INT_PRODUCT;
+	const totalPage = Math.ceil(productList?.length / recordPerPage);
+	const dataListProduct = useMemo(() => getDataOnPage(currentPage, productList, recordPerPage), [currentPage, productList]);
+	const [productOfCategories, setProductOfCategories] = useState(dataListProduct);
+	const pageNumbers = Array.from({length: totalPage}, (_, index) => index + 1);
 
 	const handleSelect = (event, category) => {
 		setValueSelectOption(category);
 	};
 	const sortProductsByPrice = (sortOrder) => {
-		const sortedProducts = [...productOfCategories].sort((a, b) => {
+		const sortedProducts = [...dataListProduct].sort((a, b) => {
 			if (sortOrder === PRICE_MIN_TO_MAX) {
 				return parseFloat(a.price) - parseFloat(b.price);
 			} else {
@@ -38,9 +44,10 @@ const Home = () => {
 		setSortBy(sortOrder);
 	};
 	const sortProductsByName = (sortOrder) => {
-		const sortedProducts = [...productOfCategories].sort((a, b) => {
+		const sortedProducts = [...dataListProduct].sort((a, b) => {
 			let nameA = a.name.toUpperCase();
 			let nameB = b.name.toUpperCase();
+			// return -1 , 1, 0 before, after and equal
 			if (sortOrder === NAME_A_TO_Z) {
 				return nameA.localeCompare(nameB);
 			} else if (sortOrder === NAME_Z_TO_A) {
@@ -55,22 +62,24 @@ const Home = () => {
 	//check product have property countBought
 	let topSellingProducts = [];
 	if (Array.isArray(productList)) {
-		topSellingProducts = [...productList];
-		topSellingProducts.sort((a, b) => b.countBought - a.countBought).slice(0, 4)
+		topSellingProducts = [...productList].sort((a, b) => b.countBuy- a.countBuy).slice(0, 4);
 	}
-
 	const handleDetailProductId = (index) => {
 		navigate(`${ROUTER_INIT.PRODUCT}/${index}`);
 	};
 
 	useEffect(() => {
-		let filteredProducts = productList;
+		let filteredProducts = dataListProduct;
 		if (valueSelectOption && valueSelectOption !== "All category") {
 			filteredProducts = productList?.filter((products) => products.categories === valueSelectOption);
 		}
 		const dataFiltered = filteredProducts?.filter((item) => item.name.toLowerCase().includes(valueInput.toLowerCase()));
 		setProductOfCategories(dataFiltered);
-	}, [valueSelectOption, productList, valueInput]);
+	}, [valueSelectOption, valueInput, dataListProduct]);
+
+	useEffect(() => {
+		setProductOfCategories(dataListProduct);
+	}, [dataListProduct]);
 
 	return (
 		<MainLayout>
@@ -133,6 +142,14 @@ const Home = () => {
 								</div>
 							))}
 						</div>
+						{dataListProduct?.length > 0 && (
+							<Pagination
+								setCurrentPage={setCurrentPage}
+								pageNumbers={pageNumbers}
+								currentPage={currentPage}
+								totalPage={totalPage}
+							/>
+						)}
 					</div>
 				</div>
 				<CountDown targetDate="2024-05-25T23:59:59" />

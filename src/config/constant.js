@@ -20,6 +20,7 @@ export const ROUTER_ADMIN = {
 }
 export const CURRENT_PAGE = 1;
 export const RECORD_INIT = 3;
+export const RECORD_INT_PRODUCT = 4;
 export const STATUS_ORDER = {
     PROCESSING: "Đang xử lý"
 }

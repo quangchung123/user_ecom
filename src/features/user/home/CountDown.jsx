@@ -41,12 +41,11 @@ const CountDown = ({ targetDate }) => {
 			</div>
 		);
 	});
-
 	const ScrollToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 	return (
-		<div className="flex flex-col sm:flex-row bg-accent w-full items-center justify-between box-border px-4 sm:px-20 lg:px-52 pb-4">
+		<div className="flex flex-col sm:flex-row bg-accent w-full items-center justify-between box-border px-4 sm:px-20 lg:px-52 pb-4 mt-8">
 			<div className="mr-0 sm:mr-4 mb-4 sm:mb-0">
 				<img src={imgCountDown} alt="Countdown" className="w-40 sm:w-auto" />
 			</div>

@@ -57,7 +57,6 @@ const ModalAddress = ({isShowing, hide, rowData, isCreating, showModalAccount}) 
 		if (isCreating) {
 			reset({ ...initStateAddress });
 		} else {
-			console.log("_____________________")
 			reset(rowData);
 		}
 	}, [isCreating, rowData]);

@@ -29,7 +29,6 @@ const Header = () => {
 	const { isShowing: isShowingLogin, toggle: toggleLogin } = useModal();
 	const { isShowing: isShowingRegister, toggle: toggleRegister } = useModal();
 	const [valueInput, setValueInput] = useState('');
-
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	dispatch(setInputSearch({ valueInput: valueInput }))
@@ -170,21 +169,63 @@ const Header = () => {
 						<button className="text-right mb-4" onClick={handleMenuToggle}>
 							<i className="bi bi-x-lg"></i>
 						</button>
-						<ul>
+						<ul className={styles.headerPopup}>
 							<li>
 								<Link to={HOME} onClick={handleMenuToggle}>
 									<button className={`${styles.infoAccount} ${active === HOME ? 'text-primary p-2 rounded-lg bg-accent' : 'text-icon'}`}>
-										<i className="bi bi-house-fill mr-2 text-lg not-italic"></i>
+										<i className="bi bi-house-fill text-lg not-italic"></i>
 										Trang chủ
 									</button>
 								</Link>
 							</li>
 							<li>
 								{user && (
-									<MenuAction data={listActionAccount} title={user ? user : "Tài khoản"} styleButton={`${styles.infoAccount} ${active === ACCOUNT ? 'text-primary p-2 bg-accent' : 'text-icon'}`}>
-										<i className="bi bi-person-fill not-italic mr-2 text-lg"></i>
-									</MenuAction>
+									<button onClick={handleNavigateAccount}>
+										<i className="bi bi-person-fill"></i>
+										{user}
+									</button>
 								)}
+							</li>
+							{user &&
+								<li>
+									<button>
+										<i className="bi bi-cart-check-fill">
+										</i>
+										Đơn mua
+									</button>
+								</li>
+							}
+							{!user &&
+								<li>
+									<button onClick={toggleLogin}>
+										<i className="bi bi-door-open"></i>
+										Đăng nhập
+									</button>
+									<ModalLogin
+										isShowingLogin={isShowingLogin}
+										hideLogin={toggleLogin}
+										showRegister={toggleRegister}
+									/>
+								</li>
+							}
+							{!user &&
+								<li>
+									<button onClick={toggleRegister}>
+										<i className="bi bi-person-fill-add"></i>
+										Đăng ký
+									</button>
+									<ModalRegister
+										isShowingRegister={isShowingRegister}
+										hideRegister={toggleRegister}
+										showLogin={toggleLogin}
+									/>
+								</li>
+							}
+							<li>
+								<button onClick={handleLogout}>
+									<i className="bi bi-box-arrow-right"></i>
+									Đăng xuất
+								</button>
 							</li>
 						</ul>
 					</div>

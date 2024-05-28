@@ -72,7 +72,7 @@ const CheckoutProduct = () => {
 					return updateProduct({
 						...productDetailItem,
 						count: Number(productDetailItem.count) - product.quantity,
-						countBought: Number(productDetailItem.countBought + 1)
+						countBuy: Number(productDetailItem.countBuy + 1)
 					})
 				}
 			})

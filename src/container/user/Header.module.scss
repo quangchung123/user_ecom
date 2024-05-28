@@ -29,4 +29,15 @@
       }
     }
   }
+  .headerPopup {
+    li {
+      @apply mt-1;
+      button {
+        @apply p-2;
+        i {
+          @apply not-italic mr-2 text-lg;
+        }
+      }
+    }
+  }
 }
