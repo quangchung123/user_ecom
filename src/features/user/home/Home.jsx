@@ -24,38 +24,48 @@ const Home = () => {
 	const { NAME_A_TO_Z, NAME_Z_TO_A, PRICE_MAX_TO_MIN, PRICE_MIN_TO_MAX } = LABEL_SORT;
 	const [currentPage, setCurrentPage] = useState(CURRENT_PAGE);
 	const recordPerPage = RECORD_INT_PRODUCT;
-	const totalPage = Math.ceil(productList?.length / recordPerPage);
-	const dataListProduct = useMemo(() => getDataOnPage(currentPage, productList, recordPerPage), [currentPage, productList]);
-	const [productOfCategories, setProductOfCategories] = useState(dataListProduct);
+	const allProductShow = useMemo(() => {
+		let filteredProducts = productList || [];
+		if (valueSelectOption && valueSelectOption !== "All category") {
+			filteredProducts = productList?.filter((products) => products.categories === valueSelectOption);
+		}
+		const dataFiltered = filteredProducts?.filter((item) => item.name.toLowerCase().includes(valueInput.toLowerCase()));
+		let sortedProducts = [];
+		if (sortBy === PRICE_MIN_TO_MAX || sortBy === PRICE_MAX_TO_MIN) {
+			sortedProducts = [...dataFiltered].sort((a, b) => {
+				if (sortBy === PRICE_MIN_TO_MAX) {
+					return parseFloat(a.price) - parseFloat(b.price);
+				} else {
+					return parseFloat(b.price) - parseFloat(a.price);
+				}
+			});
+
+		} else {
+			sortedProducts = [...dataFiltered].sort((a, b) => {
+				let nameA = a.name.toUpperCase();
+				let nameB = b.name.toUpperCase();
+				if (sortBy === NAME_A_TO_Z) {
+					return nameA.localeCompare(nameB);
+				} else if (sortBy === NAME_Z_TO_A) {
+					return nameB.localeCompare(nameA);
+				}
+				return 0;
+			});
+		}
+		return sortedProducts || [];
+	}, [productList, sortBy, valueSelectOption, valueInput]);
+	const totalPage = Math.ceil(allProductShow?.length / recordPerPage);
 	const pageNumbers = Array.from({length: totalPage}, (_, index) => index + 1);
+	const allProductPaginated = useMemo(() => getDataOnPage(currentPage, allProductShow, recordPerPage), [currentPage, allProductShow]);
 
 	const handleSelect = (event, category) => {
 		setValueSelectOption(category);
+		setCurrentPage(1);
 	};
 	const sortProductsByPrice = (sortOrder) => {
-		const sortedProducts = [...dataListProduct].sort((a, b) => {
-			if (sortOrder === PRICE_MIN_TO_MAX) {
-				return parseFloat(a.price) - parseFloat(b.price);
-			} else {
-				return parseFloat(b.price) - parseFloat(a.price);
-			}
-		});
-		setProductOfCategories(sortedProducts);
 		setSortBy(sortOrder);
 	};
 	const sortProductsByName = (sortOrder) => {
-		const sortedProducts = [...dataListProduct].sort((a, b) => {
-			let nameA = a.name.toUpperCase();
-			let nameB = b.name.toUpperCase();
-			// return -1 , 1, 0 before, after and equal
-			if (sortOrder === NAME_A_TO_Z) {
-				return nameA.localeCompare(nameB);
-			} else if (sortOrder === NAME_Z_TO_A) {
-				return nameB.localeCompare(nameA);
-			}
-			return 0;
-		});
-		setProductOfCategories(sortedProducts);
 		setSortBy(sortOrder);
 	};
 
@@ -68,18 +78,6 @@ const Home = () => {
 		navigate(`${ROUTER_INIT.PRODUCT}/${index}`);
 	};
 
-	useEffect(() => {
-		let filteredProducts = dataListProduct;
-		if (valueSelectOption && valueSelectOption !== "All category") {
-			filteredProducts = productList?.filter((products) => products.categories === valueSelectOption);
-		}
-		const dataFiltered = filteredProducts?.filter((item) => item.name.toLowerCase().includes(valueInput.toLowerCase()));
-		setProductOfCategories(dataFiltered);
-	}, [valueSelectOption, valueInput, dataListProduct]);
-
-	useEffect(() => {
-		setProductOfCategories(dataListProduct);
-	}, [dataListProduct]);
 
 	return (
 		<MainLayout>
@@ -90,9 +88,9 @@ const Home = () => {
 					<div className="flex flex-col items-center">
 						<h2 className="h-20 box-border py-12 not-italic text-2xl font-bold uppercase">Bộ sưu tập mới</h2>
 						<div className="border-b-4 border-primary w-1/12"></div>
-						<div className="flex flex-wrap justify-center mt-8 space-x-2 space-y-2 md:space-y-0 md:space-x-4">
+						<div className="flex flex-wrap justify-center mt-8 space-x-2 space-y-2 md:space-y-0">
 							<button
-								className={`py-2.5 px-4 rounded border ${valueSelectOption === 'All category' ? 'bg-primary text-white' : 'hover:bg-gray-300'}`}
+								className={`py-2.5 px-4 rounded border ${valueSelectOption === 'All category' ? 'bg-primary text-white' : ''}`}
 								onClick={(e) => handleSelect(e, 'All category')}
 							>
 								Tất cả
@@ -101,7 +99,7 @@ const Home = () => {
 								<button
 									key={category._id}
 									onClick={(e) => handleSelect(e, category.title)}
-									className={`py-2.5 px-4 rounded border ${valueSelectOption === category.title ? 'bg-primary text-white' : 'hover:bg-gray-300'}`}
+									className={`py-2.5 px-4 rounded border ${valueSelectOption === category.title ? 'bg-primary text-white' : ''}`}
 								>
 									{category.title}
 								</button>
@@ -130,7 +128,7 @@ const Home = () => {
 							/>
 						</div>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-6">
-							{productOfCategories?.map((product, index) => (
+							{allProductPaginated?.map((product, index) => (
 								<div
 									key={index}
 									className="relative flex flex-col items-center justify-center p-4 border border-gray-200 rounded shadow-md transition-transform duration-300 hover:cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-primary"
@@ -142,7 +140,7 @@ const Home = () => {
 								</div>
 							))}
 						</div>
-						{dataListProduct?.length > 0 && (
+						{allProductPaginated?.length > 0 && (
 							<Pagination
 								setCurrentPage={setCurrentPage}
 								pageNumbers={pageNumbers}

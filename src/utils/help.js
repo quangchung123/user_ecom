@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
-import {LOCAL_STORAGE_KEY} from "../config/constant";
+import {LABEL_SORT, LOCAL_STORAGE_KEY} from "../config/constant";
 import Swal from "sweetalert2";
+const {NAME_A_TO_Z, NAME_Z_TO_A, PRICE_MAX_TO_MIN, PRICE_MIN_TO_MAX} = LABEL_SORT;
 
 export const handleSaveDataToStorage = (key, value) => {
     //handle save data to localStorage
@@ -104,3 +105,29 @@ export const notifyConfirm = (message) => {
         position: 'center',
     })
 }
+
+export const sortProductsByName = (data, sortOrder) => {
+    const sortedProducts = [...data].sort((a, b) => {
+        let nameA = a.name.toUpperCase();
+        let nameB = b.name.toUpperCase();
+        // return -1 , 1, 0 before, after and equal
+        if (sortOrder === NAME_A_TO_Z) {
+            return nameA.localeCompare(nameB);
+        } else if (sortOrder === NAME_Z_TO_A) {
+            return nameB.localeCompare(nameA);
+        }
+        return 0;
+    });
+    return sortedProducts;
+};
+
+export const sortProductsByPrice = (data, sortOrder) => {
+    const sortedProducts = [...data]?.sort((a, b) => {
+        if (sortOrder === PRICE_MIN_TO_MAX) {
+            return parseFloat(a.price) - parseFloat(b.price);
+        } else {
+            return parseFloat(b.price) - parseFloat(a.price);
+        }
+    });
+    return sortedProducts;
+};

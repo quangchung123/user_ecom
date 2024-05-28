@@ -97,7 +97,7 @@ const ProductDetail = () => {
 						</div>
 						<div className="mt-5 flex items-center">
 							<span className="text-gray-500">Đã bán</span>
-							<span className="ml-7">{data?.countBought}</span>
+							<span className="ml-7">{data?.countBuy}</span>
 						</div>
 						<div className="mt-4 flex items-center">
 							<span className="mr-3 text-gray-500">Kích cỡ</span>
